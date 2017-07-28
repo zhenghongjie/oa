@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {block name="header"}
+        {include file="../../layout/view/base/header" /}
+    {/block}
+
+    <title>
+        {block name="title"}
+            后台管理
+        {/block}
+    </title>
+    {block name="header_css"}{/block}
+    {block name="header_js"}{/block}
+</head>
+<body>
+{block name="top_menu"}
+    {include file="../../layout/view/base/top_menu" /}
+{/block}
+{block name="left_menu"}
+    {include file="../../layout/view/base/left_menu" /}
+{/block}
+
+{block name="login"}{/block}
+
+<section class="rt_wrap content mCustomScrollbar" style="">
+    <div class="rt_content" style="padding: 0 20px">
+        {block name="main"}
+        {/block}
+    </div>
+</section>
+
+<style>
+    .color_red{color: lightcoral}
+    .color_green{color: #0c9c6e}
+    .color_grey{color: gray}
+</style>
+
+<!--LOADING特效-->
+<section class="loading_area">
+    <div class="loading_cont">
+        <div class="loading_icon"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="loading_txt">
+            <mark id="loading_txt_str"></mark>
+        </div>
+    </div>
+</section>
+
+<!--结束：弹出框效果-->
+<section id="sys_tips_box" class="pop_bg">
+    <div class="pop_cont">
+        <h3>系统提示</h3>
+        <div id="sys_tips_box_str" class="pop_cont_input" style="line-height: 50px;">
+
+        </div>
+        <div class="btm_btn">
+            <input type="button" value="关闭提示" class="input_btn falseBtn" onclick="$(this).parents('section').eq(0).fadeOut();"/>
+        </div>
+    </div>
+</section>
+<!--结束：弹出框效果-->
+
+<!--结束：弹出框效果-->
+<style>
+    .toast_str{
+        position: fixed;top:100px;left:50%;margin-left:-100px;width: 200px;height:40px;line-height: 40px;border-radius:5px;background-color: rgba(25,169,123,0.7);text-align: center;color: #fff;z-index: 99999
+    }
+</style>
+<section class="sys_toast_box" style="display:none;">
+    <div class="toast_str">
+    </div>
+</section>
+<!--结束：弹出框效果-->
+
+{block name="footer_css"}{/block}
+{block name="page_js"}
+<script>
+    (function($){
+
+    })(jQuery);
+</script>
+{/block}
+{block name="footer_js"}{/block}
+
+</body>
+</html>

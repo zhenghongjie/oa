@@ -1,0 +1,201 @@
+.tool_bar {
+    height: 60px;
+    width: 780px;
+    padding: 10px;
+}
+
+.btn_back, .more_opera {
+    display: inline-block;
+    padding: 9px 20px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid #dadce6;
+    border-radius: 4px;
+    white-space: nowrap;
+    background-color: #f8f8f8;
+}
+
+.btn_back:hover {
+    background-color: #ffffff;
+}
+
+.rep_to {
+    background-color: #3497db !important;
+    border-color: #2081c7 !important;
+    color: #fff !important;
+}
+
+.show_info {
+    padding: 20px 15px;
+    border-bottom: 1px solid #EBEFF6;
+    min-height: 90px;
+    background: url(../img/bg_mal_view.png) repeat-x;
+}
+
+.mark-first {
+    background: url(../img/global.png) no-repeat -90px -80px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.show_pic {
+    width: 70px;
+    height: 60px;
+    float: left
+}
+
+.show_detail {
+    width: 660px;
+    min-height: 60px;
+    float: left
+}
+
+.man_pic {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #DADFE6;
+    background-color: #FFF;
+    overflow: hidden;
+
+}
+
+.show_num {
+    font-size: 16px;
+    font-weight: 700
+}
+
+.down-menu ul {
+    min-width: 80px
+}
+
+.title_show {
+    height: 30px;
+}
+
+.more_info {
+    display: inline-block;
+    float: right;
+    cursor: pointer;
+    font-size: 12px;
+    color: #3497db;
+    width: 90px;
+}
+
+.more_info span {
+    display: inline-block;
+    float: left;
+    width: 75px
+}
+
+.more_info i {
+    display: inline-block;
+    float: right
+}
+
+.more_detail {
+    min-height: 30px;
+}
+
+.show_content {
+    min-height: 400px;
+    padding: 20px;
+    border-bottom: 1px solid #EBEFF6
+}
+
+.comment_area {
+    min-height: 90px;
+    padding: 20px
+}
+
+.all_detail {
+    display: none;
+    float: left
+}
+
+.comment {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 40px !important;
+    padding: 6px 9px;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #dadfe6;
+    border-radius: 4px;
+    width: 740px;
+}
+
+.comment_button {
+    float: right;
+    margin: 20px 0px;
+    width: 110px;
+    height: 40px;
+    font-size: 14px;
+    display: none;
+}
+
+.doc-title {
+    margin-bottom: 15px;
+    font-size: 32px;
+    text-align: center;
+    color: #58585C;
+    margin-top: 20px;
+    font-weight: 500;
+    height: 85px;
+}
+
+.doc-number {
+    text-align: center;
+    margin-top: 15px;
+    color: red;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.doc-content {
+    height: 85px;
+    border-bottom: 1px #ddd solid;
+    padding: 20px
+}
+
+.doc-content p {
+    margin: 0px
+}
+
+.doc-file {
+    padding: 20px
+}
+
+.doc-file-content {
+    margin-top: 10px;
+    height: 55px;
+    padding-left: 20px
+}
+
+.doc-img {
+    float: left
+}
+
+.doc-attr {
+    float: left;
+    margin-left: 20px;
+}
+
+.doc-download {
+    color: #3497db;
+}
+
+.doc-download:hover {
+    text-decoration: underline;
+    color: #3497db;
+}

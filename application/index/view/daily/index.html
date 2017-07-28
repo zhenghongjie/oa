@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公文</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_nlmrc8a79w20ggb9.css">
+    <script src="/resource/new_js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css">
+    <link rel="stylesheet" href="/resource/new_css/doc_index.css">
+    <script src="/resource/new_js/amazeui.js"></script>
+    <script src="/resource/new_js/doc_index.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<style>
+    .page-list-header select{
+        height:40px;
+        border-radius: 3px;
+    }
+    .page-list-header input{
+        width: 100px;
+        height:40px;
+        border-radius: 3px;
+        border: 1px solid #A9A9A9;
+        text-align: center;
+    }
+    .page-list-header span{
+        height: 40px;
+        line-height: 40px;
+        padding: 0 5px;
+    }
+</style>
+<div class="ibody">
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">考勤</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer">
+        <div class="aside-left">
+            <ul>
+                <li class="li-big li-big-active">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600;color: #3497db;">&#xe637;</span>
+                    <a href="" style="color: #3497db;">考勤管理</a>
+                </li>
+                <a href="{:url('import_daily')}" style="color: #3497db;">
+                    <li class="li-big " data-am-popover="{content: '必须是97-2003格式的表格，xls格式', trigger: 'hover focus'}">
+                        <span class="iconfont" style="font-size: 18px;font-weight: 600;color: #3497db;">&#xe637;</span>
+                        导入考勤
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="aside-right" >
+            <div class="page-table" style="position: relative">
+                <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                    <img src="/resource/img/no-info.png" alt="">
+                </div>
+                <div class="page-list-header">
+                    <form action="{:url('')}" method="post" enctype="multipart/form-data">
+                        <span>部门：</span>
+                        <select  id="departWrap" onclick="clickDepartWrap();" style="width: 100px;">
+                           {volist name="depart_list" id="vo"}
+                            <option value="{$vo.depart_title}" data-id="{$vo.depart_id}">{$vo.depart_title}</option>
+                            {/volist}
+                        </select>
+                        <span>人员：</span>
+                        <select  id="userWrap" style="width: 100px;">
+                            {volist name="user_list" id="vo"}
+                            {eq name="vo.user_real_name" value="admin"}
+                            {else/}
+                            <option value="{$vo.user_real_name}" class="depart_{$vo.user_depart_id} departUserWrap">{$vo.user_real_name}</option>
+                            {/eq}
+                            {/volist}
+                        </select>
+                        <span>日期：</span>
+                        <input type="text" name="s_date" class="" placeholder="请选择日期"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                        <span>-</span>
+                        <input type="text" name="e_date"  class="" placeholder="请选择日期"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                        <button type="submit" class="am-btn am-btn-primary" style="float: right;margin: 0 10px;font-size: 14px">
+                            搜索
+                        </button>
+                    </form>
+                </div>
+                <table class="am-table am-table-bordered am-table-radius am-table-striped" style="width: 95%;margin: 15px auto;">
+                    <thead>
+                    <tr>
+                        <th>部门</th>
+                        <th>名称</th>
+                        <th>正常数</th>
+                        <th>正常率</th>
+                        <th>迟到数</th>
+                        <th>迟到率</th>
+                        <th>早退数</th>
+                        <th>早退率</th>
+                        <th>缺勤数</th>
+                        <th>缺勤率</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>技术部</td>
+                        <td>陆凯</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>技术部</td>
+                        <td>陆凯</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td>技术部</td>
+                        <td>陆凯</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                        <td>23</td>
+                        <td>100%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+<script>
+    //搜索框
+    $(".article-search").focus(function(){
+        $(".search-cover").css("display","block");
+        $(".shezhi").css("display","none")
+    });
+    $(".article-search").blur(function(){
+        $(".search-cover").css("display","none");
+        $(".shezhi").css("display","block")
+
+    });
+    clickDepartWrap();
+    function clickDepartWrap(){
+       var _thisPid = $("#departWrap option:selected").data("id");
+        $(".departUserWrap").hide();
+        $(".depart_"+_thisPid).show();
+        $(".depart_"+_thisPid).eq(0).attr("selected",true);
+    }
+    //编辑页跳转
+    $(".mask-edit-sure").on("click",function(){
+        var doc_id = $(".edit-mask").data("id");
+        if(typeof(doc_id) != "undefined" && doc_id != null){
+            var url = $("[data-id="+doc_id+"]").data("url");
+        }
+        window.location.href = url;
+    });
+    //    删除页
+    $(".table-edit-right").click(function(){
+        var id = $(this).data("id");
+        if(typeof(id) != "undefined" && id != null){
+            $(".edit-mask").data("id",id);
+        }
+    });
+    $(".delete-sure").on("click",function(){
+        var doc_id = $(".edit-mask").data("id");
+        $("#del-input").val(doc_id);
+        $("#del_form").submit();
+    });
+    //没有信息时显示图片
+    var tr_len=$(".page-table").find("tr").length;
+    if(tr_len==1){
+        $(".table-pic").css("display","block")
+    }
+
+</script>
+</body>
+</html>

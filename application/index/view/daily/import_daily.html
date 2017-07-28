@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导入考勤</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_zw5tkrqszzd7vi.css">
+    <script src="/resource/new_js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css">
+    <link rel="stylesheet" href="/resource/new_css/doc_index.css">
+    <script src="/resource/new_js/amazeui.js"></script>
+    <script src="/resource/new_js/doc_index.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<div class="ibody">
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">导入考勤</h2>
+
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer" style="margin: 0 auto 50px">
+        <div class="aside-left">
+            <ul>
+                <li class="li-big  li-big-active"
+                    data-am-popover="{content: '必须是97-2003格式的表格，xls格式', trigger: 'hover focus'}">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600;color: #3497db;">&#xe637;</span>
+                    <a href="" style="color: #3497db;">导入考勤</a>
+                </li>
+            </ul>
+        </div>
+        <div class="aside-right">
+            <div class="am-alert am-alert-danger" data-am-alert >
+                必须是97-2003格式的表格，xls格式
+            </div>
+            <form id="post-form" class="file-form" name="fileform"  action="{:url('')}" method="post" enctype="multipart/form-data">
+                <div class="page-table" style="position: relative">
+                    <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;text-align: center;"
+                         class="table-pic">
+                        <img src="/resource/img/dataPull.png" style="cursor: pointer">
+                        <input id="fileinput" type="file" name="file" style="display: none">
+                        <div style="margin-top: 18px;font-size: 20px;" id="fileTitle">请选择xls文件</div>
+                        <input type="text" name="daily_date" style="text-align: center ;margin-top: 15px;border-radius: 3px;" class="am-form-field" placeholder="请选择日期"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                    </div>
+                </div>
+            </form>
+            <div style="clear: both;"></div>
+            <button type="button" class="am-btn am-btn-secondary am-radius" id="upData" style="position: absolute;bottom: 20px;right: 20px;">上传</button>
+        </div>
+    </div>
+    </div>
+    <script src="/resource/My97DatePicker/WdatePicker.js"></script>
+    <script href="/resource/js/jQuery1.8.2.js"></script>
+    <script>
+        $(".page-table").find("img").mouseout(function () {
+            $(this).css("opacity", "0.5");
+        });
+        $(".page-table").find("img").mouseover(function () {
+            $(this).css("opacity", "1");
+        });
+        $(".page-table").find("img").on("click",function(){
+            $("#fileinput").click();
+        });
+        $("#upData").on("click",function(){
+            $("#post-form").submit();
+        });
+        $("#fileinput").change(function(){
+            var file = this.files[0];
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                //监听文件读取结束后事件
+                reader.onloadend = function (e) {
+                    console.log(e.target.result);
+                    console.log(file.name);
+                    $("#fileTitle").html(file.name);
+                };
+            }
+        });
+    </script>
+</body>
+</html>

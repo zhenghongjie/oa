@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>登录</title>
+
+    <link rel="shortcut icon" href="http://oa.geek.cn.com/static/image/favicon.ico">
+    <meta name="generator" content="IBOS 3.5">
+    <meta name="author" content="IBOS Team">
+    <meta name="copyright" content="2013 IBOS Inc.">
+    <!-- load css -->
+    <link rel="stylesheet" type="text/css" rev="stylesheet" href="//at.alicdn.com/t/font_0y1lh6j98a43rf6r.css">
+    <link rel="stylesheet" type="text/css" rev="stylesheet" href="/resource/css/base.css">
+    <link rel="stylesheet" type="text/css" rev="stylesheet" href="/resource/css/common.css">
+    <link rel="stylesheet" href="/resource/css/ibos.css">
+    <link rel="stylesheet" href="/resource/css/ibos_002.css">
+    <link rel="stylesheet" href="/resource/css/user_login.css">
+    <link rel="stylesheet" href="/resource/css/white.css">
+    <!-- load css end -->
+    <!-- IE8 fixed -->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="/static/css/iefix.css?pZg">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/resource/css/style.css">
+
+    <script type="text/javascript">
+        window.onload = function()
+        {
+            document.getElementById("account").focus();
+        }
+    </script>
+
+
+</head>
+
+<body>
+<!-- Header -->
+<div class="header affix" style="display: none;">
+    <div class="wrap">
+        <div class="logo">
+            <img src="/resource/img/1940285tmi77y9t0pg2g57.png" alt="IBOS">
+            <h1>农业科技推广中心办公OA</h1>
+        </div>
+        <div class="lg-sign pull-right"></div>
+    </div>
+</div>
+<div id="bgwrap" style="width: 1920px; height: 971px;">
+    <div id="bg" style="width: 1920px; height: 1290.39px; margin-top: -159.694px; margin-left: auto; display: block;">
+        <img src="/resource/img/192802qifi0hg1gzajqbgi.jpg" style="width: 100%; height: 100%;"></div>
+</div>
+<!-- Mainer -->
+<div class="wrap clearfix">
+    <div class="login-panel radius pull-right">
+        <!-- Login Form -->
+        <div class="login-type-nav">
+            <div style="height: 40px;text-align: center">农业科技推广中心</div>
+            <ul class="nav nav-skid" style="display: none">
+                <li class="active">
+                    <a href="javascript:;" data-action="switchLoginType">账号密码登录</a>
+                </li>
+                <li style="display: none">
+                    <a href="javascript:;" data-action="switchLoginType">其他登陆方式</a>
+                </li>
+            </ul>
+        </div>
+        <div class="login-type-content" id="login_type_content">
+            <div class="normal-login-content">
+                <form method="post" id="login_form" action="{:url('')}">
+                <div class="fill-sn attend-wx-wrap xal" style="display: none">
+                    <i class="on-scan-opt"></i>
+                    <span class="scan-tip">扫一扫关注微信号</span>
+                    <a href="javascript:;" data-action="followWx" class="scan-link xcbu">查看详情</a>
+                </div>
+
+                <!--登陆账号和密码-->
+                <div class="fill" id="login_panel">
+                    <div class="login-item">
+                        <div class="input-group input-group-error" id="account_wrap">
+										<span class="input-group-addon addon-icon input-large " id="account-span" style="border-color:#3091D8" >
+											<i class="iconfont account-iconfont" style="color:#3091D8 ;">&#xe60b;</i>
+										</span>
+                            <input tabindex="101" id="account"  value="" class="input-large lg-acc-input input-error" name="username" type="text" style="border-color:#3091D8 ;">
+                        </div>
+                    </div>
+                    <div class="login-item">
+                        <div class="input-group mbs input-group-error">
+										<span class="input-group-addon addon-icon input-large " id="password-span" style="border-color: #dadfe6;background-color: #f8f8f8">
+											<i class="iconfont password-iconfont">&#xe611;</i>
+										</span>
+                            <input id="password" tabindex="102" class="input-large input-error" name="password" type="password"  value="" style="border-color: #dadfe6 ;">
+                        </div>
+                        <div>
+                            <label class="checkbox checkbox-inline mbz checked"><span class="icon"></span><span class="icon-to-fade"></span>
+                                <input name="autologin" tabindex="103" checked="checked" type="checkbox">下次自动登录											</label>
+                        </div>
+                    </div>
+                    <div>
+                        <input name="loginsubmit" value="登 录" tabindex="104" class="btn btn-primary btn-large btn-block" type="submit">
+                        <!--<input name="cookietime" value="86400" type="hidden">
+                        <input name="formhash" value="" type="hidden">
+                        <input name="refer" value="/" type="hidden">-->
+                    </div>
+                </div>
+                <div class="fill" id="get_password_panel" style="display: none;">
+                    <div>
+                        <label for="">Email（用于找回密码）</label>
+                        <input class="mb" name="find_email" type="text">
+                    </div>
+                    <div>
+                        <label for="">用户名</label>
+                        <input class="mb" name="find_username" type="text">
+                    </div>
+                    <div>
+                        <input value="提交" class="btn btn-primary btn-widen" type="submit">
+                        <button type="button" class="btn btn-widen pull-right" id="to_login">返回</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="other-login-content" style="display:none">
+                <ul class="other-type-list">
+                    <li>
+                        <a href="javascript:;" class="clearfix" data-action="wxLogin">
+                            <i class="o-type-wx pull-left"></i>
+									<span class="type-desc pull-left db">
+												<span class="xwb db">微信企业号</span>
+									<span class="fss tcm">使用安全小助手扫码登录</span>
+									</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="login-panel-footer fill bglg bdrb">
+        </div>
+    </div>
+
+ <!--   <div style="position: relative; margin: 0px; padding: 0px; background: transparent none repeat scroll 0% 0%; top: 110px;left: 280px; display: none;" id="accountTip" class="onError">
+        <div class="onError-tip"><i class="account-i" ></i>请填入账号</div>
+    </div>
+    <div style="position:relative; margin: 0px; padding: 0px; background: transparent none repeat scroll 0% 0%; top: 160px;left: 280px; display: none;" id="passwordTip" class="onError">
+        <div class="onError-tip "><i class="password-i"></i>请填入密码</div>
+    </div>-->
+</div>
+<!-- Footer -->
+<div class="footer" style="display:none;">
+    <div class="wrap">
+        <!-- Quick link -->
+        <div class="copyright">
+            <div class="quick-link">
+                <a target="_blank" href="http://doc.ibos.com.cn/">IBOS 帮助</a>
+                <span class="ilsep">|</span>
+                <a target="_blank" href="http://bbs.ibos.com.cn/">意见反馈</a>
+                <span class="ilsep">|</span>
+                <a target="_blank" href="http://oa.geek.cn.com/?r=dashboard/default/index">管理中心</a>
+                <span class="ilsep">|</span>
+                <a href="javascript:;" data-action="showCert">授权证书</a>
+                <span class="ilsep">|</span>
+                <a target="_blank" href="http://www.ibos.com.cn/file/99">Chrome 框架</a>
+                <span class="ilsep">|</span>
+                <a href="javascript:;" data-action="appDownload">移动端下载</a>
+            </div>
+            Powered by <strong>IBOS 3.5 6896</strong>
+        </div>
+    </div>
+</div>
+<!-- load script  -->
+<!--<script>
+    var G = {
+        VERHASH: 'pZg',
+        SITE_URL: 'http://oa.geek.cn.com/',
+        STATIC_URL: '/static',
+        formHash: '',
+        page: "login",
+        "loginBg": [
+            "data/login/192802qifi0hg1gzajqbgi.jpg"
+        ]
+    };
+</script>-->
+<script type="text/javascript" src="/resource/js/jquery-all.js"></script>
+<!--<script src="/resource/js/login_zh-cn.js"></script>-->
+<!--<script src="/resource/js/login_core.js"></script>-->
+<script src="/resource/js/base.js"></script>
+<!--<script src="/resource/js/artDialog.js"></script>-->
+<!--<script src="/resource/js/formValidator.js"></script>-->
+<!--<script src="/resource/js/login_jquery.js"></script>-->
+<script src="/resource/js/common.js"></script>
+<!--<script src="/resource/js/application.js"></script>-->
+
+<!--<script>
+    var qrcode = 'http://shp.qpic.cn/bizmp/cBIfnDgQfzhEpS9OibLicCtRYfb2I2gWiaCy3KicY1Hw3zNcibLGHwhlYicg/';
+    Ibos.app.s("followWxUrl", 'http://www.ibos.com.cn/api/show/qrcode?qrcode=' + qrcode);
+                 
+</script>-->
+<!--<script src="/resource/js/user_default_login.js"></script>-->
+
+<div id="ui_card" class="ui-card"></div>
+<div id="jGrowl" class="center jGrowl">
+
+    <div class="jGrowl-notification"></div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+
+
+        $("#account").focus(function(){
+            $(this).css("border-color","#3091D8")
+            $("#account-span").css("border-color","#3091D8")
+            $("#account-span").css("background-color","#f8f8f8")
+            $(".account-iconfont").css("color","#3091D8")
+            $("#accountTip").css("display","block")
+            $(".account-i").css("display","none")
+        });
+
+
+        $("#account").blur(function(){
+            $(".account-iconfont").css("color","#82939e")
+            if($(this).val()==""){
+                $(".account-i").css("display","block")
+                $(".account-i").css("float","left")
+                $("#accountTip").css("display","block")
+                $(this).css("border-color","#E26F50")
+                $("#account-span").css("border-color","#E26F50")
+                $("#account-span").css("background-color","#FDF0DE")
+                $(".account-iconfont").css("color","#82939e")
+            }else {
+                $(this).css("border-color","#7CB81C")
+                $("#account-span").css("border-color","#7CB81C")
+                $("#account-span").css("background-color","#F2F8F0")
+                $("#account-span").css("color","#7CB81C")
+                $("#accountTip").css("display","none")
+
+            }
+
+        });
+
+
+
+        $("#password").focus(function(){
+            $(this).css("border-color","#3091D8")
+            $("#password-span").css("border-color","#3091D8")
+            $("#password-span").css("background-color","#f8f8f8")
+            $(".password-iconfont").css("color","#3091D8")
+            $("#passwordTip").css("display","block")
+            $(".password-i").css("display","none")
+        });
+
+
+        $("#password").blur(function(){
+            $(".password-iconfont").css("color","#82939e")
+            if($(this).val()==""){
+                $(".password-i").css("display","block")
+                $(".password-i").css("float","left")
+                $("#passwordTip").css("display","block")
+                $(this).css("border-color","#E26F50")
+                $("#password-span").css("border-color","#E26F50")
+                $("#password-span").css("background-color","#FDF0DE")
+                $(".password-iconfont").css("color","#82939e")
+            }else {
+                $(this).css("border-color","#7CB81C")
+                $("#password-span").css("border-color","#7CB81C")
+                $("#password-span").css("background-color","#F2F8F0")
+                $("#password-span").css("color","#7CB81C")
+                $("#passwordTip").css("display","none")
+
+            }
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    })
+
+</script>
+</body>
+
+</html>

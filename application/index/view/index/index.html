@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_zunu1oxbctxlmcxr.css"/>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css"/>
+    <script src="/resource/js/jquery.js"></script>
+    <script type="text/javascript" src="/resource/new_js/add_doc.js"></script>
+    <script type="text/javascript" src="/resource/new_js/index.js"></script>
+    <script src="/resource/new_js/amazeui.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/index.css"/>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体部分-->
+<div class="ibody">
+    <div class="content-date">
+        <div class="date"><span style="display: inline-block;float: right;">{$date_lunar}</span></div>
+    </div>
+    <div class="ibcontainer">
+        <div class="body-box">
+            <div class="ibox box_info"  data-target="box_info" style="position: relative">
+                <div class="mbox-header ">
+                    <h4>信息中心</h4>
+                </div>
+                <div>
+                    <div class="info_show">
+                        <!--内容标题-->
+                        {volist name="article_info" id="vo" key="ke"}
+                         {eq name="$ke" value="1"}
+                            <div class="info_active">
+                                <div class="vat">
+                                    <span class="iconfont" style="color: #0e90d2;">&#xe64d;</span>
+                                </div>
+                                <div class="art_ho">
+                                    <div class="art_title">
+                                        <h2>
+                                            <a href="{:url('article/show',['article_id'=>$vo.article_id])}" style="color: #0e90d2;">
+                                                {$vo.article_title}
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <span class="art_time" style="padding-top: 10px">{$vo.article_create_time|date="m月-d日",###}</span>
+                                    <div>
+                                        <p style="text-align:left;float:left;padding-right:30px">
+                                            <a href="{:url('article/show',['article_id'=>$vo.article_id])}" style="color:#82939e">
+                                                <?php
+                                                $a = $vo['article_content'];
+                                                echo strip_tags($a);
+                                                ?>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                         {/eq}
+                        {/volist}
+                        {volist name="article_info" id="vo"}
+                        <div>
+                            <div class="vat">
+                                <span class="iconfont">&#xe64d;</span>
+                            </div>
+                            <div class="art_ho">
+                                <div class="art_title">
+                                    <p class="p-txt">
+                                        <a href="{:url('article/show',['article_id'=>$vo.article_id])}">
+                                            {$vo.article_title}
+                                        </a>
+                                    </p>
+                                </div>
+                                <span class="art_time" style="line-height: 55px;">{$vo.article_create_time|date="m月-d日",###}</span>
+                                <span></span>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                    <div class="box_info-bottom">
+                        <div style="width:200px">
+                            <a class="icon-a"  href="{:url('article/index')}">
+                                <span class="iconmore"></span>
+                                <span class="iconmore-span">查看更多通知</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox box_email"  data-target="box_email">
+                <div class="mbox-header" style="margin-top:-20px;height:51px">
+                    <h4>我的邮件</h4>
+                    <ul class="tabfirst">
+                        <li class="box_email-active">
+                            <a href="javascript:;" style="color: #3497db;"><span class="iconfont">&#xe638;</span>内部收件箱</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><span class="iconfont">&#xe624;</span>未读</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;"><span class="iconfont">&#xe60d;</span>待办</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box_email-tap">
+                    <div class="box_email-content">
+                        <div style="height: 232px;border-bottom: solid 1px #EBEFF6;">
+                            <table class="am-table">
+                                {volist name="mail_info_receive" id="vo"}
+                                <tr>
+                                    <td style="width: 488px;padding-left:20px;height:77px;overflow: hidden;padding-top: 13px">
+                                        <div style="width: 100%;">
+                                            <a href="{:url('email/show',['mail_id'=>$vo.mail_id])}" style="display:inline-block;width:385px;height:20px;overflow: hidden;">
+                                                {$vo.mail_title}
+                                            </a>
+                                        </div>
+                                        <div class="box_doc-p">
+                                            {$vo.user_username}发布于{$vo.mail_time|date="Y-m-d H:i",###}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </div>
+                        <div class="box_doc-bottom">
+                            <div style="width: 200px;margin: 0 auto;padding:18px 30px;">
+                                <a class="icon-a" href="{:url('email/index')}">
+                                    <span class="iconmore"></span>
+                                    <span class="iconmore-span">查看更多邮件</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_email-content box_email-content-hide">
+                        <div style="height: 232px;border-bottom: solid 1px #EBEFF6;">
+                            <table class="am-table">
+                                {volist name="mail_info_unread" id="vo"}
+                                <tr>
+                                    <td style="width: 488px;padding-left: 20px;height:77px;overflow: hidden;padding-top: 13px">
+                                        <div style="width: 100%">
+                                            <a href="{:url('email/show',['mail_id'=>$vo.mail_id])}" style="display:inline-block;width:385px;height:20px;overflow: hidden;">
+                                                {$vo.mail_title}
+                                            </a>
+                                        </div>
+                                        <div class="box_doc-p">
+                                            {$vo.user_username}发布于{$vo.mail_time|date="Y-m-d H:i",###}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </div>
+                        <div class="box_doc-bottom">
+                            <div style="width: 200px;margin: 0 auto;padding:18px 30px;">
+                                <a class="icon-a" href="{:url('email/index')}">
+                                    <span class="iconmore"></span>
+                                    <span class="iconmore-span">查看更多邮件</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_email-content box_email-content-hide">
+                        <div style="height: 232px;border-bottom: solid 1px #EBEFF6;">
+                            <table class="am-table">
+                                {volist name="mail_info_ready" id="vo"}
+                                <tr>
+                                    <td style="width: 488px;padding-left:20px;height:77px;overflow:hidden;padding-top:13px">
+                                        <div style="width:100%">
+                                            <a href="{:url('email/show',['mail_id'=>$vo.mail_id])}" style="display:inline-block;width:385px;height:20px;overflow: hidden;">
+                                                {$vo.mail_title}
+                                            </a>
+                                        </div>
+                                        <div class="box_doc-p">
+                                            {$vo.user_username}发布于{$vo.mail_time|date="Y-m-d H:i",###}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/volist}
+                            </table>
+                            <img src="/resource/img/empty_inbox.png" alt="邮件" class="no_mail"/>
+                        </div>
+                        <div class="box_doc-bottom todo_bottom">
+                            <div style="width: 200px;margin: 0 auto;padding:18px 30px;">
+                                <a class="icon-a" href="{:url('email/index')}">
+                                    <span class="iconmore"></span>
+                                    <span class="iconmore-span">查看更多邮件</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox box_doc"  data-target="box_doc">
+                <div class="mbox-header">
+                    <h4>公文</h4>
+                </div>
+                <div style="border-bottom: solid 1px #EBEFF6;height: 238px;">
+                    <table class="am-table">
+                        {volist name="doc_info" id="vo"}
+                            <tr>
+                                <td style="width:488px;padding-left:20px;height:79px;overflow:hidden;padding-top: 13px">
+                                    <div style="width: 100%;">
+                                        <a href="{:url('doc/detail',['doc_id'=>$vo.doc_id])}" style="display:inline-block;width:385px;height:20px;overflow: hidden;" class="doc_a">{$vo.doc_title}</a>
+                                        <button type="button" class="am-btn am-btn-danger am-round am-btn-xs" style="height: 20px; width: 56px; padding: 2px;">未签收</button>
+                                    </div>
+                                    <div class="box_doc-p">{$vo.user_username}发布于{$vo.doc_time|date="Y-m-d H:i",###}</div>
+                                </td>
+                            </tr>
+                        {/volist}
+                    </table>
+                </div>
+                <div class="box_doc-bottom">
+                    <div style="width: 200px;margin: 0 auto;padding:15px 30px;">
+                        <a class="icon-a" href="{:url('doc/index')}">
+                            <span class="iconmore"></span>
+                            <span class="iconmore-span">查看更多公文</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--回到顶部-->
+            <div style="width:1000px;margin: 0 auto;z-index: 100000;">
+                <div class="go-top" id="top">
+                </div>
+            </div>
+        </div>
+   </div>
+    <!--添加小部件按钮div-->
+    <div class="add-panl">
+    <div class="add-title">
+        <i class="add-icon show_icon"></i>
+        <span class="show_icon">添加小部件</span>
+    </div>
+    </div>
+    <!--底部-->
+    <div class="footer">
+    <a href=""><i class="footer-logo"></i></a>
+    <a href="">办公首页</a>
+    </div>
+</div>
+        <!--遮罩层-->
+    <div class="mask">
+     <div class="mask-panel">
+       <div class="panel-header">
+        管理我的模块
+       </div>
+         <a class="mask-close">&times;</a>
+         <table class="am-table  am-table-striped" style="border-bottom: 1px solid #EBEFF6;">
+             <tr>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_meet">
+                     <span>会议</span>
+                 </td>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_info">
+                     <span>信息中心</span>
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_calendar">
+                     <span>日程</span>
+                 </td>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_todo">
+                     <span>代办</span>
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_diary">
+                     <span>工作日志</span>
+                 </td>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_email">
+                     <span>我的邮件</span>
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     <input type="checkbox" class="show-box-input" data-target="box_doc">
+                     <span>公文</span>
+                 </td>
+                 <td></td>
+             </tr>
+         </table>
+         <div class="panel-bottom">
+             <a class="show-all-panel"></a>
+             <span>恢复默认设置</span>
+         </div>
+     </div>
+    </div>
+<script>
+
+    localStorage.setItem('user_name','{$user_info['user_real_name']}');
+    localStorage.setItem('user_id','{$user_info['user_id']}');
+    $(".top_user_name").html('{$user_info['user_real_name']}');
+
+    function Sel(out_box_id) {
+        this.$out_box = $('#' + out_box_id);
+        this.$tag_box = this.$out_box.children('.tag-box').eq(0);
+        this.$tag_del = this.$tag_box.find('.tag-del');
+        this.$item_box = this.$out_box.children('.item-box').eq(0);
+        this.$item = this.$item_box.children('.item');
+        this.$sel_box = this.$out_box.children('.select-user-box').eq(0);
+        this.$item2 = this.$sel_box.find('.item2');
+        this.$click_all = this.$sel_box.find('.click-all');
+        this.$btn_box = this.$out_box.children('.btn-box').eq(0);
+        this.$sel_btn = this.$out_box;
+        this.$man_btn = this.$btn_box.children('.man-btn').eq(0);
+        this.$clean_btn = this.$btn_box.children('.clean-btn').eq(0);
+        this.tag_arr = [];
+        var _this = this;
+        this.selBtnClick(this.$sel_btn, _this);
+        this.manBtnClick(this.$man_btn, _this);
+        this.cleanBtnClick(this.$clean_btn, _this);
+        this.selBoxClick(this.$sel_box);
+        this.itemClick(this.$item, _this);
+        this.item2Click(this.$item2, _this);
+        this.allClick(this.$click_all, _this);
+    }
+    Sel.prototype.selBtnClick = function (elem, _this){
+        elem.click(function (event){
+            var $ib = _this.$item_box;
+            if($ib.css('display') == 'none'){
+                console.log('item show');
+                _this.hideBox('sel_box');
+                $ib.css('display', 'block');
+            } else{
+                console.log('item hide');
+                $ib.css('display', 'none');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.manBtnClick = function (elem, _this){
+        elem.click(function (event){
+            _this.hideBox('item_box');
+            var $sb = _this.$sel_box;
+            if($sb.css('display') == 'block'){
+                console.log('sel hide');
+                $sb.css('display', 'none');
+            } else{
+                console.log('sel show');
+                $sb.css('display', 'block');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.cleanBtnClick = function (elem, _this){
+        elem.click(function (event){
+            console.log('clean');
+            _this.$item2.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).click();
+                }
+            });
+            _this.$click_all.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).prop('checked', false);
+                }
+            });
+            _this.change();
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.selBoxClick = function (elem){
+        elem.click(function (event){
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.itemClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('value');
+                var $item2 = _this.$item2;
+                $item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.item2Click = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('id');
+                var html = $(this).data('title');
+                if($(this).prop('checked') == false){
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).removeClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == true){
+                            $(this).prop('checked', false);
+                        }
+                    });
+                    var $tag = _this.$tag_box.children();
+                    $tag.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).remove();
+                        }
+                    });
+                    var ta = _this.tag_arr;
+                    for(var i in ta){
+                        if(ta[i] == value){
+                            _this.tag_arr.splice(i, 1);
+                        }
+                    }
+                } else{
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).addClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == false){
+                            $(this).prop('checked', true);
+                        }
+                    });
+                    var $tag = $('<li class="tag" data-value="' + value + '">' + html + '<span class="tag-del">X</span></li>');
+                    _this.$tag_box.append($tag);
+                    _this.tag_arr.push(value);
+                    _this.$tag_del = _this.$tag_box.find('.tag-del');
+                    _this.tagDelClick(_this.$tag_del, _this);
+                }
+                _this.change();
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.allClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (){
+                var pid = $(this).data('pid');
+                if($(this).prop('checked') == true){
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == false){
+                            $(this).click();
+                        }
+                    });
+                } else{
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == true){
+                            $(this).click();
+                        }
+                    });
+                }
+            });
+        });
+    }
+    Sel.prototype.tagDelClick = function (elem, _this){
+        elem.each(function (){
+            console.log('tagDelClick');
+            $(this).get(0).onclick = function (event){
+                var $tag = $(this).closest('.tag');
+                var value = $tag.data('value');
+                _this.$item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+                var e = window.event || event;
+                if(e.stopPropagation){
+                    e.stopPropagation();
+                } else{
+                    window.event.cancelBubble = true;
+                }
+            };
+        });
+    }
+    Sel.prototype.hideBox = function (status){
+        if(status == undefined){ status = 'item_box';}
+        switch (status){
+            case 'item_box':
+                this.$item_box.css('display', 'none');
+                break;
+            case 'sel_box':
+                this.$sel_box.css('display', 'none');
+                break;
+            case 'all':
+                this.$item_box.css('display', 'none');
+                this.$sel_box.css('display', 'none');
+                break;
+        }
+    }
+    Sel.prototype.getTagArr = function (){
+        return this.tag_arr;
+    }
+    Sel.prototype.changeFunc = function (func){
+        if(typeof func == 'function'){
+            this.changeFunc = func;
+        }
+    }
+    Sel.prototype.change = function (){
+        this.changeFunc(this.getTagArr());
+    }
+    $(function (){
+        var sel0 = new Sel('out_box_left');
+        $('body').click(function (event){
+            sel0.hideBox('all');
+        });
+        sel0.changeFunc(function (arr){
+            var str = arr.join(',');
+            console.log('sel0:', str);
+            $('#doc_publish').attr('value', str);
+        });
+        var $state_box = $('.state-box');
+        $state_box.click(function (){
+            $state_box.each(function (){
+                $(this).removeClass('label-active');
+            });
+            $(this).addClass('label-active');
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

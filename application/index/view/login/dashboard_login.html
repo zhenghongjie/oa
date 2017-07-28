@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title></title>
+    <!-- load css -->
+    <link rel="stylesheet" href="/resource/css/base.css">
+    <!-- IE8 fixed -->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="/static/css/iefix.css?pZg">
+    <![endif]-->
+    <link rel="stylesheet" href="/resource/css/dashboard_common.css">
+    <link rel="stylesheet" href="/resource/css/ibos.css">
+    <link rel="stylesheet" href="/resource/css/select2.css">
+    <link rel="stylesheet" href="/resource/css/ibos_002.css">
+
+    <script>
+        var G = {
+            VERHASH: 'pZg',
+            SITE_URL: 'http://oa.geek.cn.com/',
+            STATIC_URL: '/static',
+            cookiePre: '6JxG_',
+            cookiePath: '/',
+            cookieDomain: '',
+            creditRemind: '1|经验,2|金钱,3|贡献',
+            formHash: '',
+            password: {
+                minLength: "6",
+                maxLength: 32,
+                regex: "^[A-Za-z0-9\!\@\#$\%\^\&\*\.\~]{6,32}$"
+            }
+        };
+    </script>
+    <!-- 核心库类 -->
+    <script src="/resource/js/core.js"></script>
+    <!-- 语言包 -->
+    <script src="/resource/js/zh-cn_002.js"></script>
+    <script src="/resource/js/base.js"></script>
+    <script src="/resource/js/artDialog.js"></script>
+    <script src="/resource/js/jquery.js"></script>
+    <script src="/resource/js/select2.js"></script>
+    <script src="/resource/js/org.js"></script>
+    <script src="/resource/js/common.js"></script>
+    <script src="/resource/js/ibos.js"></script>
+    <script src="/resource/js/application.js"></script>
+    <script src="/resource/js/zh-cn.js"></script>
+</head>
+
+<body>
+
+<meta charset="utf-8">
+<title>后台登陆</title>
+<link rel="shortcut icon" href="http://oa.geek.cn.com/static/image/favicon.ico?pZg">
+<!-- load css -->
+<link rel="stylesheet" href="/resource/css/base.css">
+<!-- IE8 fixed -->
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="/static/css/iefix.css?pZg">
+<![endif]-->
+<!-- private css -->
+<link rel="stylesheet" href="/resource/css/login.css">
+
+<div class="full">
+    <div class="bg">
+        <img id="bg" src="/resource/img/bg_body.jpg" alt="" style="width: 1920px; height: auto;">
+    </div>
+    <div class="mainer">
+        <div class="login-wrap">
+            <h1 class="logo">
+                <img src="/resource/img/logo.png" alt="IBOS" width="300" height="80">
+            </h1>
+            <div class="login shadow radius well well-white">
+                <form id="loginForm" method="post" action="/?r=dashboard/default/login">
+                    <div class="login-group">
+                        <label>账号</label>
+                        <div class="input-group">
+									<span class="input-group-addon addon-icon input-large">
+                                        <i class="glyphicon-user"></i>
+                                    </span>
+                            <input name="username" id="login_user" class="input-large" type="text">
+                        </div>
+                    </div>
+                    <div class="login-group">
+                        <label>密码</label>
+                        <div class="input-group">
+									<span class="input-group-addon addon-icon input-large">
+                                        <i class="glyphicon-lock"></i>
+                                    </span>
+                            <input class="input-large" id="login_pass" name="password" type="password">
+                        </div>
+                    </div>
+                    <div class="login-group login-btn">
+                        <button id="submit-btn" type="submit" data-loading-text="登录中..." autocomplete="off" name="loginsubmit" class="btn btn-primary btn-large btn-block">
+                            登录                                </button>
+                    </div>
+                    <input name="formhash" value="" type="hidden">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        Powered by <strong>IBOS 3.5 6896</strong>
+    </div>
+</div>
+<!-- load js -->
+<script src="/resource/js/dash_board_core.js"></script>
+<script src="/resource/js/base.js"></script>
+<script src="/resource/js/common.js"></script>
+<script src="/resource/js/dashboard_login.js"></script>
+
+<div id="ui_card" class="ui-card"></div>
+<div id="jGrowl" class="center jGrowl">
+    <div class="jGrowl-notification"></div>
+</div>
+</body>
+
+</html>

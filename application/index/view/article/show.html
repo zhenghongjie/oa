@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>信息</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_uoz38lo2cn64j9k9.css">
+    <script src="/resource/new_js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css">
+    <link rel="stylesheet" href="/resource/new_css/article_show.css">
+    <script src="/resource/new_js/amazeui.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibody">
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">通知</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer">
+        <div class="aside-left">
+            <div class="aside-left-top">
+                <a href="" style="color:#3497db;">
+                    <span class="iconfont" style="font-size: 19px;">&#xe62c;</span>
+                    <span>信息中心</span>
+                </a>
+            </div>
+            <div class="aside-left-list">
+                <ul>
+                    <li style="padding-left:20px;">
+                        <span class="iconfont" style="font-size:18px">&#xe651;</span>
+                        <a href="">默认分类</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">内部通知</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">活动通知</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="aside-right">
+            {eq name="detail.article_type" value="2"}
+            <div class="art-container">
+                <div class="art-ct mb">
+                    <div class="am-slider am-slider-default ad-gallery"
+                         data-am-flexslider="{controlNav: 'thumbnails', directionNav: true, slideshow: false}"
+                         style="padding-right: 25px;padding-left: 25px;">
+
+                        <ul class="am-slides ad-image" style=" top: 0px; left: 26px;">
+
+                            {volist name="detail.article_images" id="vt"}
+                            <li data-thumb="{$vt.file_url}?imageView2/0/w/360">
+                                <img src="{$vt.file_url}"/>
+                                <p class="ad-image-description" style="margin: 0;background-color: #fff">{$vt.file_name}</p>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {else/}
+            <div class="art-container">
+                <a href="{:url('article/index')}"  class="art-close"></a>
+                <span class="art-title">{$detail.article_title}</span>
+                <div class="art-detail">
+                    <p> &nbsp; &nbsp;{$detail.article_content}<br></p>
+                </div>
+                {notempty name="detail.article_annex"}
+                <div class="doc-file">
+                    <div>
+                        <span class="iconfont">&#xe68c;</span>
+                        <span style="font-weight: 600">附件（{$detail.article_annex|count}个）</span>
+                    </div>
+                    {volist name="detail.article_annex" id="vo"}
+                    <div class="doc-file-content">
+                        <div class="doc-img" style="width: 300px;display: inline-block;width: 90px;display: inline-block;padding-left: 20px;">
+                            <span class="iconfont" style="font-size:30px">&#xe68e;</span>
+                        </div>
+                        <div class="doc-attr" style="display:inline-block;width:640px;">
+                            <div class="doc-attr-p">
+                                {$vo.file_name}
+                                <span>({$vo.file_size|get_file_size})</span>
+                            </div>
+                            <div>
+                                <a class="doc-download" href="{$vo.file_url}" target="_blank" style="color: #00a2d4">下载</a>
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+                {/notempty}
+
+            </div>
+
+            <div class="art-gap">
+            </div>
+            <div class="art-box">
+                <ul class="art-list">
+                    <li>
+                        <strong>信息</strong>
+                        <div class="art-body">
+
+                            <span class="art-list-span">发布于</span>{$detail.article_check_time|date="Y-m-d H:i",###}
+                            <span class="art-list-span">|</span>审核人：{$detail.user_real_name}
+                            <span class="art-list-span">|</span>分类：{$detail.cate_title}
+                        </div>
+                    </li>
+                    <li>
+                        <strong>范围</strong>
+                        <div class="art-body">
+                            {volist name="read_list" id="vo"}
+                            <i class="iconfont">&#xe61c;</i>
+                            <span  style="margin: 0 10px 0 0;">{$vo.depart_title}</span>
+                            {/volist}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="comment">
+                <ul class="tap-ul">
+                    <li class="active">
+                        <a class="active"><span class="iconfont">&#xe613;</span>评论</a>
+                    </li>
+                    <li>
+                        <a ><span class="iconfont">&#xe63d;</span>查阅情况</a>
+                    </li>
+                </ul>
+                <div class="tap-content">
+                    <div class="tap-content-panel" style="padding:0  20px 0 20px">
+                        <div class="comment-tip">
+                        </div>
+                        {eq name="detail['article_can_comment']" value="1"}
+                        <form action="{:url('article/comment_article')}" method="post" id="sign_article">
+                            <input type="hidden" name="article_id" value="{$detail.article_id}">
+                            <div class="comment-text">
+                                <textarea rows="3" class="comment-box" placeholder="说点什么吧..." name="comment"></textarea>
+                            </div>
+                            <div style="height: 40px;margin-bottom: 20px">
+                                <button type="submit" class="am-btn am-btn-primary" id="art_submit">提交文件批示</button>
+                            </div>
+                        </form>
+                        {/eq}
+                    </div>
+                    <div class="tap-content-panel" style="display: none">
+                        {volist name="read_list" id="vo"}
+                        <h5>{$vo.depart_title}</h5>
+                        <ul>
+                            {volist name="vo.user" id="arr"}
+                            <li>
+                                <a href="">
+                                    <img src="/resource/img/noavatar_small.jpg" alt="">
+                                </a>
+                                <span>{$arr.user_real_name}</span>
+                            </li>
+                            {/volist}
+                            <div style="clear: both;"></div>
+                        </ul>
+                        {/volist}
+                    </div>
+                </div>
+            </div>
+            {/eq}
+
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="footer">
+        <a href="{:url('doc/index')}"><i class="footer-logo"></i></a>
+        <a href="">信息中心</a>
+        <a href="{:url('article/index')}">通知</a>
+        <a href="">查看通知</a>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".tap-ul li").each(function(index){
+            $(this).click(function(){
+                console.log(12)
+                $(".tap-ul li").removeClass("active");
+                $(".tap-ul li a").removeClass("active");
+                $(this).addClass("active");
+                $(this).find("a").addClass("active");
+
+                $(".tap-content").find(".tap-content-panel").css("display","none");
+                $(".tap-content").find(".tap-content-panel").eq(index).css("display","block");
+            })
+
+        });
+
+    })
+</script>
+</body>
+</html>

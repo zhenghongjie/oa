@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_fkadjbrsfgr885mi.css">
+    <script src="/resource/js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/css/amazeui.min.css?v={:time()}">
+    <!--<link rel="stylesheet" href="/resource/new_css/select2.min.css">-->
+    <script src="/resource/js/amazeui.min.js"></script>
+    <script src="/resource/new_js/add_doc.js?v={:time()}"></script>
+    <!--<script src="/resource/new_js/select2.min.js"></script>-->
+    <link rel="stylesheet" href="/resource/new_css/add_doc.css">
+    <style>
+        .show{
+            border: 1px solid #82939e;
+            padding: 0 10px;
+            display: block;
+            width:485px;
+            height: 45px;
+            line-height:40px;
+            border-radius: 4px;
+        }
+        .operate{
+            position: absolute;
+            top:23px;
+            left:0;
+            height: 40px;
+            width: 485px;
+            opacity: 0;
+            z-index:1
+        }
+        .span_item{
+            background: #ecdede;
+            padding: 4px;
+            font-size:14px;
+            color: #666;
+            height: 30px;
+            margin-right: 5px;
+        }
+        .btn_selected{
+            background-color: rgb(37, 139, 209) !important;
+        }
+        .select-box-side-content input{
+            display: inline-block;
+            float: right;
+            width: 13px;
+            height: 13px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="ibody">
+    <div class="ibody-header">
+        <h2>新建公文</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+   <div class="icontainer">
+       <div class="aside">
+           <ul>
+               <li class="li-big"><a href="" >未签收</a><span class="show-span">169</span></li>
+               <li class="li-big li-big-active"><a href="">公文</a></li>
+               <li class="li-small"><a href="">下发公文</a></li>
+               <li class="li-small"><a href="">上报公文</a></li>
+           </ul>
+       </div>
+       <div class="body-form">
+           <form action="{:url('')}" method="post" enctype="multipart/form-data" >
+          <div style="clear: both">
+              公文标题 <input type="text" name="doc_title" id="doc-header"  class="form-input"/>
+          </div>
+           <div class="rows">
+                  <div style="float: left;width:505px;">
+                      公文号<input type="text" name="doc_no" class="form-input doc-number"/>
+                  </div>
+                   <div style="float: right;width: 230px;">
+                   所属分类
+                       <select name="doc_c_id"  class="form-input" style="width: 230px;" id="select_cate" multiple="multiple">
+                           {volist name="cate_list" id="vo"}
+                           <option value="{$vo.cate_id}">{$vo.cate_title}</option>
+                           {/volist}
+                       </select>
+                   </div>
+           </div>
+               <div class="rows">
+                   <div style="float: left;width:505px;position: relative">
+                       发布范围
+                       <input type="hidden" name="doc_publish" id="doc_publish" value=""/>
+                       <select   class="operate publish_select" data-target="doc_publish">
+                                <option value="0">选择部门岗位和员工</option>
+                                <optgroup label="部门选择">
+                               {volist name="publish_scope['depart']" id="vo"}
+                               <option value="d_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                                </optgroup>
+                                <optgroup label="岗位选择">
+                               {volist name="publish_scope['station']" id="vo"}
+                               <option value="s_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                                </optgroup>
+                                <optgroup label="角色选择">
+                               {volist name="publish_scope['role']" id="vo"}
+                               <option value="r_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                                </optgroup>
+                       </select>
+                       <a  class="operate-btn role-btn iconfont select-show-first " data-target="doc_publish">&#xe601;</a>
+                       <a  class="operate-btn select2-selection_clear iconfont" data-target="doc_publish">&#xe600;</a>
+                       <iframe class="show">
+                           <div class="doc_publish_show">选择部门岗位和员工</div>
+                       </iframe>
+                   </div>
+                   <div style="float: right;width: 230px;position:relative">
+                       抄送
+                       <select name="doc_cc" class="form-input" style="width: 230px;" id="publish_cc" multiple="multiple">
+                           <optgroup label="部门">
+                               {volist name="publish_scope['depart']" id="vo"}
+                               <option value="d_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                           </optgroup>
+                           <optgroup label="岗位">
+                               {volist name="publish_scope['station']" id="vo"}
+                               <option value="s_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                           </optgroup>
+                           <optgroup label="角色">
+                               {volist name="publish_scope['role']" id="vo"}
+                               <option value="r_{$vo.id}">{$vo.title}</option>
+                               {/volist}
+                           </optgroup>
+                       </select>
+
+                       <a  class="operate-btn  cc-role iconfont select-show-first">&#xe601;</a>
+                       <!--<a  class="operate-btn select2-selection_clear cc-clear iconfont">&#xe600;</a>-->
+                   </div>
+               </div>
+               <div style="clear: both;"></div>
+                  <div class=" rows">
+                      <label class="am-btn-default label-radio label-active">
+                          <input type="radio" name="doc_state" value="1" style="opacity: 0;"/>发布
+                      </label>
+                      <label class="am-btn-default label-radio label-draft">
+                          <input type="radio" name="doc_state" value="2" style="opacity: 0;"/>草稿
+                      </label>
+                  </div>
+                <!--编辑器内容-->
+               <script style="display: inline-block;" id="doc_content" name="doc_content"></script>
+               <div class="bottom-btn-group">
+                   <button type="button" class="am-btn am-btn-default" style="color: #82939e;">返回</button>
+                   <button type="submit" class="am-btn am-btn-primary">提交</button>
+               </div>
+               <!--隐藏input-->
+                 <input type="text" style="display: none">
+           </form>
+           <!--附件：这里搞一个上传附件的插件-->
+           <form action="{:url('')}" id="postForm">
+           <div class="am-form-group am-form-file">
+               <button type="button" class="am-btn am-btn-default am-btn-sm" style="border-radius: 4px;">
+                   <i class="am-icon-cloud-upload"></i> 选择要上传的附件
+               </button>
+               <input type="file" multiple>
+           </div>
+           </form>
+       </div>
+   </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.all.js"></script>
+<script>
+    var ue = UE.getEditor('doc_content',{
+        serverUrl:'{:url("base/base/ue_upload")}',
+        initialFrameWidth :740,
+        initialFrameHeight:340,
+        autoHeightEnabled:false
+
+    });
+
+    $(document).ready(function() {
+        //选择
+        $(".publish_select").on('change',function () {
+            var new_text = $(".publish_select option:selected").text();//文字
+            var new_val = $(".publish_select option:selected").val();//值
+            var target = $(this).data('target');//要操作的数据域
+            var old = $("#"+target).val();
+            //原来有数据
+            if(old.length > 0){
+                var flag = false;
+                if(old.indexOf(new_val) >= 0){
+                    $("span[data-id="+new_val+"][data-target='"+target+"'].span_item").remove();
+                    flag = true; //减少
+                }
+                //需要减少
+                if(flag){
+                    var old_arr = new Array();
+                    old = old.split(',');
+                    for(var i in old){
+                        if(old[i] == new_val){
+                            continue;
+                        }
+                        old_arr.push(old[i]);//把不是空的数据添加到新的数组中
+                    }
+                    //没有数据了
+                    if(old_arr.length == 0){
+                        $("#"+target).val(""); //更新值 为空
+                        $("."+target+"_show").html("选择部门岗位和员工"); //更新为空
+                    }else{
+                        $("#"+target).val(old_arr.join(',')); //更新值
+                    }
+                }else{
+                    var span_item = $("<span class='span_item'  data-target='"+target+"' data-id='"+new_val+"'>" +
+                            "<span class='close_span_item' data-target='"+target+"' data-id='"+new_val+"'>×</span>"+new_text+"</span>");
+                    $("."+target+"_show").prepend(span_item); //添加
+                    old += ','+new_val;
+                    $("#"+target).val(old); //更新值
+                }
+            }else{
+                var span_item = $("<span class='span_item' data-target='"+target+"' data-id='"+new_val+"'>" +
+                        "<span class='close_span_item' data-target='"+target+"' data-id='"+new_val+"'>×</span>"+new_text+"</span>");
+                $("."+target+"_show").html(span_item); //替换
+                old = new_val;
+                $("#"+target).val(old); //更新值
+            }
+        });
+
+//        $(".close_span_item").click(function(){
+//            console.log("123");
+//            return false;
+//           var span_remove= $("span[data-id="+this.parent().id+"][data-target='"+this.parent().target+"']");
+//            $(".doc_publish_show").remove(span_remove);
+//        })
+        $(".show").on("click",function(){
+            console.log("show");
+        });
+    })
+
+</script>
+
+
+<!--弹出表单-->
+<div style="width: 351px;position: absolute;top: 0px;left: 0px;z-index: 9999;border-radius: 5px">
+    <div style="width: 100%;height: 60px;">
+        <div class="choose_btn btn_selected" data-target="department_box" style="float: left;width: 116px;height: 100%;background-color: #3497db;text-align: center;color: #fff">
+            <i class="iconfont" style="font-size: 30px;margin-top: -5px">&#xe602;</i>
+            <div style="margin-top: -12px;font-size: 12px">按部门</div>
+        </div>
+        <div class="choose_btn" data-target="posts_box" style="float: left;width: 116px;height: 100%;background-color: #3497db;text-align: center;color: #fff;border-left: 1px solid #5fade3">
+            <i class="iconfont" style="font-size: 30px;margin-top: -5px">&#xe75a;</i>
+            <div style="margin-top: -12px;font-size: 12px">按岗位</div>
+        </div>
+        <div class="choose_btn" data-target="role_box" style="float: left;width: 116px;height: 100%;background-color: #3497db;text-align: center;color: #fff;border-left: 1px solid #5fade3">
+            <i class="iconfont" style="font-size: 30px;margin-top: -5px">&#xe63d;</i>
+            <div style="margin-top: -12px;font-size: 12px">按角色</div>
+        </div>
+    </div>
+    <div style="clear: both"></div>
+
+    <!--按部门-->
+    <div class="show_box" id="department_box" style="width: 348px;height: 320px;background: #fff;display: block">
+        <!--左侧-->
+        <div style="width: 174px;height: 100%;float: left;overflow-x: hidden;overflow-y: scroll">
+            {volist name="publish_scope['depart']" id="vo" empty="无"}
+            <div style="width: 100%;margin-top: 10px">
+                <div class="iconfont" style="color: #82939E; font-size: 14px;display: inline-block;width:15px;margin-left:5px;float: left">&#xe747;</div>
+                <div style="display: inline-block; width: 115px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px;color:#829393;float: left;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" class="select-a-span depart_item" data-id="{$vo.id}" data-title="{$vo.title}" >{$vo.title}</div>
+                <div style="float: left">
+                    <input type="checkbox">
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            {/volist}
+        </div>
+        <!--右侧-->
+        <div style="width: 174px;float: left;">
+            <div class="select-box-side-header">
+                <span>选择全部</span>
+                <input type="checkbox" class="check_all_depart" data-id="0" />
+            </div>
+            <div class="select-box-side-content" style="overflow-x: hidden;overflow-y: scroll;height: 288px">
+                {volist name="publish_scope['depart']" id="vo"}
+                <ul style="width: 155px;padding: 5px 8px;display: none;" class="depart-aside-ul depart_ul" data-pid="{$vo.id}">
+                    {present name="vo.user"}
+                    {volist name="vo.user" id="va"}
+                    <li>
+                        <span class="iconfont">&#xe6ae;</span>
+                        <span style="font-size: 12px;margin-top: -3px;" class="select-name " >{$va.user_real_name}</span>
+                        <input type="checkbox" class="checkboxs depart_user_item" data-id="{$va.user_id}" data-pid="{$vo.id}" data-title="{$va.user_real_name}"/>
+                    </li>
+                    {/volist}
+                    {/present}
+                </ul>
+                {/volist}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+    <!--按岗位-->
+    <div class="show_box" id="posts_box" style="width: 348px;height: 320px;background: #fff;display: none">
+        <!--左侧-->
+        <div style="width: 174px;height: 100%;float: left;overflow-x: hidden;overflow-y: scroll">
+            <div>
+                <a>
+                    <span class="iconfont " style="color: #82939E; font-size: 20px;display: inline-block;width:18px;margin-left:5px; ">&#xe7a0;</span>
+                    <span style="color:#82939E; display: inline-block; width: 100px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px;font-weight: 500; " class="select-a-span ">默认分类</span>
+                </a>
+            </div>
+            {volist name="publish_scope['station']" id="vo"}
+            <div style="padding-left: 20px;margin-top: 5px;height: 20px; float: left">
+                <div class="iconfont " style="color: #82939E; font-size: 16px;display: inline-block;width:18px;margin-left:5px; float: left">&#xe747;</div>
+                <div style=" float: left;color:#82939E; display: inline-block; width: 95px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px; " class="select-a-span station_item" data-id="{$vo.id}" data-title="{$vo.title}" >{$vo.title}</div>
+                <div style="float: left">
+                    <input type="checkbox">
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            {/volist}
+        </div>
+        <!--右侧-->
+        <div style="width: 174px;float: left;">
+            <div class="select-box-side-header ">
+                <span>选择全部</span>
+                <input type="checkbox" name="check" id="checkall1"  />
+            </div>
+
+            <div class="select-box-side-content" style="overflow-x: hidden;overflow-y: scroll;height: 288px">
+                {volist name="publish_scope['station']" id="vo"}
+                <ul style="width: 155px;padding: 5px 8px; display: none " class="station-aside-ul">
+                    {present name="vo.user"}
+                    {volist name="vo.user" id="va"}
+                    <li>
+                        <span class="iconfont ">&#xe6ae;</span>
+                        <span style="font-size: 12px; " class="select-name station_user_item" data-id="{$va.user_id}" data-pid="{$vo.id}" data-title="{$va.user_real_name}">{$va.user_real_name}</span>
+                        <input type="checkbox" name="check" data-id="{$va.user_id}" data-pid="{$vo.id}" data-title="{$va.user_real_name}" />
+                    </li>
+                    {/volist}
+                    {/present}
+                </ul>
+                {/volist}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+    <!--按角色-->
+    <div class="show_box" id="role_box" style="width: 348px;height: 320px;background: #fff;display: none">
+        <!--左侧-->
+        <div style="width: 174px;height: 100%;float: left;overflow-x: hidden;overflow-y: scroll">
+            {volist name="publish_scope['role']" id="vo"}
+            <div style="width: 100%;margin-top: 10px">
+                <div class="iconfont" style="color: #82939E; font-size: 14px;display: inline-block;width:15px;margin-left:5px;float: left">&#xe747;</div>
+                <div style="display: inline-block; width: 115px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px;color:#829393;float: left;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;" class="select-a-span role_item" data-id="{$vo.id}" data-title="{$vo.title}" >{$vo.title}</div>
+                <div style="float: left">
+                    <input type="checkbox" style="float: right;padding-right: 3px">
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            {/volist}
+        </div>
+        <!--右侧-->
+        <div style="width: 174px;float: left;">
+            <div class="select-box-side-header">
+                <span>选择全部</span>
+                <input type="checkbox" class="check_all_depart" data-id="0" />
+            </div>
+            <div class="select-box-side-content" style="overflow-x: hidden;overflow-y: scroll;height: 288px">
+                {volist name="publish_scope['role']" id="vo"}
+                <ul style="width: 155px;padding: 5px 8px;display: none;" class="depart-aside-ul depart_ul" data-pid="{$vo.id}">
+                    {present name="vo.user"}
+                    {volist name="vo.user" id="va"}
+                    <li>
+                        <span class="iconfont">&#xe6ae;</span>
+                        <span style="font-size: 12px;margin-top: -3px;" class="select-name " >{$va.user_real_name}</span>
+                        <input type="checkbox" class="checkboxs depart_user_item" data-id="{$va.user_id}" data-pid="{$vo.id}" data-title="{$va.user_real_name}"/>
+                    </li>
+                    {/volist}
+                    {/present}
+                </ul>
+                {/volist}
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+
+</body>
+<script>
+    $(".show").on("click",function(){
+       console.log("here");
+    });
+
+    $(".choose_btn").on("click",function(){
+        $(this).addClass("btn_selected").siblings().removeClass("btn_selected");
+        var target = $(this).data("target");
+        $(".show_box").hide();
+        $("#"+target).show();
+    })
+
+    $(".station_item").on("click",function(){
+        $(".station_item").css({
+            "color":"#82939E",
+            "background-color":"#F3FBFF"
+        });
+        $(this).css({
+            "color":"white",
+            "background-color":"rgb(52, 151, 219)"
+        });
+    });
+
+    $(".role_item").on("click",function(){
+        $(".role_item").css({
+            "color":"#82939E",
+            "background-color":"#F3FBFF"
+        });
+        $(this).css({
+            "color":"white",
+            "background-color":"rgb(52, 151, 219)"
+        });
+    });
+</script>
+</html>

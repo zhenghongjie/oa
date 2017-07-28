@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_bqphh0tc2haaif6r.css"/>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/resource/new_css/add_article_img.css"/>
+    <script src="/resource/new_js/jquery.js"></script>
+    <script src="/resource/new_js/add_doc.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibcontainer">
+    <div class="ibcontainer_date">
+        <div class="date">
+            <span style="display: inline-block;float: left;font-size: 20px;font-weight: 500;">预览通知</span>
+            <span style="display: inline-block;float: right;">2017年06月23日,星期五,农历五月廿九</span>
+        </div>
+    </div>
+    <div class="ibcontainer_body">
+        <!--左边-->
+        <div class="aside-left">
+           <div class="aside-left-top">
+               <a href="{:url('article/index')}" style="color:#3497db;">
+                   <span class="iconfont" style="font-size: 19px;">&#xe62c;</span>
+                   <span>信息中心</span>
+               </a>
+           </div>
+            <div class="aside-left-list">
+                <ul>
+                    <li style="padding-left:20px;">
+                        <span class="iconfont" style="font-size:18px">&#xe651;</span>
+                        <a href="">默认分类</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">内部通知</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">活动通知</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--右边-->
+        <div class="aside-right" style="min-height: 600px;">
+            <form action="" class="form-horizontal">
+                <div class="ct">
+                    <div class="art">
+                        <div class="art-container">
+                            <h1 class="art-title"></h1>
+                            <div class="art-ct mb"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="ibcontainer_footer">
+        <div class="footer">
+            <a href="{:url('doc/index')}"><i class="footer-logo"></i></a>
+            <a href="">信息中心</a>
+            <a href="{:url('article/index')}">通知</a>
+            <a href="">预览通知</a>
+        </div>
+    </div>
+</div>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.all.js"></script>
+<script src="/resource/new_js/add_pic.js"></script>
+<script>
+
+    $(".checkall").click(function(){
+        if($(this).prop("checked")){
+            $(this).prop("checked",true);
+            $(":checkbox").prop("checked",true)
+        }
+        else{
+            $(this).prop("checked",false)
+            $(":checkbox").prop("checked",false)
+        }
+    });
+
+    $("#add_type").val(1);
+    $(".edit-panel-ul li a").each(function(index){
+        $(this).click(function(){
+            var type_name=index+1;
+            $("#add_type").val(type_name);
+            $(".edit-panel-ul li a").removeClass("active");
+            $(this).addClass("active")
+            $(".tab-content>div").css("display","none");
+            $(".tab-content>div").eq(index).css("display","block");
+
+
+            if($(this).hasClass("active")){
+
+            }
+        })
+    });
+
+
+        var annex_index = 0;//附件索引
+        var pic_index=0; //图片索引
+    var ue = UE.getEditor('doc_content',{
+        serverUrl:'{:url("base/base/ue_upload")}',
+        initialFrameWidth :740,
+        initialFrameHeight:340,
+        autoHeightEnabled:false
+
+    });
+
+    function Sel(out_box_id) {
+        this.$out_box = $('#' + out_box_id);
+        this.$tag_box = this.$out_box.children('.tag-box').eq(0);
+        this.$tag_del = this.$tag_box.find('.tag-del');
+        this.$item_box = this.$out_box.children('.item-box').eq(0);
+        this.$item = this.$item_box.children('.item');
+        this.$sel_box = this.$out_box.children('.select-user-box').eq(0);
+        this.$item2 = this.$sel_box.find('.item2');
+        this.$click_all = this.$sel_box.find('.click-all');
+        this.$btn_box = this.$out_box.children('.btn-box').eq(0);
+        this.$sel_btn = this.$out_box;
+        this.$man_btn = this.$btn_box.children('.man-btn').eq(0);
+        this.$clean_btn = this.$btn_box.children('.clean-btn').eq(0);
+        this.tag_arr = [];
+        var _this = this;
+        this.selBtnClick(this.$sel_btn, _this);
+        this.manBtnClick(this.$man_btn, _this);
+        this.cleanBtnClick(this.$clean_btn, _this);
+        this.selBoxClick(this.$sel_box);
+        this.itemClick(this.$item, _this);
+        this.item2Click(this.$item2, _this);
+        this.allClick(this.$click_all, _this);
+    }
+    Sel.prototype.selBtnClick = function (elem, _this){
+        elem.click(function (event){
+            var $ib = _this.$item_box;
+            if($ib.css('display') == 'none'){
+                console.log('item show');
+                _this.hideBox('sel_box');
+                $ib.css('display', 'block');
+            } else{
+                console.log('item hide');
+                $ib.css('display', 'none');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.manBtnClick = function (elem, _this){
+        elem.click(function (event){
+            _this.hideBox('item_box');
+            var $sb = _this.$sel_box;
+            if($sb.css('display') == 'block'){
+                console.log('sel hide');
+                $sb.css('display', 'none');
+            } else{
+                console.log('sel show');
+                $sb.css('display', 'block');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.cleanBtnClick = function (elem, _this){
+        elem.click(function (event){
+            console.log('clean');
+            _this.$item2.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).click();
+                }
+            });
+            _this.$click_all.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).prop('checked', false);
+                }
+            });
+            _this.change();
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.selBoxClick = function (elem){
+        elem.click(function (event){
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.itemClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('value');
+                var $item2 = _this.$item2;
+                $item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.item2Click = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('id');
+                var html = $(this).data('title');
+                if($(this).prop('checked') == false){
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).removeClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == true){
+                            $(this).prop('checked', false);
+                        }
+                    });
+                    var $tag = _this.$tag_box.children();
+                    $tag.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).remove();
+                        }
+                    });
+                    var ta = _this.tag_arr;
+                    for(var i in ta){
+                        if(ta[i] == value){
+                            _this.tag_arr.splice(i, 1);
+                        }
+                    }
+                } else{
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).addClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == false){
+                            $(this).prop('checked', true);
+                        }
+                    });
+                    var $tag = $('<li class="tag" data-value="' + value + '">' + html + '<span class="tag-del">X</span></li>');
+                    _this.$tag_box.append($tag);
+                    _this.tag_arr.push(value);
+                    _this.$tag_del = _this.$tag_box.find('.tag-del');
+                    _this.tagDelClick(_this.$tag_del, _this);
+                }
+                _this.change();
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.allClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (){
+                var pid = $(this).data('pid');
+                if($(this).prop('checked') == true){
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == false){
+                            $(this).click();
+                        }
+                    });
+                } else{
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == true){
+                            $(this).click();
+                        }
+                    });
+                }
+            });
+        });
+    }
+    Sel.prototype.tagDelClick = function (elem, _this){
+        elem.each(function (){
+            console.log('tagDelClick');
+            $(this).get(0).onclick = function (event){
+                var $tag = $(this).closest('.tag');
+                var value = $tag.data('value');
+                _this.$item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+//                _this.change();
+                var e = window.event || event;
+                if(e.stopPropagation){
+                    e.stopPropagation();
+                } else{
+                    window.event.cancelBubble = true;
+                }
+            };
+        });
+    }
+    Sel.prototype.hideBox = function (status){
+        if(status == undefined){ status = 'item_box';}
+        switch (status){
+            case 'item_box':
+                this.$item_box.css('display', 'none');
+                break;
+            case 'sel_box':
+                this.$sel_box.css('display', 'none');
+                break;
+            case 'all':
+                this.$item_box.css('display', 'none');
+                this.$sel_box.css('display', 'none');
+                break;
+        }
+    }
+    Sel.prototype.getTagArr = function (){
+        return this.tag_arr;
+    }
+    Sel.prototype.changeFunc = function (func){
+        if(typeof func == 'function'){
+            this.changeFunc = func;
+        }
+    }
+    Sel.prototype.change = function (){
+        this.changeFunc(this.getTagArr());
+    }
+    $(function (){
+        var sel0 = new Sel('out_box_left');
+        var sel1 = new Sel('out_box_right');
+        $('body').click(function (event){
+            sel0.hideBox('all');
+            sel1.hideBox('all');
+        });
+        sel0.changeFunc(function (arr){
+            var str = arr.join(',');
+            console.log('sel0:', str);
+            $('#article_publish').attr('value', str);
+        });
+        sel1.changeFunc(function (arr){
+            var str = arr.join(',');
+            console.log('sel1:', str);
+            $('#doc_cc').attr('value', str);
+        });
+
+        var $state_box = $('.state-box');
+        $state_box.click(function (){
+            $state_box.each(function (){
+                $(this).removeClass('label-active');
+            });
+            $(this).addClass('label-active');
+        });
+
+
+        var upsize = 0;
+        var uparr = [];
+        var imarr=[];
+        var fileinput = document.getElementById('fileinput');
+        var input_index = 0;
+        var img_index = 0;
+        fileinput.onchange = function (){
+            var formData = new FormData();
+            formData.append('file', $('#fileinput').get(0).files[0]);
+            if(formData.get('file') == 'undefined'){
+                return;
+            }
+            upsize += parseInt(formData.get('file').size);
+            if(formData.get('file').size > 52400000){
+                alert('文件大小超过50M');
+                return;
+            }
+            if(upsize > 52400000){
+                alert('文件总大小超过50M');
+                return;
+            }
+            $.ajax({
+                url:"{:url('base/base/upload_files','','',true)}",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (obj){
+                    if(obj.state == 1){
+                        if(obj.data.file_type == "image/jpeg"){
+                            var pic_file_name = $('<input type="hidden" class="img' + img_index + '" data-name="obj.data.file_name" data-id="'+pic_index+'"  name="article_images['+pic_index+'][file_name]" value="'+obj.data.file_name+'"/>');
+                            var pic_file_size = $('<input type="hidden" class="img' + img_index + '" data-id="'+pic_index+'" name="article_images['+pic_index+'][file_size]" value="'+obj.data.file_size+'"/>');
+                            var pic_file_url = $('<input type="hidden" class="img' + img_index + '" data-id="'+pic_index+'"  name="article_images['+pic_index+'][file_url]" value="'+obj.data.file+'"/>');
+                            var pic_file_type = $('<input type="hidden" class="img' + img_index + '" data-id="'+pic_index+'" name="article_images['+pic_index+'][file_type]" value="'+obj.data.file_type+'"/>');
+                            $("#art_submit_form").append(pic_file_name);
+                            $("#art_submit_form").append(pic_file_size);
+                            $("#art_submit_form").append(pic_file_url);
+                            $("#art_submit_form").append(pic_file_type);
+                            upimageShow(obj.data);
+                            img_index++;
+                            pic_index++;
+                        }else{
+                            var annex_file_name = $('<input type="hidden" class="ig' + input_index + '" data-name="obj.data.file_name" data-id="'+annex_index+'"  name="article_annex['+annex_index+'][file_name]" value="'+obj.data.file_name+'"/>');
+                            var annex_file_size = $('<input type="hidden" class="ig' + input_index + '" data-id="'+annex_index+'" name="article_annex['+annex_index+'][file_size]" value="'+obj.data.file_size+'"/>');
+                            var annex_file_url = $('<input type="hidden" class="ig' + input_index + '" data-id="'+annex_index+'"  name="article_annex['+annex_index+'][file_url]" value="'+obj.data.file+'"/>');
+                            var annex_file_type = $('<input type="hidden" class="ig' + input_index + '" data-id="'+annex_index+'" name="article_annex['+annex_index+'][file_type]" value="'+obj.data.file_type+'"/>');
+                            $("#art_submit_form").append(annex_file_name);
+                            $("#art_submit_form").append(annex_file_size);
+                            $("#art_submit_form").append(annex_file_url);
+                            $("#art_submit_form").append(annex_file_type);
+                            upfileShow(obj.data);
+                            input_index++;
+                            annex_index++;
+
+                        }
+                    } else{
+                        $('.file_msg').html('上传失败');
+                        $('.img_msg').html('上传失败');
+                    }
+                },
+                error: function (data) {
+                    console.log('submit fail', data);
+                    $('.file_msg').html('上传失败');
+                    $('.img_msg').html('上传失败');
+                }
+            });
+        };
+        function upfileShow(obj){
+            var tempobj = {
+                'file_name': obj.file_name,
+                'file_url': obj.file,
+                'size': obj.file_size
+            };
+            uparr.push(tempobj);
+            var $file_msg = $('.file_msg');
+            var $filetag = $('<div class="file">' + obj.file_name
+                    + '<span class="file-del" data-filename="'
+                    + obj.file_name + '">删除</span></div>');
+            $filetag = fileDelBind($filetag, obj);
+            $file_msg.append($filetag);
+        }
+        function upimageShow(obj){
+            console.log("渲染图片");
+            var imgobj={
+                'file_name': obj.file_name,
+                'file_url': obj.file,
+                'size': obj.file_size
+            };
+            var image_list ='<div class="pic_box">'+
+            '<input type="checkbox" style="float: left;">'+
+            '<div class="img_container">'+
+            '<img src="'+imgobj.file_url+'" alt="" class="up_img"/>'+
+            '</div>'+
+            '<div style="float: left">'+imgobj.file_name+'</div>'+
+            '<div class="img_msg" style="">'+
+            '<span class="img-del" data-id="'+pic_index+'">'+'删除'+'</span>'+
+            '</div>'+
+            '</div>';
+            $("#image_box").append(image_list);
+            $(".img-del").click(function(){
+                $(this).parent().parent().remove();
+                    var img_id=$(this).data("id");
+                    $('.img' + img_id).remove();
+                });
+    };
+
+
+        function fileDelBind(filetag, obj){
+            var $filetag = filetag;
+            var $temp = $filetag.children('.file-del');
+            $temp.click(function (index){
+                var filename = obj.file_name;
+                var filesize = obj.file_size;
+                for(var i in uparr){
+                    if(uparr[i].file_name == filename){
+                        uparr.splice(i, 1);
+                    }
+                }
+                $(this).parent().remove();
+                $('.ig' + index).remove();
+                upsize -= filesize;
+            }.bind($temp, input_index));
+            return $filetag;
+        };
+
+    });
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

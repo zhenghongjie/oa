@@ -1,0 +1,122 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}添加用户{/block}
+{block name="main"}
+<style>
+    table{
+        border:1px solid #efefef;
+    }
+    td{
+        width: 113px;
+        height:100px;
+        line-height: 100px;
+        text-align: center;
+        color: #999;
+    }
+    td .iconfont{
+        font-size: 50px !important;
+        margin-top:10px;
+        text-align: center;
+    }
+</style>
+<section>
+    <h2><strong style="color:grey;">添加新用户</strong></h2>
+    <div class="page_title" style="height: 15px;line-height: 15px;">
+        <div class="fr" >
+        </div>
+    </div>
+    <form action="{:url('')}" method="post" enctype="application/x-www-form-urlencoded" id="submit_form">
+        <!--tabCont-->
+        <div class="admin_tab_cont" style="display:block;" id="base_goods_info">
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">手机<font style="color: red">*</font></span>
+                    <input style="display:none">
+                    <input type="tel" class="textbox textbox_295 " name="user_mobile" placeholder="手机" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">密码<font style="color: red">*</font></span>
+                    <input style="display:none">
+                    <input type="password" class="textbox textbox_295 " name="user_password" placeholder="密码" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">真实名称<font style="color: red">*</font></span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="user_real_name" placeholder="真实名称" autocomplete="off" />
+                </li>
+
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">性别<font style="color: red">*</font></span>
+                    <input style="display:none">
+                    <input type="radio" class="radio " name="user_sex" value="1" checked  />男
+                    <input type="radio" class="radio " name="user_sex" value="2" />女
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">邮箱</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="user_email" placeholder="邮箱" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">微信</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="user_wx" placeholder="微信" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">工号</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="user_no" placeholder="工号" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">用户名</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="user_username" placeholder="用户名" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门</span>
+                    <input style="display:none">
+                    <select class="textbox textbox_295 select " name="user_depart_id">
+                        <option value="0">请选择</option>
+                        {volist name="depart_list" id="vo"}
+                        <option value="{$vo.depart_id}">{$vo.depart_title}</option>
+                        {/volist}
+                    </select>
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">岗位</span>
+                    <input style="display:none">
+                    <select class="textbox textbox_295 select " name="user_station_id">
+                        <option value="0">请选择</option>
+                        {volist name="station_list" id="vo"}
+                        <option value="{$vo.station_id}">{$vo.station_title}</option>
+                        {/volist}
+                    </select>
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">角色</span>
+                    <input style="display:none">
+                    <select class="textbox textbox_295 select " name="user_role_id">
+                        <option value="0">请选择</option>
+                        {volist name="role_list" id="vo"}
+                        <option value="{$vo.role_id}">{$vo.role_title}</option>
+                        {/volist}
+                    </select>
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">账号状态</span>
+                    <input style="display:none">
+                    <input type="radio" class="radio " name="user_status" value="1" checked  />可用
+                    <input type="radio" class="radio " name="user_status" value="2" />锁定
+                    <input type="radio" class="radio " name="user_status" value="3" />禁用
+                </li>
+            </ul>
+        </div>
+        <ul class="ulColumn2">
+            <li>
+                <span class="item_name" style="width:120px;"></span>
+                <input type="submit" value="提交" class="link_btn submit_form"/>
+            </li>
+        </ul>
+    </form>
+</section>
+{/block}
+{block name="footer_js"}
+{/block}

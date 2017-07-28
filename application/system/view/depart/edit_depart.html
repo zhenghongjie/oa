@@ -1,0 +1,123 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}编辑部门{/block}
+{block name="main"}
+<style>
+    table{
+        border:1px solid #efefef;
+    }
+    td{
+        width: 113px;
+        height:100px;
+        line-height: 100px;
+        text-align: center;
+        color: #999;
+    }
+    td .iconfont{
+        font-size: 50px !important;
+        margin-top:10px;
+        text-align: center;
+    }
+</style>
+<section>
+    <h2><strong style="color:grey;">编辑部门</strong></h2>
+    <div class="page_title" style="height: 15px;line-height: 15px;">
+        <div class="fr" >
+        </div>
+    </div>
+    <form action="{:url('')}" method="post" enctype="application/x-www-form-urlencoded" id="submit_form">
+        <input type="hidden" name="depart_id"/>
+        <!--tabCont-->
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">上级部门</span>
+                    <input style="display:none">
+                    <select class="select" name="depart_pid">
+                        <option value="0" >顶级部门</option>
+                        {volist name="all_depart" id="vo"}
+                        {eq name="vo.depart_pid" value="0"}
+                        {neq name="vo.depart_id" value="$depart_info.depart_id"}
+                        <option value="{$vo.depart_id}">{$vo.depart_title}</option>
+                        {/neq}
+                        {/eq}
+                        {/volist}
+                    </select>
+
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门名称</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="depart_title" placeholder="部门名称" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门排序</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="depart_sort" placeholder="部门排序" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门电话</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="depart_phone" placeholder="部门电话" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门传真</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="depart_fax" placeholder="部门名称" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门地址</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="depart_address" placeholder="部门名称" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <div class="admin_tab_cont" style="display:block;" >
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">部门职能</span>
+                    <input style="display:none">
+                    <textarea  class="textarea textbox_295" name="depart_introduce" placeholder="部门职能" style="height: 200px;line-height: 30px;resize: none;"></textarea>
+                </li>
+            </ul>
+        </div>
+        <ul class="ulColumn2">
+            <li>
+                <span class="item_name" style="width:120px;"></span>
+                <input type="submit" value="提交" class="link_btn submit_form"/>
+            </li>
+        </ul>
+    </form>
+</section>
+{/block}
+{block name="footer_js"}
+<script>
+    setValue('depart_id',"{$depart_info.depart_id}");
+    setValue('depart_pid',"{$depart_info.depart_pid}");
+    setValue('depart_title',"{$depart_info.depart_title}");
+    setValue('depart_phone',"{$depart_info.depart_phone}");
+    setValue('depart_fax',"{$depart_info.depart_fax}");
+    setValue('depart_address',"{$depart_info.depart_address}");
+    setValue('depart_introduce',"{$depart_info.depart_introduce}");
+    setValue('depart_sort',"{$depart_info.depart_sort}");
+</script>
+{/block}

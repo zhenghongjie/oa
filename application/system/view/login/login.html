@@ -1,0 +1,92 @@
+{extend name="../../layout/view/base:base" /}
+{block name="top_menu"}{/block}
+{block name="left_menu"}{/block}
+{block name="main"}{/block}
+{block name="header_css"}
+<style>
+    body{height:100%;background:#16a085;overflow:hidden;}
+    canvas{z-index:-1;position:absolute;}
+    .rt_wrap{display: none}
+</style>
+{/block}
+
+{block name="header_js"}
+
+{/block}
+
+{block name="login"}
+<form id="login_form" action="{:url('')}" method="post" enctype="application/x-www-form-urlencoded" >
+    <dl class="admin_login">
+        <dt>
+            <strong style="color: #fff;">OA管理后台系统</strong>
+
+        </dt>
+
+        <dd class="user_icon">
+            <input style="display: none">
+            <input type="text" placeholder="登录账号" name="username" class="login_txtbx username" autocomplete="off"/>
+        </dd>
+        <dd class="pwd_icon">
+            <input type="password" placeholder="密码" name="password" class="login_txtbx password"/>
+        </dd>
+        <dd class="val_icon">
+            <div class="checkcode">
+                <input style="display: none">
+                <input type="text" id="J_codetext" placeholder="验证码" maxlength="4" class="login_txtbx" autocomplete="off">
+                <canvas class="J_codeimg" id="myCanvas" onclick="createCode()">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+            </div>
+        </dd>
+        <dd>
+            <input type="button" value="立即登陆" class="submit_btn"/>
+        </dd>
+        <dd>
+            <p>© 2015-2016 代码工厂 版权所有</p>
+            <p>中山市代码工厂软件有限公司</p>
+        </dd>
+    </dl>
+
+</form>
+{/block}
+
+{block name="page_js"}{/block}
+{block name="footer_js"}
+<script>
+    window.localStorage.setItem('menu_lv2',null);
+    $(function () {
+        //粒子背景特效
+        $('body').particleground({
+            dotColor: '#5cbdaa',
+            lineColor: '#5cbdaa'
+        });
+        //验证码
+        createCode();
+        $(".submit_btn").click(function (event) {
+            do_login();
+        });
+
+        $('input').bind('keypress',function(event){
+            if(event.keyCode == "13")
+            {
+                do_login();
+            }
+        });
+
+        function do_login() {
+            var username = $(".username").val();
+            if(username.trim() == ''){
+                dmgc_tips('请输入用户名','red');return false;
+            }
+            var password = $(".password").val();
+            if(password.trim() == ''){
+                dmgc_tips('请输入密码','red');return false;
+            }
+            if(validate_code()){
+                $("#login_form").submit();
+            }
+        }
+    });
+
+
+</script>
+
+{/block}}

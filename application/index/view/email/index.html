@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_bqphh0tc2haaif6r.css"/>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/resource/new_css/email_delete.css"/>
+    <link rel="stylesheet" href="/resource/new_css/email_index.css"/>
+    <script src="/resource/new_js/jquery.js"></script>
+    <script src="/resource/new_js/amazeui.js"></script>
+    <style>
+        .search-cover{
+            display: block;
+            top: 2px;
+            border: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibcontainer">
+    <div class="ibcontainer_date">
+        <div class="date">
+            <span style="display: inline-block;float: left;font-size: 20px;font-weight: 500;">邮件中心</span>
+            <span style="display: inline-block;float: right;">{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="ibcontainer_body">
+        <div class="aside-left">
+            <div class="aside-left-top">
+                <a href="{:url('email/add_email')}">
+                <button type="button" class="am-btn am-btn-warning" id="yellow-button">
+                    <div style="margin-top: -3px;">
+                        <span class="iconfont" style="font-size:20px;">&#xe605;</span>
+                        <span style="font-size: 14px;">写邮件</span>
+                    </div>
+                </button>
+                </a>
+            </div>
+            <div class="aside-left-list">
+                {switch name="type_name" }
+                {case value="代办邮件"}
+                        <ul>
+                        <li>
+                            <a href="{:url('email/index',['type'=>0])}"style="padding: 7px 25px;">
+                                <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                                <span>内部收件箱</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('email/index',['type'=>1])}" class="aside-left-active" style="padding:4px 0 0 19px">
+                                <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                                <span style="color:#82939E ;">待办邮件</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('email/index',['type'=>2])}" style="padding:7px 0 0 25px;">
+                                <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                                <span style="color:#82939E ;">草稿箱</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('email/index',['type'=>3])}" style="padding:4px 0 0 23px">
+                                <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                                <span style="color:#82939E ;">已发送</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('email/index',['type'=>4])}" style="padding:5px 0 0 26px">
+                                <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                                <span style="color:#82939E ;">已删除</span>
+                            </a>
+                        </li>
+                    </ul>
+                {/case}
+                {case value="草稿箱"}
+                        <ul>
+                            <li>
+                                <a href="{:url('email/index',['type'=>0])}"style="padding: 7px 25px;">
+                                    <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                                    <span>内部收件箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>1])}"style="padding:4px 0 0 24px">
+                                    <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                                    <span style="color:#82939E ;">待办邮件</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>2])}" class="aside-left-active"  style="padding:7px 0 0 21px;">
+                                    <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                                    <span style="color:#82939E ;">草稿箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>3])}" style="padding:4px 0 0 23px">
+                                    <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                                    <span style="color:#82939E ;">已发送</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>4])}" style="padding:5px 0 0 26px">
+                                    <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                                    <span style="color:#82939E ;">已删除</span>
+                                </a>
+                            </li>
+                        </ul>
+                {/case}
+                {case value="已发送"}
+                        <ul>
+                            <li>
+                                <a href="{:url('email/index',['type'=>0])}"style="padding: 7px 25px">
+                                    <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                                    <span>内部收件箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>1])}"style="padding:4px 0 0 26px">
+                                    <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                                    <span style="color:#82939E ;">待办邮件</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>2])}"style="padding:7px 0 0 27px;">
+                                    <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                                    <span style="color:#82939E ;">草稿箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>3])}"  class="aside-left-active"   style="padding:4px 0 0 19px">
+                                    <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                                    <span style="color:#82939E ;">已发送</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>4])}" style="padding:5px 0 0 26px">
+                                    <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                                    <span style="color:#82939E ;">已删除</span>
+                                </a>
+                            </li>
+                        </ul>
+                {/case}
+                {case value="已删除"}
+                        <ul>
+                            <li>
+                                <a href="{:url('email/index',['type'=>0])}"style="padding: 7px 26px;">
+                                    <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                                    <span>内部收件箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>1])}"style="padding:4px 0 0 26px">
+                                    <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                                    <span style="color:#82939E ;">待办邮件</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>2])}"style="padding:7px 0 0 27px;">
+                                    <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                                    <span style="color:#82939E ;">草稿箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>3])}" style="padding:4px 0 0 24px">
+                                    <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                                    <span style="color:#82939E ;">已发送</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>4])}"  class="aside-left-active" style="padding:5px 0 0 21px">
+                                    <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                                    <span style="color:#82939E ;">已删除</span>
+                                </a>
+                            </li>
+                        </ul>
+                {/case}
+                {default /}
+                        <ul>
+                            <li>
+                                <a href="{:url('email/index',['type'=>0])}" class="aside-left-active" style="padding-top: 7px;">
+                                    <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                                    <span>内部收件箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>1])}"style="padding:4px 0 0 24px">
+                                    <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                                    <span style="color:#82939E ;">待办邮件</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>2])}"style="padding:7px 0 0 25px;">
+                                    <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                                    <span style="color:#82939E ;">草稿箱</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>3])}" style="padding:4px 0 0 23px">
+                                    <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                                    <span style="color:#82939E ;">已发送</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{:url('email/index',['type'=>4])}" style="padding:5px 0 0 26px">
+                                    <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                                    <span style="color:#82939E ;">已删除</span>
+                                </a>
+                            </li>
+                        </ul>
+                {/switch}
+            </div>
+            <div class="aside-left-bottom">
+                <section data-am-widget="accordion" class="am-accordion am-accordion-basic" data-am-accordion='{  }'>
+                    <dl class="am-accordion-item am-active">
+                        <dt class="am-accordion-title" style="padding: 0 0 0 20px;font-size: 20px;;">
+                            <span style="font-size: 14px"> 我的文件夹</span>
+                            <a class="iconfont dialog-show">&#xe604;</a>
+                        </dt>
+                    </dl>
+                </section>
+            </div>
+        </div>
+        <div class="aside-right">
+            {switch name="type_name" }
+                {case value="代办邮件"}
+                       <div class="page-list-header">
+                            <a class="span-checkbox">
+                                <input type="checkbox" class="checkall">
+                            </a>
+                            <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="# " class="check_invert" onclick="checkIver()">反选</a>
+                                    </li>
+                                    <li>
+                                        <a href="{:url('email/index',['type'=>1,'min_type'=>1])}">附件</a>
+                                    </li>
+                                    <li>
+                                        <a href="{:url('email/index',['type'=>1,'min_type'=>2])}">未读</a>
+                                    </li>
+                                    <li>
+                                        <a href="{:url('email/index',['type'=>1,'min_type'=>3])}">已读</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="float:left;margin-right: 10px;">
+                                <form action="{:url('email/set_delete')}" method="post" style="display: inline-block" id="todo_del_from">
+                                <input type="hidden" name="mail_id" id="todo_del_input" value="" >
+                                <button class="am-btn am-btn-default button-show todo_email_del" style="padding:8px 20px">
+                                    删除
+                                </button>
+                                </form>
+                            </div>
+                            <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default  am-dropdown-toggle">
+                                    标记为
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                    <ul class="am-dropdown-content">
+                                        <form action="{:url('email/tap_mail')}" class="readed" method="post">
+                                            <input type="hidden" name="tap_type" value="1">
+                                            <input type="hidden" name="tap_id" value="" class="readed_input">
+                                            <li>
+                                                <a class="set_readed">已读邮件</a>
+                                            </li>
+                                        </form>
+                                        <form action="{:url('email/tap_mail')}" class="no_read" method="post">
+                                            <input type="hidden" name="tap_type" value="3">
+                                            <input type="hidden" name="tap_id" value="" class="no_read_input">
+                                            <li>
+                                                <a class="set_no_read">未读邮件</a>
+                                            </li>
+                                        </form>
+                                        <form action="{:url('email/tap_mail')}" class="to_read" method="post">
+                                            <input type="hidden" name="tap_type" value="2">
+                                            <input type="hidden" name="tap_id" value="" class="todo_input">
+                                            <li>
+                                                <a class="set_to_read">取消待办</a>
+                                            </li>
+                                        </form>
+                                    </ul>
+                            </div>
+                            <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default  am-dropdown-toggle">
+                                    移动到
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="#">新建文件夹并移动到</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="search-box">
+                                <form method="get" class="searchFrom">
+                                    <span class="iconfont">&#xe67a;</span>
+                                    <div style="float: left;">
+                                        <input type="text" name="title" class="am-form-field am-round arcticle-search" placeholder="search"/>
+                                        <a class="iconfont shezhi" style="display: none;font-size: 28px">&#xe604;</a>
+                                        <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="info-table">
+                            <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                                <img src="/resource/img/no-info.png" alt="">
+                            </div>
+                            <table class="email-send-table">
+                                {volist name="mail_list" id="vo"}
+                                <tr style="height: 60px">
+                                    <td style="width: 54px"><input type="checkbox" data-id="{$vo.r_mail_id}"></td>
+                                    <td style="width: 54px">
+                                        {neq name="vo.mail_annex|count" value="0"}
+                                        <span class="iconfont">&#xe609;</span>
+                                        {/neq}
+                                    </td>
+                                    <td style="width: 54px">{$vo.user_real_name}</td>
+                                    <td style="width: 540px"><a href="{:url('email/show',['mail_id'=>$vo.r_mail_id])}" class="am-a" >{$vo.mail_title}</a></td>
+                                    <td style="width: 140px;font-size: 12px;">{$vo.mail_time|date="Y-m-d H:i",###}</td>
+                                    <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </div>
+                {/case}
+                {case value="草稿箱"}
+                        <div class="page-list-header">
+                            <a class="span-checkbox">
+                                <input type="checkbox" class="checkall">
+                            </a>
+                            <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="#" class="check_invert" onclick="checkIver()">反选</a>
+                                    </li>
+                                    <li>
+                                        <a href="{:url('email/index',['type'=>2,'min_type'=>1])}">附件</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="float:left;margin-right: 10px;">
+                                <form action="{:url('email/email_delete')}" id="del_draft_form" method="post">
+                                    <input type="hidden" name="mail_id" value="" id="del_draft_input">
+                                    <button class="am-btn am-btn-default button-show del_draft" style="padding:8px 20px">
+                                        删除草稿
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="search-box">
+                                <form method="get" class="searchFrom">
+                                    <span class="iconfont">&#xe67a;</span>
+                                    <div style="float: left;">
+                                        <input type="text" name="title" class="am-form-field am-round arcticle-search" placeholder="search"/>
+                                        <a class="iconfont shezhi" style="display: none;font-size: 28px">&#xe604;</a>
+                                        <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="info-table">
+                            <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                                <img src="/resource/img/no-info.png" alt="">
+                            </div>
+                            <table class="email-send-table">
+                                {volist name="mail_list" id="vo"}
+                                <tr style="height: 60px">
+                                    <td style="width: 54px"><input type="checkbox" data-id="{$vo.mail_id}"></td>
+                                    <td style="width: 54px">
+                                      {neq name="vo.mail_annex|count" value="0"}
+                                        <span class="iconfont">&#xe609;</span>
+                                      {/neq}
+                                    </td>
+                                    <td style="width: 54px">{$vo.user_real_name}</td>
+                                    <td style="width: 540px"><a href="{:url('email/show',['mail_id'=>$vo.mail_id])}" class="am-a" >{$vo.mail_title}</a></td>
+                                    <td style="width: 140px;font-size: 12px;">{$vo.mail_time|date="Y-m-d H:i",###}</td>
+                                    <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </div>
+                {/case}
+                {case value="已发送"}
+                       <div class="page-list-header">
+                        <a class="span-checkbox">
+                            <input type="checkbox" class="checkall">
+                        </a>
+                        <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#" class="check_invert" onclick="checkIver()">反选</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('email/index',['type'=>3,'min_type'=>1])}">附件</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="float:left;margin-right: 10px;">
+                            <form action="{:url('email/email_delete')}" method="post" class="sended_del_form">
+                                <input type="hidden" name="mail_id" value="" id="del_sended_input">
+                                <button class="am-btn am-btn-default button-show sended_del_button" style="padding:8px 20px">
+                                    彻底删除
+                                </button>
+                            </form>
+                        </div>
+                        <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default  am-dropdown-toggle">
+                                移动到
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#">新建文件夹并移动到</a>
+                                </li>
+                            </ul>
+                        </div>
+                           <div class="search-box">
+                               <form method="get" class="searchFrom">
+                                   <span class="iconfont">&#xe67a;</span>
+                                   <div style="float: left;">
+                                       <input type="text" name="title" class="am-form-field am-round arcticle-search" placeholder="search"/>
+                                       <a class="iconfont shezhi"  style="display: none;font-size: 28px">&#xe604;</a>
+                                       <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                   </div>
+                               </form>
+                           </div>
+                    </div>
+                    <div class="info-table">
+                        <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                            <img src="/resource/img/no-info.png" alt="">
+                        </div>
+                        <table class="email-send-table">
+                            {volist name="mail_list" id="vo"}
+                            <tr style="height: 60px">
+                                <td style="width: 54px"><input type="checkbox" data-id="{$vo.mail_id}"></td>
+                                <td style="width: 54px">
+                                  {neq name="vo.mail_annex|count" value="0"}
+                                    <span class="iconfont">&#xe609;</span>
+                                  {/neq}
+                                </td>
+                                <td style="width: 54px">{$vo.user_real_name}</td>
+                                <td style="width:540px"><a href="{:url('email/show',['mail_id'=>$vo.mail_id])}" class="am-a" >{$vo.mail_title}</a></td>
+                                <td style="width: 140px;font-size: 12px;">{$vo.mail_time|date="Y-m-d H:i",###}</td>
+                                <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                            </tr>
+                            {/volist}
+                        </table>
+                    </div>
+                {/case}
+                {case value="已删除"}
+                     <div class="page-list-header">
+                            <a class="span-checkbox">
+                                <input type="checkbox" class="checkall">
+                            </a>
+                            <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="#" class="check_invert" onclick="checkIver()">反选</a>
+                                    </li>
+                                    <li>
+                                        <a href="{:url('email/index',['type'=>4,'min_type'=>1])}">附件</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div style="float:left;margin-right: 10px;">
+                                <form action="{:url('email/reset_mail')}" method="post" id="recover_form">
+                                    <input type="hidden" name="mail_id" value="" id="recover_input">
+                                    <button class="am-btn am-btn-default button-show recover_button" style="padding:8px 20px">
+                                        恢复
+                                    </button>
+                                </form>
+                            </div>
+                            <div style="float:left;margin-right: 10px;">
+                                <form action="{:url('email/read_email_delete')}" method="post" id="del_del_form" >
+                                    <input type="hidden" name="mail_id" value="" id="del_del_input">
+                                    <button class="am-btn am-btn-default button-show del_del_button" style="padding:8px 20px">
+                                        彻底删除
+                                    </button>
+                                </form>
+                            </div>
+                         <div class="search-box">
+                             <form method="get" class="searchFrom">
+                                 <span class="iconfont">&#xe67a;</span>
+                                 <div style="float: left;">
+                                     <input type="text" name="title" class="am-form-field am-round arcticle-search" placeholder="search"/>
+                                     <a class="iconfont shezhi" style="display: none;font-size: 28px">&#xe604;</a>
+                                     <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                 </div>
+                             </form>
+                         </div>
+                        </div>
+                        <div class="info-table">
+                            <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                                <img src="/resource/img/no-info.png" alt="">
+                            </div>
+                            <table class="email-send-table">
+                                {volist name="mail_list" id="vo"}
+                                <tr style="height: 60px">
+                                    <td style="width: 54px"><input type="checkbox" data-id="{$vo.r_mail_id}"></td>
+                                    <td style="width: 54px">
+                                        {neq name="vo.mail_annex|count" value="0"}
+                                        <span class="iconfont">&#xe609;</span>
+                                        {/neq}
+                                    </td>
+                                    <td style="width: 54px">{$vo.user_real_name}</td>
+                                    <td style="width: 540px"><a href="{:url('email/show',['mail_id'=>$vo.r_mail_id])}" class="am-a" >{$vo.mail_title}</a></td>
+                                    <td style="width: 140px;font-size: 12px;">{$vo.mail_time|date="Y-m-d H:i",###}</td>
+                                    <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                                </tr>
+                                {/volist}
+                            </table>
+                        </div>
+                {/case}
+                {default/}
+                        <div class="page-list-header">
+                        <a class="span-checkbox">
+                            <input type="checkbox" class="checkall">
+                        </a>
+                        <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#" class="check_invert" onclick="checkIver()">反选</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('email/index',['type'=>0,'min_type'=>1])}">附件</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('email/index',['type'=>0,'min_type'=>2])}">未读</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('email/index',['type'=>0,'min_type'=>3])}">已读</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="float:left;margin-right: 10px;">
+                            <form action="{:url('email/set_delete')}" method="post" style="display: inline-block" id="default_del_from">
+                                <input type="hidden" name="mail_id" id="default_del_input" value="" >
+                                <button class="am-btn am-btn-default button-show default_email_del" style="padding:8px 20px">
+                                    删除
+                                </button>
+                            </form>
+                        </div>
+                        <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default  am-dropdown-toggle">
+                                标记为
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                                <ul class="am-dropdown-content">
+                                    <form action="{:url('email/tap_mail')}" class="readed" method="post">
+                                        <input type="hidden" name="tap_type" value="1">
+                                        <input type="hidden" name="tap_id" value="" class="readed_input">
+                                        <li>
+                                            <a class="set_readed">已读邮件</a>
+                                        </li>
+                                    </form>
+                                    <form action="{:url('email/tap_mail')}" class="no_read" method="post">
+                                        <input type="hidden" name="tap_type" value="3">
+                                        <input type="hidden" name="tap_id" value="" class="no_read_input">
+                                        <li>
+                                            <a class="set_no_read">未读邮件</a>
+                                        </li>
+                                    </form>
+                                    <form action="{:url('email/tap_mail')}" class="to_read" method="post">
+                                        <input type="hidden" name="tap_type" value="2">
+                                        <input type="hidden" name="tap_id" value="" class="todo_input">
+                                        <li>
+                                            <a class="set_to_read">待办邮件</a>
+                                        </li>
+                                    </form>
+                                </ul>
+                        </div>
+                        <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default  am-dropdown-toggle">
+                                移动到
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#">新建文件夹并移动到</a>
+                                </li>
+                            </ul>
+                        </div>
+                            <div class="search-box">
+                                <form method="get" class="searchFrom">
+                                    <span class="iconfont">&#xe67a;</span>
+                                    <div style="float: left;">
+                                        <input type="text" name="title" class="am-form-field am-round arcticle-search" placeholder="search"/>
+                                        <a class="iconfont shezhi" style="display: none;font-size: 28px">&#xe604;</a>
+                                        <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+                    <div class="info-table">
+                        <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                            <img src="/resource/img/no-info.png" alt="">
+                        </div>
+                        <table class="email-send-table">
+                            {volist name="mail_list" id="vo"}
+                            <tr style="height: 60px">
+                                <td style="width: 54px"><input type="checkbox" data-id="{$vo.r_mail_id}"></td>
+                                <td style="width: 54px">
+                                  {neq name="vo.mail_annex|count" value="0"}
+                                    <span class="iconfont">&#xe609;</span>
+                                  {/neq}
+                                </td>
+                                <td style="width: 54px">{$vo.user_real_name}</td>
+                                <td style="width: 540px"><a href="{:url('email/show',['mail_id'=>$vo.r_mail_id])}" class="am-a">{$vo.mail_title}</a></td>
+                                <td style="width: 140px;font-size: 12px;">{$vo.mail_time|date="Y-m-d H:i",###}</td>
+                                <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                            </tr>
+                            {/volist}
+                        </table>
+                    </div>
+            {/switch}
+            <!--弹出框-->
+            <div id="dialog" class="dialog-none">
+                <div class="dialog-title">
+                    <span>我的文件夹设置</span>
+                    <a href="" class="dialog-close"><span class="iconfont" style="font-size: 16px;">&#xe617;</span></a>
+                </div>
+                <table class="am-table" id="dialog-table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>占用空间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>内部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>外部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>已发送邮件箱</th>
+                        <th>133.13 KB</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>垃圾箱</th>
+                        <th>4.61 KB</th>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="" class="th-ga">
+                    <table class="am-table" id="dialog-table2">
+                        <tr>
+                            <th style="width: 60px; border-bottom: 1px solid #e0e0de;"><input type="text" class="th-input" /></th>
+                            <th style="width: 398px;border-bottom: 1px solid #e0e0de;"><input type="" name="" id="input-folder-name" value="" placeholder="请填写文件夹名称" /></th>
+                            <th style="width: 60px;border-bottom: 1px solid #e0e0de;"><button type="button" class="am-btn am-btn-primary button-add">添加</button></th>
+                        </tr>
+                        <tr style="border-top: solid 1px yellowgreen !important;">
+                            <th style="width: 60px;"></th>
+                            <th style="width: 398px; height:46px;padding-left: 30px; ">
+                                <span style="font-weight: 700;">您的邮箱容量为5000M,当前已用：</span>
+                                <strong style="color: #EE8C0C;">137.75 KB</strong>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dialog-bottom">
+                    <button type="button" class="am-btn" id="dialog-bottom-button">关闭</button>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="ibcontainer_footer">
+        <div class="footer">
+            <a href="{:url('index/index')}"><i class="footer-logo"></i></a>
+            <a href="">个人办公</a>
+            <a href="">邮件中心</a>
+        </div>
+    </div>
+</div>
+<!--黄色弹出button-->
+<!--<div class="dialog-button">-->
+    <!--<form action="{:url('set_delete')}" id="del_form" method="post">-->
+        <!--<input type="hidden" name="r_id" id="del-input">-->
+        <!--<button type="button" class="am-btn am-btn-warning button-content">请选择至少一项再进行操作-->
+        <!--<a class="button-close del" >&times;</a>-->
+        <!--</button>-->
+    <!--</form>-->
+<!--</div>-->
+<script>
+//没有信息时显示图片
+    var tr_len=$(".email-send-table").find("tr").length;
+    if(tr_len==0){
+        $(".table-pic").css("display","block");
+        $(".email-send-table-bottom").css("display","none");
+    }
+//草稿删除邮件
+var draft_ar=[];
+var str_draft;
+    $(".del_draft").click(function(){
+        $(".email-send-table").find('input:checked').each(function(){
+            var del_id=$(this).data("id");
+            draft_ar.push(del_id);
+            str_draft = draft_ar.join(',');
+        });
+        $("#del_draft_input").val(str_draft);
+        $("#del_draft_form").submit();
+    });
+//已发送删除邮件
+var sended_ar=[];
+var str_sended;
+    $(".sended_del_button").click(function(){
+        $(".email-send-table").find('input:checked').each(function(){
+            var del_id=$(this).data("id");
+            sended_ar.push(del_id);
+            str_sended = sended_ar.join(',');
+        });
+        $("#del_sended_input").val(str_sended);
+        $("#sended_del_form").submit();
+    });
+
+//内部收件箱删除
+var default_ar=[];
+var str_default;
+$(".default_email_del").click(function(){
+    $(".email-send-table").find('input:checked').each(function(){
+        var del_id=$(this).data("id");
+        ar.push(del_id);
+        str_default = ar.join(',');
+    });
+    console.log(str_default);
+    $("#default_del_input").val(str_default);
+    $("#default_del_from").submit();
+});
+
+//待办删除邮件
+var todo_ar=[];
+var str_to;
+$(".todo_email_del").click(function(){
+    $(".email-send-table").find('input:checked').each(function(){
+        var del_id=$(this).data("id");
+        todo_ar.push(del_id);
+        str_to =todo_ar.join(',');
+
+    });
+    $("#todo_del_input").val(str_to);
+    $("#todo_del_from").submit();
+});
+
+//已删除删除邮件
+var del_ar=[];
+var str_del;
+$(".del_del_button").click(function(){
+    $(".email-send-table").find('input:checked').each(function(){
+        var del_id=$(this).data("id");
+        del_ar.push(del_id);
+        str_del =del_ar.join(',');
+    });
+    $("#del_del_input").val(str_del);
+    $("#del_del_form").submit();
+});
+
+//恢复
+var recover_ar=[];
+var str_recover;
+$(".recover_button").click(function(){
+    $(".email-send-table").find('input:checked').each(function(){
+        var del_id=$(this).data("id");
+        recover_ar.push(del_id);
+        str_recover =recover_ar.join(',');
+    });
+    $("#recover_input").val(str_recover);
+    $("#recover_form").submit();
+});
+
+
+//标记为
+    var ar=[];
+    var str;
+    $(".set_readed").click(function(){
+        $(".email-send-table").find('input:checked').each(function(){
+            var tap_id=$(this).data("id");
+            ar.push(tap_id);
+             str = ar.join(',');
+        });
+        $(".readed_input").val(str);
+        $(".readed").submit()
+    });
+
+   var br=[];
+   var str1;
+    $(".set_no_read").click(function(){
+        $(".email-send-table").find('input:checked').each(function(){
+            var tap_id=$(this).data("id");
+            br.push(tap_id);
+            str1 = br.join(',');
+        });
+        $(".no_read_input").val(str1);
+        $(".no_read").submit()
+    });
+
+    var cr=[];
+    var str2;
+    $(".set_to_read").click(function(){
+        $(".email-send-table").find('input:checked').each(function(){
+            var tap_id=$(this).data("id");
+            cr.push(tap_id);
+            str2 = cr.join(',');
+        });
+        $(".todo_input").val(str2);
+        $(".to_read").submit()
+    });
+
+//搜索框
+//    $(".arcticle-search").focus(function(){
+//        $(".search-cover").css("display","block");
+//        $(".shezhi").css("display","none")
+//    });
+//    $(".article-search").blur(function(){
+//        setTimeout(function (){
+//            $(".search-cover").css("display","none");
+//            $(".shezhi").css("display","block");
+//        }, 500);
+//    });
+//    $(".search-cover").click(function (){
+//        console.log('click');
+//    });
+//dialog窗口
+    $(".dialog-show").click(function(){
+        console.log(123);
+        $("#dialog").removeClass("dialog-none")
+    });
+    $(".dialog-close").click(function(){
+        $("#dialog").addClass("dialog-none")
+    });
+    $("#dialog-bottom-button").click(function(){
+        $("#dialog").addClass("dialog-none")
+    });
+    $(".cc-btn").click(function(){
+        $(".cc-box").toggle();
+    });
+
+//全选和不全选
+    $(".checkall").click(function(){
+        if($(this).prop("checked")){
+            $(this).prop("checked",true);
+            $(":checkbox").prop("checked",true)
+        }
+        else{
+            $(this).prop("checked",false);
+            $(":checkbox").prop("checked",false)
+        }
+    });
+
+//反选
+function checkIver(){
+    $(".email-send-table").find(":checkbox").each(function(){
+        if (this.checked) {
+            this.checked = false;
+        }
+        else {
+            this.checked = true;
+        }
+    });
+}
+//tr标记icon
+    $(".email-mark").click(function(){
+        $(this).toggleClass("mark-first");
+        $(this).toggleClass("mark-second");
+        console.log(1)
+    });
+//删除邮件
+    $(".email_del").click(function(){
+        var id = $(".email-send-table").find("tr").find("input:checked").data("id");
+        if(typeof(id) != "undefined" && id != null){
+            $(this).data("id",id);
+        }
+    });
+    $(".del").on("click",function(){
+        var mail_id = $(".email_del").data("id");
+        $("#del-input").val(mail_id);
+        $("#del_form").submit();
+    });
+
+//删除表格的tr
+    $(".button-show").click(function(){
+        if ($("input:checked").length!=0){
+            $(".dialog-button").css("display","none")
+        }
+        $(".email-send-table").find("input:checked").parent().parent().remove();
+    });
+//黄色弹出框
+      $(".button-show").click(function(){
+         $(".dialog-button").css("display","block")
+       });
+      $(".button-close").click(function(){
+         $(".dialog-button").css("display","none")
+      })
+
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

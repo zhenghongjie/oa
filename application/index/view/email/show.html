@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_yzqoldu8p3dnp14i.css"/>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/resource/new_css/email_index.css"/>
+    <link rel="stylesheet" href="/resource/new_css/mail_show.css"/>
+    <script src="/resource/new_js/jquery.js"></script>
+    <script src="/resource/new_js/amazeui.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibcontainer">
+    <div class="ibcontainer_date">
+        <div class="date">
+            <span style="display: inline-block;float: left;font-size: 20px;font-weight: 500;">查看邮件</span>
+            <span style="display: inline-block;float: right;">{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="ibcontainer_body">
+        <div class="aside-left">
+            <div class="aside-left-top">
+                <a href="{:url('email/add_email')}">
+                    <button type="button" class="am-btn am-btn-warning" id="yellow-button">
+                        <div style="margin-top: -3px;">
+                            <span class="iconfont" style="font-size:20px;">&#xe605;</span>
+                            <span style="font-size: 14px;">写邮件</span>
+                        </div>
+                    </button>
+                </a>
+            </div>
+            <div class="aside-left-list">
+                <ul>
+                    <li>
+                        <a href="{:url('email/index',['type'=>0])}" style="padding: 7px 25px">
+                            <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                            <span>内部收件箱</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/index',['type'=>1])}" style="padding:4px 0 0 24px">
+                            <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                            <span style="color:#82939E ;">代办邮件</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/index',['type'=>2])}" style="padding:7px 0 0 25px;">
+                            <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                            <span style="color:#82939E ;">草稿箱</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/index',['type'=>3])}" style="padding:4px 0 0 23px">
+                            <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                            <span style="color:#82939E ;">已发送</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/index',['type'=>4])}" style="padding:5px 0 0 26px">
+                            <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                            <span style="color:#82939E ;">已删除</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="aside-left-bottom">
+                <section data-am-widget="accordion" class="am-accordion am-accordion-basic" data-am-accordion='{  }'>
+                    <dl class="am-accordion-item am-active">
+                        <dt class="am-accordion-title" style="padding: 0 0 0 20px;font-size: 20px;;">
+                            <span style="font-size: 14px"> 我的文件夹</span>
+                            <a class="iconfont dialog-show">&#xe604;</a>
+                        </dt>
+                    </dl>
+                </section>
+            </div>
+
+        </div>
+        <div class="aside-right">
+           <div class="tool_bar">
+               <a href="{:url('email/index')}"><button class="btn_back">返回</button></a>
+               <div class="down-menu file-menu am-dropdown" data-am-dropdown style="margin-right: 0px;">
+                       <button class="am-btn am-btn-default  am-dropdown-toggle rep_to">
+                           回复<span class="iconfont" style="font-size:10px">&#xe659;</span>
+                       </button>
+                   <ul class="am-dropdown-content">
+                       <li>
+                           <a  href="{:url('email/edit_email',['mail_id'=>$mail_detail.mail_id])}">全部回复</a>
+                       </li>
+                   </ul>
+               </div>
+               <a href="{:url('email/edit_email',['mail_id'=>$mail_detail.mail_id])}">
+                   <button class="btn_back">转发</button>
+               </a>
+               <form action="{:url('email/email_delete')}" method="post" class="sended_del_form" style="display:inline-block;">
+                   <input type="hidden" name="mail_id" value="" id="del_sended_input">
+                   <button class="btn_back del_btn">彻底删除</button>
+               </form>
+               <button class="btn_back" onclick="window.print();">打印</button>
+           </div>
+            <div class="show_info">
+               <div class="show_pic">
+                   <a href="" class="man_pic">
+                       <img src="/resource/img/noavatar_middle.jpg" alt="man">
+                   </a>
+               </div>
+               <div class="show_detail">
+                   <div class="title_show">
+                       <span class="show_num">{$mail_detail.mail_title} <i class="mark-first"></i></span>
+                       <div class="more_info">
+                          <span>查看完整信息</span>
+                           <i class="iconfont i_one" style="color:#82939E;font-size:10px">&#xe659;</i>
+                           <i class="iconfont i_two" style="color:#82939E;font-size:10px;display:none">&#xe62d;</i>
+                       </div>
+                   </div>
+                   <div class="more_detail">
+                       <span>{$send_name}于{$mail_detail.mail_time|date="Y-m-d H:i",###}发给
+                           {volist name="read_list" id="vo" offset="0" length='5'}
+                                {$vo.user_real_name},
+                           {/volist}
+                           等{$read_num}人。</span>
+                   </div>
+                   <div class="all_detail">
+                       <ul>
+                           <li>发件人：{$send_name}</li>
+                           <li>收件人：{volist name="read_list" id="vo"}
+                               {$vo.user_real_name},
+                               {/volist}
+                           </li>
+                           <li>抄送：
+                           {volist name="cc_list" id="vo"}
+                               {$vo.user_real_name}
+                           {/volist}
+                           </li>
+                           <li>时间：{$mail_detail.mail_time|date="Y-m-d H:i",###}</li>
+                       </ul>
+                   </div>
+               </div>
+                <div style="clear: both"></div>
+            </div>
+            <div class="show_content">
+                {$mail_detail.mail_content}
+            </div>
+             <div class="file_area">
+             {notempty name="mail_detail.mail_annex"}
+                 <div style="padding-left:15px">
+                     <span class="iconfont">&#xe649;</span>
+                     <span style="font-weight: 600">附件({$mail_detail.mail_annex|count}个)</span>
+                 </div>
+                 {volist name="mail_detail.mail_annex" id="vo"}
+                 <div class="doc-file-content">
+                     <div class="doc-img">
+                         <span class="iconfont" style="font-size:30px">&#xe68e;</span>
+                     </div>
+                     <div class="doc-attr">
+                         <div class="doc-attr-p">
+                             {$vo.file_name}
+                             <span>({$vo.file_size|get_file_size})</span>
+                         </div>
+                         <div>
+                             <a class="doc-download" href="{$vo.file_url}" target="_blank">下载</a>
+                         </div>
+                     </div>
+                 </div>
+                 {/volist}
+             {/notempty}
+             </div>
+            <div class="comment_area">
+                <form action="{:url('email/mail_comment')}" method="post">
+                    <input type="hidden" name="r_mail_id" value="{$mail_detail.mail_id}">
+                    <textarea class="comment" placeholder="快速回复" name="r_comment"></textarea>
+                    <button type="submit" class="am-btn am-btn-primary comment_button">发送</button>
+                </form>
+            </div>
+            <!--弹出框-->
+            <div id="dialog" class="dialog-none">
+                <div class="dialog-title">
+                    <span>我的文件夹设置</span>
+                    <a href="" class="dialog-close"><span class="iconfont" style="font-size: 16px;">&#xe617;</span></a>
+                </div>
+                <table class="am-table" id="dialog-table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>占用空间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>内部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>外部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>已发送邮件箱</th>
+                        <th>133.13 KB</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>垃圾箱</th>
+                        <th>4.61 KB</th>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="" class="th-ga">
+                    <table class="am-table" id="dialog-table2">
+                        <tr>
+                            <th style="width: 60px; border-bottom: 1px solid #e0e0de;"><input type="text" class="th-input" /></th>
+                            <th style="width: 398px;border-bottom: 1px solid #e0e0de;"><input type="" name="" id="input-folder-name" value="" placeholder="请填写文件夹名称" /></th>
+                            <th style="width: 60px;border-bottom: 1px solid #e0e0de;"><button type="button" class="am-btn am-btn-primary button-add">添加</button></th>
+                        </tr>
+                        <tr style="border-top: solid 1px yellowgreen !important;">
+                            <th style="width: 60px;"></th>
+                            <th style="width: 398px; height:46px;padding-left: 30px; ">
+                                <span style="font-weight: 700;">您的邮箱容量为5000M,当前已用：</span>
+                                <strong style="color: #EE8C0C;">137.75 KB</strong>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dialog-bottom">
+                    <button type="button" class="am-btn" id="dialog-bottom-button">关闭</button>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="ibcontainer_footer">
+        <div class="footer">
+            <a href="{:url('index/index')}"><i class="footer-logo"></i></a>
+            <a href="">个人办公</a>
+            <a href="">邮件中心</a>
+        </div>
+    </div>
+</div>
+
+<!--黄色弹出button-->
+<div class="dialog-button">
+    <button type="button" class="am-btn am-btn-warning button-content">请选择至少一项再进行操作
+        <a class="button-close">&times;</a>
+    </button>
+</div>
+<script>
+
+    $(".del_btn").click(function(){
+        var id='{$mail_detail.mail_id}';
+        $("#del_sended_input").val(id);
+        $("#sended_del_form").submit()
+    });
+
+
+
+
+    $(".comment").click(function(event){
+        $(this).css("height","100px");
+        $(".comment_button").css("display","block");
+         event.stopPropagation()
+    });
+    $("body").click(function(){
+        $(".comment").css("height","40px");
+        $(".comment_button").css("display","none");
+
+    })
+
+$(".more_info").click(function(){
+    if($(".all_detail").css("display")=="none"){
+        $(".i_one").css("display","none");
+        $(".more_detail").hide();
+        $(".all_detail").slideDown(100);
+        $(".i_two").css("display","block")
+
+    }else{
+        $(".i_one").css("display","block");
+        $(".all_detail").slideUp(100);
+        $(".more_detail").show(110);
+        $(".i_two").css("display","none")
+    }
+
+})
+
+
+    //搜索框
+    $("#arcticle-search").focus(function(){
+        $(".search-cover").css("display","block")
+        $(".shezhi").css("display","none")
+    });
+    $("#arcticle-search").blur(function(){
+        $(".search-cover").css("display","none")
+        $(".shezhi").css("display","block")
+    });
+    //dialog窗口
+    $(".dialog-show").click(function(){
+        console.log(123);
+        $("#dialog").removeClass("dialog-none")
+    });
+    $(".dialog-close").click(function(){
+        $("#dialog").addClass("dialog-none")
+    });
+    $("#dialog-bottom-button").click(function(){
+        $("#dialog").addClass("dialog-none")
+    });
+    $(".cc-btn").click(function(){
+        $(".cc-box").toggle();
+    });
+    //黄色弹出框
+    $(".button-show").click(function(){
+        $(".dialog-button").css("display","block")
+    });
+    $(".button-close").click(function(){
+        $(".dialog-button").css("display","none")
+    })
+
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

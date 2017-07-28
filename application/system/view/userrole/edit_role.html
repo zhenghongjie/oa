@@ -1,0 +1,53 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}编辑角色{/block}
+{block name="main"}
+<style>
+    table{
+        border:1px solid #efefef;
+    }
+    td{
+        width: 113px;
+        height:100px;
+        line-height: 100px;
+        text-align: center;
+        color: #999;
+    }
+    td .iconfont{
+        font-size: 50px !important;
+        margin-top:10px;
+        text-align: center;
+    }
+</style>
+<section>
+    <h2><strong style="color:grey;">编辑角色</strong></h2>
+    <div class="page_title" style="height: 15px;line-height: 15px;">
+        <div class="fr" >
+        </div>
+    </div>
+    <form action="{:url('')}" method="post" enctype="application/x-www-form-urlencoded" id="submit_form">
+        <input type="hidden" name="role_id"/>
+        <!--tabCont-->
+        <div class="admin_tab_cont" style="display:block;" id="base_goods_info">
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">角色名称</span>
+                    <input style="display:none">
+                    <input type="tel" class="textbox textbox_295 " name="role_title" placeholder="角色名称" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <ul class="ulColumn2">
+            <li>
+                <span class="item_name" style="width:120px;"></span>
+                <input type="submit" value="提交" class="link_btn submit_form"/>
+            </li>
+        </ul>
+    </form>
+</section>
+{/block}
+{block name="footer_js"}
+<script>
+    setValue('role_id',"{$role_info.role_id}");
+    setValue('role_title',"{$role_info.role_title}");
+</script>
+{/block}

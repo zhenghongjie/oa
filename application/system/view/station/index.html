@@ -1,0 +1,84 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}岗位管理{/block}
+{block name="main"}
+
+<div>
+
+    <section>
+        <h2><strong style="color:grey;">岗位列表</strong></h2>
+        <div class="page_title">
+            <div class="fl">
+                <a class="top_rt_btn" href="{:url('new_station')}">添加岗位</a>
+            </div>
+            <div class="fr" >
+            </div>
+        </div>
+        <form id="batch_form" action="{:url('set_goods_status')}" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="set_status" id="set_status"/>
+            <table class="table" style="margin-bottom: 120px;text-align: center;">
+                <tr>
+                    <th>岗位ID</th>
+                    <th>岗位名称</th>
+                    <th>所属分类</th>
+                    <th>排序</th>
+                    <th>在职人数</th>
+                    <th>操作</th>
+                </tr>
+                {volist name="station" id="vo"}
+                <tr >
+                    <td>{$vo.station_id}</td>
+                    <td>{$vo.station_title}</td>
+                    <td>{$vo.c_title|default="默认分类"}</td>
+                    <td>{$vo.station_sort}</td>
+                    <td>{$vo.station_count}</td>
+                    <td style="text-align: center;">
+                        <div class="dmgc_action">
+                            <div>
+                                选择操作
+                            </div>
+                            <div class="more" style="">
+                                <a href="{:url('edit_station',['station_id'=>$vo['station_id']])}" >编辑岗位</a>
+                                <a href="#" onclick="dmgc_show_pop('pop_del_station',$(this))" data-vo='{:json_encode($vo)}'>删除岗位</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {/volist}
+            </table>
+        </form>
+        <aside >
+            {$station->render();}
+        </aside>
+    </section>
+</div>
+<!--删除-->
+<section class="pop_bg pop_del_station">
+    <form  action="{:url('delete_station')}" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="station_id"/>
+        <div class="pop_cont">
+            <h3>删除岗位</h3>
+            <div class="pop_cont_input">
+                <ul>
+                    <li class="form-group">
+                        <span class="item_name" style="width:120px;">岗位名称：</span>
+                        <input style="display:none">
+                        <input type="text" class="textbox textbox_295" name="station_title" placeholder="岗位名称" autocomplete="off" readonly/>
+                    </li>
+                </ul>
+            </div>
+            <div style="text-align: center">
+                <span style="color: red;">警告：您将要删除该岗位，请谨慎操作！！！</span>
+            </div>
+            <div class="btm_btn">
+                <input type="submit" value="确定" class="input_btn trueBtn "/>
+                <input type="button" value="放弃" class="input_btn falseBtn pop_close"/>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+{/block}
+{block name="footer_js"}
+
+{/block}}

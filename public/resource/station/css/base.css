@@ -1,0 +1,56 @@
+body{
+    color: #82939e;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: Arial, Tahoma, "\5fae\8f6f\96c5\9ed1", "\5B8B\4F53";
+}
+a{
+    text-decoration: none;
+}
+
+
+/*h1, h2, h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    line-height: 40px;
+}*/
+
+
+
+
+
+.clearfix {
+    zoom: 1;
+}
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

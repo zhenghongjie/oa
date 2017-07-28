@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑公文</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_3li6r0us8zykqpvi.css">
+    <script src="/resource/js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/css/amazeui.min.css?v={:time()}">
+    <script src="/resource/js/amazeui.min.js"></script>
+    <script src="/resource/new_js/add_doc.js?v={:time()}"></script>
+    <link rel="stylesheet" href="/resource/new_css/add_doc.css">
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<div class="ibody">
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">编辑公文</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer">
+        <div class="aside">
+            <ul>
+                <li class="li-big">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600">&#xe639;</span>
+                    <a href="" >未签收</a><span class="show-span">{$no_sign}</span>
+                </li>
+                <li class="li-big li-big-active">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600;color: #3497db;">&#xe637;</span>
+                    <a href="{:url('doc/index')}" style="color: #3497db;">公文</a>
+                </li>
+                <li class="li-small">
+                    <span class="iconfont">&#xe6b7;</span>
+                    <a href="">下发公文</a>
+                </li>
+                <li class="li-small">
+                    <span class="iconfont">&#xe6b7;</span>
+                    <a href="">上报公文</a>
+                </li>
+            </ul>
+        </div>
+        <div class="body-form">
+            <form action="{:url('doc/edit_doc')}" method="post" enctype="multipart/form-data" id="doc_submit_form" >
+                <input type="hidden" value="{$info.doc_id}" name="doc_id">
+                <input type="hidden" name="doc_need_check" value="{$info.doc_need_check}">
+                <div style="clear: both">
+                    公文标题 <input type="text" name="doc_title" id="doc-header" class="form-input" value="{$info.doc_title}"/>
+                </div>
+                <div class="rows">
+                    <div style="float: left;width:505px;">
+                        公文号<input type="text" name="doc_no" class="form-input doc-number" value="{$info.doc_no}"/>
+                    </div>
+                    <div style="float: right;width: 230px;">
+                        所属分类
+                        <select name="doc_c_id" class="form-input" style="width: 230px;" id="select_cate">
+                            {volist name="cate_list" id="vo"}
+                            <option value="{$vo.cate_id}">{$vo.cate_title}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+                <div class="rows">
+                    <div style="float: left; width:500px;position: relative">
+                        发布范围
+                        <input type="hidden" name="doc_publish" id="doc_publish" value="{$info.doc_publish}">
+                        <div id="out_box_left" class="out-box out-box-left">
+                            <ul class="tag-box sel-btn">
+                            </ul>
+                            <div class="btn-box">
+                                <button type="button" class="man-btn btn iconfont">&#xe632;</button>
+                                <button type="button" class="btn clean-btn iconfont">&#xe62f;</button>
+                            </div>
+                            <ul class="item-box">
+                                <li class="item-title">部门选择</li>
+                                {volist name="publish_scope['depart']" id="vo"}
+                                <li class="item" data-value="d_{$vo.id}">{$vo.title}</li>
+                                {/volist}
+                                <li class="item-title">岗位选择</li>
+                                {volist name="publish_scope['station']" id="vo"}
+                                <li class="item" data-value="s_{$vo.id}">{$vo.title}</li>
+                                {/volist}
+                                <li class="item-title">角色选择</li>
+                                {volist name="publish_scope['role']" id="vo"}
+                                <li class="item" data-value="r_{$vo.id}">{$vo.title}</li>
+                                {/volist}
+                            </ul>
+                            <!--弹出表单-->
+                            <div class="select-user-box">
+                                <!--表单头部-->
+                                <div class="select-box-header">
+                                    <ul class="select-box-nav">
+                                        <li data-type="department" class="active">
+                                            <a href="javascript:;">
+                                                <i class="iconfont" style="font-size: 30px">&#xe630;</i>
+                                                <span>按部门</span>
+                                            </a>
+                                        </li>
+                                        <li data-type="position">
+                                            <a href="javascript:;">
+                                                <i class="iconfont" style="font-size: 30px">&#xe75a;</i>
+                                                <span>按岗位</span>
+                                            </a>
+                                        </li>
+                                        <li data-type="role">
+                                            <a href="javascript:;">
+                                                <i class="iconfont" style="font-size: 30px">&#xe63f;</i>
+                                                <span>按角色</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="select-all">
+                                    <!--按部门-->
+                                    <div class="department select-user-content">
+                                        <!--部门左边-->
+                                        <div class="select-box-inner">
+                                            <ul class="inner-ul depart-inner-ul">
+                                                {volist name="publish_scope['depart']" id="vo" empty="无"}
+                                                <li style="position: relative">
+                                                    <a>
+                                                        <span class="iconfont"
+                                                              style="color: #82939E; font-size: 14px;display: inline-block;width:18px;margin-left:5px;">&#xe747;</span>
+                                                        <span class="select-a-span depart_item" data-id="{$vo.id}"
+                                                              data-title="{$vo.title}">{$vo.title}</span>
+                                                        <input type="checkbox" class="item2"
+                                                               data-id="d_{$vo.id}" data-title="{$vo.title}"
+                                                               style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                    </a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                        </div>
+                                        <!--部门右边-->
+                                        <div class="select-box-side">
+                                            <div class="select-box-side-content">
+                                                {volist name="publish_scope['depart']" id="vo"}
+                                                <ul style="width: 155px;padding: 5px 8px;display: none;"
+                                                    class="depart-aside-ul depart_ul" data-pid="{$vo.id}">
+                                                    <div class="select-box-side-header">
+                                                        <span>选择全部</span>
+                                                        <input type="checkbox" class="click-all check_all_depart"
+                                                               data-pid="d_{$vo.id}"/>
+                                                    </div>
+                                                    {present name="vo.user"}
+                                                    {volist name="vo.user" id="va"}
+                                                    <li>
+                                                        <span class="iconfont">&#xe6ae;</span>
+                                                        <span style="font-size: 12px;margin-top: -3px;"
+                                                              class="select-name ">{$va.user_real_name}</span>
+                                                        <input type="checkbox" class="item2 checkboxs depart_user_item"
+                                                               data-id="u_{$va.user_id}" data-pid="d_{$vo.id}"
+                                                               data-title="{$va.user_real_name}"/>
+                                                    </li>
+                                                    {/volist}
+                                                    {/present}
+                                                </ul>
+                                                {/volist}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--按岗位-->
+                                    <div class="position select-user-content ">
+                                        <!--岗位左边-->
+                                        <div class="select-box-inner ">
+                                            <ul class="inner-ul ">
+                                                <li>
+                                                    <a>
+                                                        <span class="iconfont"
+                                                              style="color: #82939E; font-size: 20px;display: inline-block;width:18px;margin-left:5px; ">&#xe7a0;</span>
+                                                        <span style="color:#82939E; display: inline-block; width: 100px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px;font-weight: 500; "
+                                                              class="select-a-span ">默认分类</span>
+                                                    </a>
+                                                </li>
+                                                {volist name="publish_scope['station']" id="vo"}
+                                                <li style="padding-left: 20px;margin-top: 5px;height: 20px; position: relative">
+                                                    <a>
+                                                        <span class="iconfont "
+                                                              style="color: #82939E; font-size: 16px;display: inline-block;width:18px;margin-left:5px; ">&#xe747;</span>
+                                                        <span class="select-a-span station_item" data-id="{$vo.id}"
+                                                              data-title="{$vo.title}">{$vo.title}</span>
+                                                        <input type="checkbox" class="item2"
+                                                               data-id="s_{$vo.id}" data-title="{$vo.title}"
+                                                               style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                    </a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                        </div>
+                                        <!--岗位右边-->
+                                        <div class="select-box-side ">
+                                            <div class="select-box-side-content ">
+                                                {volist name="publish_scope['station']" id="vo"}
+                                                <ul style="width: 155px;padding: 5px 8px; display: none "
+                                                    class="station-aside-ul">
+                                                    <div class="select-box-side-header">
+                                                        <span>选择全部</span>
+                                                        <input type="checkbox" class="click-all check_all_depart"
+                                                               data-pid="s_{$vo.id}"/>
+                                                    </div>
+                                                    {present name="vo.user"}
+                                                    {volist name="vo.user" id="va"}
+                                                    <li>
+                                                        <span class="iconfont ">&#xe6ae;</span>
+                                                        <span style="font-size: 12px; "
+                                                              class="select-name station_user_item"
+                                                              data-id="{$va.user_id}"
+                                                              data-pid="{$vo.id}" data-title="{$va.user_real_name}">{$va.user_real_name}</span>
+                                                        <input type="checkbox" name="check" class="item2 checkboxs"
+                                                               data-id="u_{$va.user_id}" data-pid="s_{$vo.id}"
+                                                               data-title="{$va.user_real_name}"/>
+                                                    </li>
+                                                    {/volist}
+                                                    {/present}
+                                                </ul>
+                                                {/volist}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--按角色-->
+                                    <div class="role select-user-content ">
+                                        <!--角色左边-->
+                                        <div class="select-box-inner ">
+                                            <ul class="inner-ul ">
+                                                {volist name="publish_scope['role']" id="vo"}
+                                                <li style="position: relative">
+                                                    <a>
+                                                        <span class="iconfont "
+                                                              style="color: #82939E; font-size: 14px;display: inline-block;width:18px;margin-left:5px; ">&#xe747;</span>
+                                                        <span class="select-a-span role_item" data-id="{$vo.id}"
+                                                              data-title="{$vo.title}">{$vo.title}</span>
+                                                        <input type="checkbox" class="item2"
+                                                               data-id="r_{$vo.id}"
+                                                               data-title="{$vo.title}"
+                                                               style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                    </a>
+                                                </li>
+                                                {/volist}
+                                            </ul>
+                                        </div>
+                                        <!--角色右边-->
+                                        <div class="select-box-side ">
+                                            <div class="select-box-side-content ">
+                                                {volist name="publish_scope['role']" id="vo"}
+                                                <ul style="display: none" class="role-aside-ul">
+                                                    <div class="select-box-side-header">
+                                                        <span>选择全部</span>
+                                                        <input type="checkbox" class="click-all check_all_depart"
+                                                               data-pid="r_{$vo.id}"/>
+                                                    </div>
+                                                    {present name="vo.user"}
+                                                    {volist name="vo.user" id="va"}
+                                                    <li>
+                                                        <span class="iconfont ">&#xe6ae;</span>
+                                                        <span style="font-size: 12px; "
+                                                              class="select-name role_user_item"
+                                                              data-id="{$va.user_id}" data-pid="{$vo.id}"
+                                                              data-title="{$va.user_real_name}">{$va.user_real_name}</span>
+                                                        <input type="checkbox" name="check" class="item2 checkboxs"
+                                                               data-id="u_{$va.user_id}" data-pid="r_{$vo.id}"
+                                                               data-title="{$va.user_real_name}"/>
+                                                    </li>
+                                                    {/volist}
+                                                    {/present}
+                                                </ul>
+                                                {/volist}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="float: right;width: 230px;position:relative">
+                        <div style="float: left;width:505px;position: relative">
+                            抄送
+                            <input type="hidden" name="doc_cc" value="{$info.doc_cc}" id="doc_cc">
+                            <div id="out_box_right" class="out-box out-box-right">
+                                <ul class="tag-box sel-btn">
+                                </ul>
+                                <div class="btn-box">
+                                    <button type="button" class="man-btn btn iconfont">&#xe632;</button>
+                                    <button type="button" class="btn clean-btn iconfont">&#xe62f;</button>
+                                </div>
+                                <ul class="item-box">
+                                    <li class="item-title">部门选择</li>
+                                    {volist name="publish_scope['depart']" id="vo"}
+                                    <li class="item" data-value="d_{$vo.id}">{$vo.title}</li>
+                                    {/volist}
+                                    <li class="item-title">岗位选择</li>
+                                    {volist name="publish_scope['station']" id="vo"}
+                                    <li class="item" data-value="s_{$vo.id}">{$vo.title}</li>
+                                    {/volist}
+                                    <li class="item-title">角色选择</li>
+                                    {volist name="publish_scope['role']" id="vo"}
+                                    <li class="item" data-value="r_{$vo.id}">{$vo.title}</li>
+                                    {/volist}
+                                </ul>
+                                <div class="select-user-box">
+                                    <!--表单头部-->
+                                    <div class="select-box-header">
+                                        <ul class="select-box-nav">
+                                            <li data-type="department" class="active">
+                                                <a href="javascript:;">
+                                                    <i class="iconfont" style="font-size: 30px">&#xe630;</i>
+                                                    <span>按部门</span>
+                                                </a>
+                                            </li>
+                                            <li data-type="position">
+                                                <a href="javascript:;">
+                                                    <i class="iconfont" style="font-size: 30px">&#xe75a;</i>
+                                                    <span>按岗位</span>
+                                                </a>
+                                            </li>
+                                            <li data-type="role">
+                                                <a href="javascript:;">
+                                                    <i class="iconfont" style="font-size: 30px">&#xe63f;</i>
+                                                    <span>按角色</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="select-all">
+                                        <!--按部门-->
+                                        <div class="department select-user-content">
+                                            <!--部门左边-->
+                                            <div class="select-box-inner">
+                                                <ul class="inner-ul depart-inner-ul">
+                                                    {volist name="publish_scope['depart']" id="vo" empty="无"}
+                                                    <li style="position:relative">
+                                                        <a>
+                                                            <span class="iconfont"
+                                                                  style="color: #82939E; font-size: 14px;display: inline-block;width:18px;margin-left:5px;">&#xe747;</span>
+                                                            <span class="select-a-span depart_item2" data-id="{$vo.id}"
+                                                                  data-title="{$vo.title}">{$vo.title}</span>
+                                                            <input type="checkbox" class="item2"
+                                                                   data-id="d_{$vo.id}" data-title="{$vo.title}"
+                                                                   style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                        </a>
+                                                    </li>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                            <!--部门右边-->
+                                            <div class="select-box-side">
+                                                <div class="select-box-side-content">
+                                                    {volist name="publish_scope['depart']" id="vo"}
+                                                    <ul style="width: 155px;padding: 5px 8px;display: none;"
+                                                        class="depart-aside-ul depart_ul2" data-pid="{$vo.id}">
+                                                        <div class="select-box-side-header">
+                                                            <span>选择全部</span>
+                                                            <input type="checkbox" class="click-all check_all_depart"
+                                                                   data-pid="d_{$vo.id}"/>
+                                                        </div>
+                                                        {present name="vo.user"}
+                                                        {volist name="vo.user" id="va"}
+                                                        <li>
+                                                            <span class="iconfont">&#xe6ae;</span>
+                                                            <span style="font-size: 12px;margin-top: -3px;"
+                                                                  class="select-name ">{$va.user_real_name}</span>
+                                                            <input type="checkbox" class="item2 checkboxs depart_user_item"
+                                                                   data-id="u_{$va.user_id}" data-pid="d_{$vo.id}"
+                                                                   data-title="{$va.user_real_name}"/>
+                                                        </li>
+                                                        {/volist}
+                                                        {/present}
+                                                    </ul>
+                                                    {/volist}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--按岗位-->
+                                        <div class="position select-user-content ">
+                                            <!--岗位左边-->
+                                            <div class="select-box-inner ">
+                                                <ul class="inner-ul ">
+                                                    <li>
+                                                        <a>
+                                                            <span class="iconfont "
+                                                                  style="color: #82939E; font-size: 20px;display: inline-block;width:18px;margin-left:5px; ">&#xe7a0;</span>
+                                                            <span style="color:#82939E; display: inline-block; width: 100px;height: 25px;font-size: 12px;border:solid 1px #f9fbff;border-radius: 4px;font-weight: 500; "
+                                                                  class="select-a-span ">默认分类</span>
+                                                        </a>
+                                                    </li>
+                                                    {volist name="publish_scope['station']" id="vo"}
+                                                    <li style="padding-left: 20px;margin-top: 5px;height: 20px; position: relative">
+                                                        <a>
+                                                            <span class="iconfont"
+                                                                  style="color: #82939E; font-size: 16px;display: inline-block;width:18px;margin-left:5px; ">&#xe747;</span>
+                                                            <span class="select-a-span station_item2" data-id="{$vo.id}"
+                                                                  data-title="{$vo.title}">{$vo.title}</span>
+                                                            <input type="checkbox" class="item2"
+                                                                   data-id="s_{$vo.id}" data-title="{$vo.title}"
+                                                                   style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                        </a>
+                                                    </li>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                            <!--岗位右边-->
+                                            <div class="select-box-side">
+                                                <div class="select-box-side-content ">
+                                                    {volist name="publish_scope['station']" id="vo"}
+                                                    <ul style="width: 155px;padding: 5px 8px; display: none "
+                                                        class="station-aside-ul2">
+                                                        <div class="select-box-side-header">
+                                                            <span>选择全部</span>
+                                                            <input type="checkbox" class="click-all check_all_depart"
+                                                                   data-pid="s_{$vo.id}"/>
+                                                        </div>
+                                                        {present name="vo.user"}
+                                                        {volist name="vo.user" id="va"}
+                                                        <li>
+                                                            <span class="iconfont ">&#xe6ae;</span>
+                                                            <span style="font-size: 12px; "
+                                                                  class="select-name station_user_item"
+                                                                  data-id="{$va.user_id}"
+                                                                  data-pid="{$vo.id}" data-title="{$va.user_real_name}">{$va.user_real_name}</span>
+                                                            <input type="checkbox" name="check" class="item2 checkboxs"
+                                                                   data-id="u_{$va.user_id}" data-pid="s_{$vo.id}"
+                                                                   data-title="{$va.user_real_name}"/>
+                                                        </li>
+                                                        {/volist}
+                                                        {/present}
+                                                    </ul>
+                                                    {/volist}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--按角色-->
+                                        <div class="role select-user-content ">
+                                            <!--角色左边-->
+                                            <div class="select-box-inner ">
+                                                <ul class="inner-ul ">
+                                                    {volist name="publish_scope['role']" id="vo"}
+                                                    <li style="position: relative">
+                                                        <a>
+                                                            <span class="iconfont"
+                                                                  style="color: #82939E; font-size: 14px;display: inline-block;width:18px;margin-left:5px; ">&#xe747;</span>
+                                                            <span class="select-a-span role_item2" data-id="{$vo.id}"
+                                                                  data-title="{$vo.title}">{$vo.title}</span>
+                                                            <input type="checkbox" class="item2"
+                                                                   data-id="r_{$vo.id}"
+                                                                   data-title="{$vo.title}"
+                                                                   style="position: absolute;right: 24px;width: 20px;height: 20px;">
+                                                        </a>
+                                                    </li>
+                                                    {/volist}
+                                                </ul>
+                                            </div>
+                                            <!--角色右边-->
+                                            <div class="select-box-side">
+                                                <div class="select-box-side-content ">
+                                                    {volist name="publish_scope['role']" id="vo"}
+                                                    <ul style="display: none" class="role-aside-ul2">
+                                                        <div class="select-box-side-header">
+                                                            <span>选择全部</span>
+                                                            <input type="checkbox" class="click-all check_all_depart"
+                                                                   data-pid="r_{$vo.id}"/>
+                                                        </div>
+                                                        {present name="vo.user"}
+                                                        {volist name="vo.user" id="va"}
+                                                        <li>
+                                                            <span class="iconfont ">&#xe6ae;</span>
+                                                            <span style="font-size: 12px; "
+                                                                  class="select-name role_user_item"
+                                                                  data-id="{$va.user_id}" data-pid="{$vo.id}"
+                                                                  data-title="{$va.user_real_name}">{$va.user_real_name}</span>
+                                                            <input type="checkbox" name="check" class="item2 checkboxs"
+                                                                   data-id="u_{$va.user_id}" data-pid="r_{$vo.id}"
+                                                                   data-title="{$va.user_real_name}"/>
+                                                        </li>
+                                                        {/volist}
+                                                        {/present}
+                                                    </ul>
+                                                    {/volist}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="rows">
+                    <label class="state-box label0 label-radio label-active">
+                        <input type="radio" name="doc_state" value="1" style="opacity: 0;" checked="checked"/>发布
+                    </label>
+                    <label class="state-box label1 label-radio">
+                        <input type="radio" name="doc_state" value="2" style="opacity: 0;"/>草稿
+                    </label>
+                </div>
+                <!--编辑器内容-->
+                <script style="display: inline-block;" id="doc_content" name="doc_content">
+
+                </script>
+                <div class="bottom-btn-group">
+                    <button type="button" class="am-btn am-btn-primary edit_submit">提交</button>
+                </div>
+            <div class="inputWrap">
+                {volist name="info.doc_annex" id="vo" key="k"}
+                <div class="input_div input_div_{$k}">
+                    <input type="hidden" class="file_msg_{$k}" value="{$vo.file_name}" name="file_name">
+                    <input type="hidden" class="file_msg_{$k}" value="{$vo.file_size}" name="file_size">
+                    <input type="hidden" class="file_msg_{$k}" value="{$vo.file_url}" name="file_url">
+                    <input type="hidden" class="file_msg_{$k}" value="{$vo.file_type}" name="file_type">
+                </div>
+                {/volist}
+            </div>
+            </form>
+            <!--上传附件的插件-->
+            <form id="post-form" class="file-form" name="fileform">
+                <div class="file-box am-form-group am-form-file">
+                    <button type="button" class="am-btn am-btn-default am-btn-sm" style="border-radius: 4px;">
+                        <i class="am-icon-cloud-upload"></i>上传附件
+                    </button>
+                    <input id="fileinput" type="file" name="file">
+                </div>
+                <div id="file_msg" class="file-msg">
+                   {volist name="info.doc_annex" id="vo" key="k"}
+                    <a href="{$vo.file_url}" class="file_msg_{$k}">{$vo.file_name}</a>
+                    <span data-id="file_msg_{$k}" data-cid="{$k}" class="del_btn file_msg_{$k}" style="padding-left:10px;cursor:pointer;color: #3497db;">删除</span>
+                    <br/>
+                    {/volist}
+                </div>
+            </form>
+            <div class="bottom-btn-group">
+                <a href="{:url('doc/index')}">
+                    <button type="button" class="am-btn am-btn-default" style="color: #82939e;">返回</button>
+                </a>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="ibcontainer_footer">
+        <div class="footer">
+            <a href="{:url('index/index')}"><i class="footer-logo"></i></a>
+            <a href="">信息中心</a>
+            <a href="{:url('doc/index')}">公文</a>
+            <a href="">编辑公文</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/resource/ueditor1.4.3.3/ueditor.all.js"></script>
+<script>
+
+    $(".del_btn").click(function(){
+        var _this_id=$(this).data("id");
+        var _this_cid=$(this).data("cid");
+        $("."+_this_id).remove();
+        $(".input_div_"+_this_cid).remove();
+        input_arr.splice(0,input_arr.length);
+        eachInput();
+    });
+    var div_len= $(".input_div").length;
+    var input_len=$(".input_div").find("input").length;
+    var input_arr=[];
+    eachInput();
+    function eachInput(){
+        $(".input_div").each(function(index){
+            var _thisFileName = $(this).find('input[name="file_name"]').val();
+            var _thisFileSize = $(this).find('input[name="file_size"]').val();
+            var _thisFileUrl = $(this).find('input[name="file_url"]').val();
+            var _thisFileType = $(this).find('input[name="file_type"]').val();
+            input_arr[index]={};
+            input_arr[index]['file_name'] =_thisFileName;
+            input_arr[index]['file_size'] =_thisFileSize;
+            input_arr[index]['file_url'] =_thisFileUrl;
+            input_arr[index]['file_type'] =_thisFileType;
+        });
+        $(".edit_submit").click(function(){
+            $(".fileMsgAll").remove();
+            for(var i=0;i<input_arr.length;i++){
+                $("#doc_submit_form").append(
+                        "<input type='hidden' class='fileMsgAll file_msg_"+i+"' value='"+input_arr[i]['file_name']+"' name='doc_annex["+i+"][file_name]'>"+
+                        "<input type='hidden' class='fileMsgAll file_msg_"+i+"' value='"+input_arr[i]['file_size']+"' name='doc_annex["+i+"][file_size]'>"+
+                        "<input type='hidden' class='fileMsgAll file_msg_"+i+"' value='"+input_arr[i]['file_url']+"' name='doc_annex["+i+"][file_url]'>"+
+                        "<input type='hidden' class='fileMsgAll file_msg_"+i+"' value='"+input_arr[i]['file_type']+"' name='doc_annex["+i+"][file_type]'>"
+                )
+            }
+            console.log(input_arr);
+            $(".inputWrap").remove();
+            $("#doc_submit_form").submit();
+        });
+    }
+    var annex_index = 0;//附件索引
+    var ue = UE.getEditor('doc_content',{
+        serverUrl:'{:url("base/base/ue_upload")}',
+        initialFrameWidth :740,
+        initialFrameHeight:340,
+        autoHeightEnabled:false
+
+    });
+    ue.addListener('ready',function () {
+        ue.setContent('{$info.doc_content}');
+    },666)
+    function Sel(out_box_id) {
+        this.$out_box = $('#' + out_box_id);
+        this.$tag_box = this.$out_box.children('.tag-box').eq(0);
+        this.$tag_del = this.$tag_box.find('.tag-del');
+        this.$item_box = this.$out_box.children('.item-box').eq(0);
+        this.$item = this.$item_box.children('.item');
+        this.$sel_box = this.$out_box.children('.select-user-box').eq(0);
+        this.$item2 = this.$sel_box.find('.item2');
+        this.$click_all = this.$sel_box.find('.click-all');
+        this.$btn_box = this.$out_box.children('.btn-box').eq(0);
+        this.$sel_btn = this.$out_box;
+        this.$man_btn = this.$btn_box.children('.man-btn').eq(0);
+        this.$clean_btn = this.$btn_box.children('.clean-btn').eq(0);
+        this.tag_arr = [];
+        var _this = this;
+        this.selBtnClick(this.$sel_btn, _this);
+        this.manBtnClick(this.$man_btn, _this);
+        this.cleanBtnClick(this.$clean_btn, _this);
+        this.selBoxClick(this.$sel_box);
+        this.itemClick(this.$item, _this);
+        this.item2Click(this.$item2, _this);
+        this.allClick(this.$click_all, _this);
+    }
+    Sel.prototype.selBtnClick = function (elem, _this){
+        elem.click(function (event){
+            var $ib = _this.$item_box;
+            if($ib.css('display') == 'none'){
+                console.log('item show');
+                _this.hideBox('sel_box');
+                $ib.css('display', 'block');
+            } else{
+                console.log('item hide');
+                $ib.css('display', 'none');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.manBtnClick = function (elem, _this){
+        elem.click(function (event){
+            _this.hideBox('item_box');
+            var $sb = _this.$sel_box;
+            if($sb.css('display') == 'block'){
+                console.log('sel hide');
+                $sb.css('display', 'none');
+            } else{
+                console.log('sel show');
+                $sb.css('display', 'block');
+            }
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.cleanBtnClick = function (elem, _this){
+        elem.click(function (event){
+            console.log('clean');
+            _this.$item2.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).click();
+                }
+            });
+            _this.$click_all.each(function (){
+                if($(this).prop('checked') == true){
+                    $(this).prop('checked', false);
+                }
+            });
+            _this.change();
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.selBoxClick = function (elem){
+        elem.click(function (event){
+            event.stopPropagation();
+        });
+    }
+    Sel.prototype.itemClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('value');
+                var $item2 = _this.$item2;
+                $item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.item2Click = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (event){
+                var value = $(this).data('id');
+                var html = $(this).data('title');
+                if($(this).prop('checked') == false){
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).removeClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == true){
+                            $(this).prop('checked', false);
+                        }
+                    });
+                    var $tag = _this.$tag_box.children();
+                    $tag.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).remove();
+                        }
+                    });
+                    var ta = _this.tag_arr;
+                    for(var i in ta){
+                        if(ta[i] == value){
+                            _this.tag_arr.splice(i, 1);
+                        }
+                    }
+                } else{
+                    var $item = _this.$item;
+                    $item.each(function (){
+                        if($(this).data('value') == value){
+                            $(this).addClass('item-selected');
+                        }
+                    });
+                    var $item2 = _this.$item2;
+                    $item2.each(function (){
+                        if($(this).data('id') == value && $(this).prop('checked') == false){
+                            $(this).prop('checked', true);
+                        }
+                    });
+                    var $tag = $('<li class="tag" data-value="' + value + '">' + html + '<span class="tag-del">X</span></li>');
+                    _this.$tag_box.append($tag);
+                    _this.tag_arr.push(value);
+                    _this.$tag_del = _this.$tag_box.find('.tag-del');
+                    _this.tagDelClick(_this.$tag_del, _this);
+                }
+                _this.change();
+                event.stopPropagation();
+            });
+        });
+    }
+    Sel.prototype.allClick = function (elem, _this){
+        elem.each(function (){
+            $(this).click(function (){
+                var pid = $(this).data('pid');
+                if($(this).prop('checked') == true){
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == false){
+                            $(this).click();
+                        }
+                    });
+                } else{
+                    _this.$item2.each(function (){
+                        if($(this).data('pid') == pid && $(this).prop('checked') == true){
+                            $(this).click();
+                        }
+                    });
+                }
+            });
+        });
+    }
+    Sel.prototype.tagDelClick = function (elem, _this){
+        elem.each(function (){
+            console.log('tagDelClick');
+            $(this).get(0).onclick = function (event){
+                var $tag = $(this).closest('.tag');
+                var value = $tag.data('value');
+                _this.$item2.each(function (){
+                    if($(this).data('id') == value){
+                        $(this).click();
+                        return false;
+                    }
+                });
+//                _this.change();
+                var e = window.event || event;
+                if(e.stopPropagation){
+                    e.stopPropagation();
+                } else{
+                    window.event.cancelBubble = true;
+                }
+            };
+        });
+    }
+    Sel.prototype.hideBox = function (status){
+        if(status == undefined){ status = 'item_box';}
+        switch (status){
+            case 'item_box':
+                this.$item_box.css('display', 'none');
+                break;
+            case 'sel_box':
+                this.$sel_box.css('display', 'none');
+                break;
+            case 'all':
+                this.$item_box.css('display', 'none');
+                this.$sel_box.css('display', 'none');
+                break;
+        }
+    }
+    Sel.prototype.getTagArr = function (){
+        return this.tag_arr;
+    }
+    Sel.prototype.changeFunc = function (func){
+        if(typeof func == 'function'){
+            this.changeFunc = func;
+        }
+    }
+    Sel.prototype.change = function (){
+        this.changeFunc(this.getTagArr());
+    }
+    $(function (){
+        var sel0 = new Sel('out_box_left');
+        var sel1 = new Sel('out_box_right');
+        $('body').click(function (event){
+            sel0.hideBox('all');
+            sel1.hideBox('all');
+        });
+        sel0.changeFunc(function (arr){
+            var str = arr.join(',');
+            console.log('sel0:', str);
+            $('#doc_publish').attr('value', str);
+        });
+        sel1.changeFunc(function (arr){
+            var str = arr.join(',');
+            console.log('sel1:', str);
+            $('#doc_cc').attr('value', str);
+        });
+
+        var $state_box = $('.state-box');
+        $state_box.click(function (){
+            $state_box.each(function (){
+                $(this).removeClass('label-active');
+            });
+            $(this).addClass('label-active');
+        });
+
+        var upsize = 0;
+        var uparr = [];
+        var fileinput = document.getElementById('fileinput');
+        var input_index = 0;
+        fileinput.onchange = function (){
+            console.log('file change');
+            var formData = new FormData();
+            formData.append('file', $('#fileinput').get(0).files[0]);
+//            console.log('formData msg:', formData.get('file'));
+//            if(formData.get('file') == 'undefined'){
+//                console.log('no file');
+//                return;
+//            }
+//            upsize += parseInt(formData.get('file').size);
+//            if(formData.get('file').size > 52400000){
+//                alert('文件大小超过50M');
+//                return;
+//            }
+//            if(upsize > 52400000){
+//                alert('文件总大小超过50M');
+//                return;
+//            }
+            $.ajax({
+                url:"{:url('base/base/upload_files','','',true)}",
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (obj){
+                    console.log('submit succ', obj);
+                    if(obj.state == 1){
+                        var _html =
+                                "<div class='input_div input_div_ajax_"+input_index+"'><input type='hidden' value='"+obj.data.file_name+"' name='file_name'>"+
+                                "<input type='hidden' value='"+obj.data.file_size+"' name='file_size'>"+
+                                "<input type='hidden' value='"+obj.data.file+"' name='file_url'>"+
+                                "<input type='hidden' value='"+obj.data.file_type+"' name='file_type'></div>";
+                        $(".inputWrap").append(_html);
+                        upfileShow(obj.data,input_index);
+                        input_index++;
+                        annex_index++;
+                        eachInput();
+                    } else{
+                        $('#file_msg').html('上传失败');
+                    }
+                },
+                error: function (data) {
+                    console.log('submit fail', data);
+                    $('#file_msg').html('上传失败');
+                }
+            });
+        };
+        function upfileShow(obj,input_index){
+            var tempobj = {
+                'file_name': obj.file_name,
+                'file_url': obj.file,
+                'size': obj.file_size,
+                'type': obj.file_type
+            };
+            uparr.push(tempobj);
+            console.log('uparr:', uparr);
+            $('#doc_annex').attr('value', uparr);
+            var $file_msg = $('#file_msg');
+            var $filetag = $(
+                    '<div class="file">'
+                    + obj.file_name +
+                    '<span class="file-del" data-filename="'
+                    + obj.file_name +
+                    '"data-id="'
+                    + input_index +
+                    '">删除</span></div>'
+            );
+            $filetag = fileDelBind($filetag, obj);
+            $file_msg.append($filetag);
+        }
+        function fileDelBind(filetag, obj){
+            var $filetag = filetag;
+            var $temp = $filetag.children('.file-del');
+            $temp.click(function (index){
+                var filename = obj.file_name;
+                var filesize = obj.file_size;
+                var indexId = $temp.data("id");
+                for(var i in uparr){
+                    if(uparr[i].file_name == filename){
+                        uparr.splice(i, 1);
+                        console.log('uparr del', uparr);
+                    }
+                }
+                $(this).parent().remove();
+                $(".input_div_ajax_"+indexId).remove();
+                console.log('je:',$(this).parent());
+                console.log('input_index:',index);
+                $('.ig' + index).remove();
+                console.log('filename:',filename);
+
+                upsize -= filesize;
+                $('#doc_annex').attr('value', uparr);
+                input_arr.splice(0,input_arr.length);
+                eachInput();
+            }.bind($temp, input_index));
+            return $filetag;
+        }
+        //人员提取
+        var data = '{$info.doc_publish}';
+        var cata = '{$info.doc_cc}';
+        var br = data.split(',');
+        var cr = cata.split(',');
+        for(var i=0;i<=br.length;i++){
+            $("#out_box_left").find(".select-user-box").find(".item2").each(function(){
+                var _this_id=$(this).data("id");
+                if(br[i]==_this_id){
+                    $(this).click();
+                }
+            });
+
+        };
+        for(var i=0;i<=cr.length;i++){
+            $("#out_box_right").find(".select-user-box").find(".item2").each(function(){
+                var _this_id=$(this).data("id");
+                if(cr[i]==_this_id){
+                    $(this).click();
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>信息</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_uoz38lo2cn64j9k9.css">
+    <script src="/resource/new_js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css">
+    <link rel="stylesheet" href="/resource/new_css/article_index.css">
+    <script src="/resource/new_js/amazeui.js"></script>
+    <script src="/resource/new_js/article_index.js"></script>
+    <style>
+        .search-cover{
+            display: block;
+            top: 2px;
+            border: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibody">
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">通知</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer">
+        <div class="aside-left">
+            <div class="aside-left-top">
+                <a href="{:url('article/index')}" style="color:#3497db;">
+                    <span class="iconfont" style="font-size: 19px;">&#xe62c;</span>
+                    <span>信息中心</span>
+                </a>
+            </div>
+            <div class="aside-left-list">
+                <ul>
+                    <li style="padding-left:20px;">
+                        <span class="iconfont" style="font-size:18px">&#xe651;</span>
+                        <a href="">默认分类</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">内部通知</a>
+                    </li>
+                    <li style="padding-left:38px;">
+                        <span class="iconfont" style="font-size:15px">&#xe6c0;</span>
+                        <a href="">活动通知</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="aside-right">
+            {switch name="type_name" }
+              {case value="未读"}
+                    <div class="doc_nav">
+                    <ul>
+                        <li>
+                            <a href="{:url('article/index',['type'=>0])}">
+                                <span class="iconfont">&#xe62c;</span>已发布
+                            </a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>1])}" class="active">
+                            <span class="iconfont">&#xe621;</span>未读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>2])}">
+                            <span class="iconfont">&#xe647;</span>已读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>3])}">
+                            <span class="iconfont">&#xe642;</span>待审核</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>4])}">
+                            <span class="iconfont">&#xe618;</span>草稿</a>
+                        </li>
+                    </ul>
+                </div>
+                    <div class="page-list-header">
+                        <button type="button" class="am-btn am-btn-primary" style="float: left;margin: 0 10px">
+                            <a href="{:url('article/add_article')}" style="color: white;font-size: 14px;">新建</a>
+                        </button>
+                        <div class="am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                更多操作
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#" class="dialog_del"><span class="iconfont" style="display: inline-block;margin-right: 10px;font-size:13px;">&#xe61b;</span>删除</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="search-box">
+                            <form action="" method="get">
+                                <span class="iconfont">&#xe67a;</span>
+                                <div style="float: left;">
+                                    <input type="text" name="title" class="am-form-field am-round article-search" placeholder="输入标题查询" />
+                                    <a class="iconfont shezhi" style="display:none; font-size: 28px">&#xe604;</a>
+                                    <button type="submit" class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            {/case}
+            {case value="已读"}
+                    <div class="doc_nav">
+                    <ul>
+                        <li>
+                            <a href="{:url('article/index',['type'=>0])}">
+                                <span class="iconfont">&#xe62c;</span>已发布
+                            </a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>1])}" >
+                            <span class="iconfont">&#xe621;</span>未读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>2])}" class="active">
+                            <span class="iconfont">&#xe647;</span>已读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>3])}">
+                            <span class="iconfont">&#xe642;</span>待审核</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>4])}">
+                            <span class="iconfont">&#xe618;</span>草稿</a>
+                        </li>
+                    </ul>
+                </div>
+                    <div class="page-list-header">
+                        <button type="button" class="am-btn am-btn-primary" style="float: left;margin: 0 10px">
+                            <a href="{:url('article/add_article')}" style="color: white;font-size: 14px;">新建</a>
+                        </button>
+                        <div class="am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                更多操作
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#" class="dialog_del"><span class="iconfont" style="display: inline-block;margin-right: 10px;font-size:13px;">&#xe61b;</span>删除</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="search-box">
+                            <form action="" method="get">
+                                <span class="iconfont">&#xe67a;</span>
+                                <div style="float: left;">
+                                    <input type="text" name="title" class="am-form-field am-round article-search" placeholder="输入标题查询"/>
+                                    <a class="iconfont shezhi" style="display:none; font-size: 28px">&#xe604;</a>
+                                    <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            {/case}
+            {case value="待审核"}
+                        <div class="doc_nav">
+                        <ul>
+                            <li>
+                                <a href="{:url('article/index',['type'=>0])}">
+                                    <span class="iconfont">&#xe62c;</span>已发布
+                                </a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>1])}" >
+                                <span class="iconfont">&#xe621;</span>未读</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>2])}">
+                                <span class="iconfont">&#xe647;</span>已读</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>3])}"  class="active">
+                                <span class="iconfont">&#xe642;</span>待审核</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>4])}">
+                                <span class="iconfont">&#xe618;</span>草稿</a>
+                            </li>
+                        </ul>
+                    </div>
+                        <div class="page-list-header">
+                            <button type="button" class="am-btn am-btn-primary" style="float: left;margin: 0 10px">
+                                <a href="" style="color: white;font-size: 14px;">审核通过</a>
+                            </button>
+                            <button type="button" class="am-btn am-btn-default" style="float: left;margin: 0 10px;">
+                                <a href="" style="color: white;font-size: 14px;color: #82939E;">退回</a>
+                            </button>
+                            <div class="am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                    更多操作
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="#" class="dialog_del"><span class="iconfont" style="display: inline-block;margin-right: 10px;font-size:13px;">&#xe61b;</span>删除</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="search-box">
+                                <form action="" method="get">
+                                    <span class="iconfont">&#xe67a;</span>
+                                    <div style="float: left;">
+                                        <input type="text" class="am-form-field am-round article-search" placeholder="输入标题查询" />
+                                        <a class="iconfont shezhi" style="display:none; font-size: 28px">&#xe604;</a>
+                                        <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+            {/case}
+            {case value="草稿"}
+                    <div class="doc_nav">
+                    <ul>
+                        <li>
+                            <a href="{:url('article/index',['type'=>0])}">
+                                <span class="iconfont">&#xe62c;</span>已发布
+                            </a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>1])}" >
+                            <span class="iconfont">&#xe621;</span>未读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>2])}">
+                            <span class="iconfont">&#xe647;</span>已读</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>3])}">
+                            <span class="iconfont">&#xe642;</span>待审核</a>
+                        </li>
+                        <li><a href="{:url('article/index',['type'=>4])}"  class="active">
+                            <span class="iconfont">&#xe618;</span>草稿</a>
+                        </li>
+                    </ul>
+                </div>
+                    <div class="page-list-header">
+                        <button type="button" class="am-btn am-btn-primary" style="float: left;margin: 0 10px">
+                            <a href="{:url('article/add_article')}" style="color: white;font-size: 14px;">新建</a>
+                        </button>
+                        <div class="am-dropdown" data-am-dropdown style="float:left">
+                            <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                更多操作
+                                <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                            </button>
+                            <ul class="am-dropdown-content">
+                                <li>
+                                    <a href="#" class="dialog_del"><span class="iconfont" style="display: inline-block;margin-right: 10px;font-size:13px;">&#xe61b;</span>删除</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="search-box">
+                            <form action="" method="get">
+                                <span class="iconfont">&#xe67a;</span>
+                                <div style="float: left;">
+                                    <input type="text" name="title" class="am-form-field am-round article-search" placeholder="输入标题查询"/>
+                                    <a class="iconfont shezhi" style="display:none; font-size: 28px">&#xe604;</a>
+                                    <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            {/case}
+            {default /}
+                        <div class="doc_nav">
+                        <ul>
+                            <li>
+                                <a href="{:url('article/index',['type'=>0])}"  class="active">
+                                    <span class="iconfont">&#xe62c;</span>已发布
+                                </a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>1])}" >
+                                <span class="iconfont">&#xe621;</span>未读</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>2])}">
+                                <span class="iconfont">&#xe647;</span>已读</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>3])}">
+                                <span class="iconfont">&#xe642;</span>待审核</a>
+                            </li>
+                            <li><a href="{:url('article/index',['type'=>4])}">
+                                <span class="iconfont">&#xe618;</span>草稿</a>
+                            </li>
+                        </ul>
+                    </div>
+                        <div class="page-list-header">
+                            <button type="button" class="am-btn am-btn-primary" style="float: left;margin: 0 10px">
+                                <a href="{:url('article/add_article')}" style="color: white;font-size: 14px;">新建</a>
+                            </button>
+                            <div class="am-dropdown" data-am-dropdown style="float:left">
+                                <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                                    更多操作
+                                    <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                                </button>
+                                <ul class="am-dropdown-content">
+                                    <li>
+                                        <a href="#" class="dialog_del"><span class="iconfont" style="display: inline-block;margin-right: 10px;font-size:13px;">&#xe61b;</span>删除</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="search-box">
+                                <form action="" method="get">
+                                    <span class="iconfont">&#xe67a;</span>
+                                    <div style="float: left;">
+                                        <input type="text" name="title" class="am-form-field am-round article-search" placeholder="输入标题查询"/>
+                                        <a class="iconfont shezhi" style="display:none; font-size: 28px">&#xe604;</a>
+                                        <button class="iconfont search-cover" style="font-size: 32px">&#xe64b;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+            {/switch}
+            <div class="page-table" style="position: relative">
+                <div style="position: absolute;width:780px;height: 500px;top: 0px;left: 0px;padding:90px 200px;display: none" class="table-pic">
+                    <img src="/resource/img/no-info.png" alt="">
+                </div>
+                <table class="am-table am-table-striped am-table-hover">
+                    <tr height="40px" style="color:#3497db;background-color: darkblue;">
+                        <th style="width: 50px;padding-left: 22px;background-color: #f9f9f6;">
+                            <input type="checkbox" style="height: 20px; width: 20px;" id="checkall"/>
+                        </th>
+                        <th style="width: 60px;background-color: #f9f9f6;padding-left:15px;">
+                            <span class=" iconfont" style="font-size:16px;">&#xe6db;</span>
+                        </th>
+                        <th style="width: 434px;background-color: #f9f9f6;font-weight: 400">
+                            标题
+                        </th>
+                        <th style="width: 140px;background-color: #f9f9f6;font-weight: 400">
+                            最后修改
+                        </th>
+                        <th style="background-color: #f9f9f6;font-weight: 400">
+                            <span>查看</span>
+                        </th>
+                    </tr>
+                    {volist name="article_list" id="vo"}
+                    <tr height="60px">
+                        <th style="width: 50px;padding-left: 22px;padding-top: 20px;">
+                            <input type="checkbox" data-id="{$vo.article_id}" style="height: 20px; width: 20px;"/>
+                        </th>
+                        <th style="width: 60px;padding:8px 0 0 10px">
+                            <span class=" iconfont" style="font-size:30px;font-weight: 300;">&#xe68e;</span>
+                        </th>
+                        <th style="width: 434px;padding-top:20px">
+                            <a href="{:url('show',['article_id'=>$vo['article_id']])}" style="font-size: 14px; font-weight: 400;" class="table-a">{$vo.article_title}</a>
+                        </th>
+                        <th style="width: 140px;font-size: 14px; font-weight: 400;">
+                            <span style="font-size: 12px;color:#82939E ;">{$vo.user_real_name}</span>
+                            <span style="display: block;font-size: 12px;color: #B2C0D1">{$vo.article_create_time|date="Y-m-d H:i",###}</span>
+                        </th>
+                        <th style="position: relative;">
+                            <span style="font-size: 14px; font-weight: 400;display: inline-block;margin-top: 15px;" class="table-number">{$read_count}</span>
+                            {eq name="is_super" value="1"}
+                                <div class="table-edit" style="width:80px; height: 30px;;z-index: 5;position: absolute;top: 18px;left:-5px;display: none;">
+                                    <a class="iconfont table-edit-left" data-id="{$vo.article_id}" data-url="{:url('article/edit_article',['article_id'=>$vo.article_id])}">&#xe605;</a>
+                                    <a class="iconfont table-edit-right"  data-id="{$vo.article_id}">&#xe61b;</a>
+                                </div>
+                                {else/}
+                                {eq name="user_id" value="$vo.doc_user_id"}
+                                    <div class="table-edit" style="width:80px; height: 30px;;z-index: 5;position: absolute;top: 18px;left:-5px;display: none;">
+                                        <a class="iconfont table-edit-left" data-id="{$vo.article_id}" data-url="{:url('article/edit_article',['article_id'=>$vo.article_id])}">&#xe605;</a>
+                                        <a class="iconfont table-edit-right" data-id="{$vo.article_id}">&#xe61b;</a>
+                                    </div>
+                                {/eq}
+                            {/eq}
+                        </th>
+                    </tr>
+                    {/volist}
+                </table>
+            </div>
+            <div class="page-list">
+                {$article_list->render()}
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="footer">
+        <a href="{:url('doc/index')}"><i class="footer-logo"></i></a>
+        <a href="">信息中心</a>
+        <a href="{:url('article/index')}">通知</a>
+        <a href="">通知列表</a>
+    </div>
+</div>
+
+<!--高级设计弹出框-->
+<div class="set-dialog">
+ <div class="dialog-title">
+     高级设置
+     <a class="dialog-close">&times;</a>
+ </div>
+  <div class="dialog-content">
+     <form action="{:url('')}" method="post">
+         <div class="control-group">
+             <label for="">关键字</label>
+             <input type="text">
+         </div>
+         <div class="control-group">
+             <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}" style="position: relative">
+                 <label for="">开始时间</label>
+                 <input type="text" class="am-form-field" style="margin-left: 10px;border-radius: 4px; width: 300px; display: inline-block;">
+                  <span class="am-input-group-btn am-datepicker-add-on">
+                    <button class="am-btn am-btn-default" type="button" style=" position: absolute;z-index: 10; top: 0px;right: 2px;height: 40px;">
+                     <span class="am-icon-calendar"></span>
+                    </button>
+                  </span>
+             </div>
+         </div>
+         <div class="control-group">
+             <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'dd-mm-yyyy'}" style="position: relative">
+                 <label for="">结束时间</label>
+                 <input type="text" class="am-form-field" style="margin-left: 10px;border-radius: 4px; width: 300px; display: inline-block;">
+                  <span class="am-input-group-btn am-datepicker-add-on">
+                    <button class="am-btn am-btn-default" type="button" style=" position: absolute;z-index: 10; top: 0px;right: 2px;height: 40px;">
+                        <span class="am-icon-calendar"></span>
+                    </button>
+                  </span>
+             </div>
+         </div>
+     </form>
+  </div>
+ <div class="dialog-button">
+     <button type="button" class="am-btn am-btn-default">取消</button>
+     <button type="button" class="am-btn am-btn-primary">确定</button>
+ </div>
+</div>
+<!--遮罩层-->
+<div class="mask" style="display: none">
+   <div class="edit-mask">
+       <ul class="mask-panel">
+           <li style="height:90px;padding-top: 30px;text-align: center">
+               修改后可能需要重新审核
+           </li>
+           <li style="padding-left:150px">
+               <button style="height: 30px;padding-top: 5px" class="am-btn am-btn-default mask-close">取消</button>
+               <button style="height: 30px;padding-top: 5px" class="am-btn am-btn-primary mask-close mask-edit-sure">确定</button>
+           </li>
+       </ul>
+   </div>
+    <div class="del-mask">
+        <ul class="mask-panel">
+            <li style="height:90px;padding: 30px 0 0 80px">
+               <p>确认要删除选中的公文吗？该操作<br>无法恢复</p>
+            </li>
+            <li style="padding-left:150px">
+                <button style="height: 30px;padding-top: 5px" class="am-btn am-btn-default mask-close">取消</button>
+                <form action="{:url('article/delete_article')}" method="post" style="display: inline-block" id="del_form">
+                    <input type="hidden" name="article_id" value="" id="del-input">
+                <button style="height: 30px;padding-top: 5px" class="am-btn am-btn-primary mask-close delete-sure">确定</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+//编辑页跳转
+    $(".table-edit-left").click(function(){
+        var id = $(this).data("id");
+        if(typeof(id) != "undefined" && id != null){
+            $(".edit-mask").data("id",id);
+        }
+    });
+    $(".mask-edit-sure").on("click",function(){
+        var article_id = $(".edit-mask").data("id");
+        if(typeof(article_id) != "undefined" && article_id != null){
+            var url = $("[data-id="+article_id+"]").data("url");
+        }
+             window.location.href = url;
+    });
+
+//更多操作的删除
+    $(".dialog_del").click(function(){
+        $(".mask").css("display","block");
+        $(".edit-mask").css("display","none");
+        $(".del-mask").css("display","block");
+        var id=$(".am-table").find("tr").find("input:checked").data("id");
+        console.log(id);
+          if(typeof(id) != "undefined" && id != null){
+            $(".edit-mask").data("id",id);
+          };
+    });
+
+    //    删除页
+    $(".table-edit-right").click(function(){
+        var id = $(this).data("id");
+        if(typeof(id) != "undefined" && id != null){
+            $(".edit-mask").data("id",id);
+        }
+    });
+
+    $(".delete-sure").on("click",function(){
+        var article_id = $(".edit-mask").data("id");
+        $("#del-input").val(article_id);
+        $("#del_form").submit();
+    });
+    //没有信息时显示图片
+    var tr_len=$(".page-table").find("tr").length;
+    console.log(tr_len)
+    if(tr_len==1){
+        $(".table-pic").css("display","block")
+    }
+</script>
+</body>
+</html>

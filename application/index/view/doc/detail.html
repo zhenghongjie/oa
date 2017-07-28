@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公文</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_yzqoldu8p3dnp14i.css">
+    <script src="/resource/new_js/jquery.js"></script>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css">
+    <link rel="stylesheet" href="/resource/new_css/doc_detail.css">
+    <script src="/resource/new_js/amazeui.js"></script>
+    <script src="/resource/new_js/doc_index.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibody">
+    <form id="instructions_doc" action="{:url('doc/instructions_doc')}" method="post">
+        <input type="hidden" name="doc_id" value="{$detail.doc_id}">
+        <input id="instructions_comment" type="hidden" name="comment" value="">
+    </form>
+    <form id="sign_doc" action="{:url('doc/sign_doc')}" method="post">
+        <input type="hidden" name="doc_id" value="{$detail.doc_id}">
+        <input id="sign_comment" type="hidden" name="comment" value="">
+    </form>
+    <div class="ibody-header">
+        <h2 style="font-weight: 500">公文</h2>
+        <div class="mtw">
+            <span>{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="icontainer">
+        <div class="aside-left">
+            <ul>
+                <li class="li-big">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600">&#xe639;</span>
+                    <a href="">未签收</a><span class="show-span">169</span>
+                </li>
+                <li class="li-big li-big-active">
+                    <span class="iconfont" style="font-size: 18px;font-weight: 600;color: #3497db;">&#xe637;</span>
+                    <a href="" style="color: #3497db;">公文</a>
+                </li>
+                <li class="li-small">
+                    <span class="iconfont">&#xe6b7;</span>
+                    <a href="">下发公文</a>
+                </li>
+                <li class="li-small">
+                    <span class="iconfont">&#xe6b7;</span>
+                    <a href="">上报公文</a>
+                </li>
+            </ul>
+        </div>
+        <div class="aside-right">
+            <div class="detail-header" >
+                <a href="{:url('doc/index')}" class="detail-close"></a>
+                <h1 class="doc-title">{$detail.doc_title}</h1>
+                <h4 class="doc-number">{$detail.doc_no}</h4>
+                <div class="doc-content">
+                     <p> &nbsp; &nbsp; &nbsp;{$detail.doc_content}</p>
+                </div>
+                {notempty name="detail.doc_annex"}
+                <div class="doc-file">
+                   <div>
+                       <span class="iconfont">&#xe649;</span>
+                       <span style="font-weight: 600">附件（{$detail.doc_annex|count}个）</span>
+                   </div>
+                    {volist name="detail.doc_annex" id="vo"}
+                    <div class="doc-file-content">
+                        <div class="doc-img">
+                           <span class="iconfont" style="font-size:30px">&#xe68e;</span>
+                        </div>
+                        <div class="doc-attr">
+                            <div class="doc-attr-p">
+                                {$vo.file_name}
+                                {gt name="vo.file_size" value="0"}
+                                <span>({$vo.file_size|get_file_size})</span>
+                                {/gt}
+                            </div>
+                            <div>
+                                <a class="doc-download" href="{$vo.file_url}" target="_blank">下载</a>
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+                {/notempty}
+                <div class="button-area">
+                    <div></div>
+                    <a href="{:url('doc/depart_doc',['doc_id'=>$detail.doc_id])}">
+                        <button type="button" class="am-btn am-btn-warning">分发文件</button>
+                    </a>
+                        <button id="sign_submit" type="button" class="am-btn am-btn-danger">立即签收</button>
+                    <a  class="next-remind" style="color: #3497db;display: inline-block;vertical-align:middle;margin:10px 0 0 8px">
+                        下次提醒
+                    </a>
+                </div>
+            </div>
+            <div class="doc-gap"></div>
+            <div class="doc-info">
+               <div class="title-info">
+                   <span style="font-weight: bold;margin-right: 30px">信息</span>
+                   <span>发布于</span>
+                   <span>{$detail.doc_time|date="d日 H:i",###}</span>
+                   <span>|</span>
+                   <span> 审核人：{$detail.user_real_name}</span>
+                   <span >|</span>
+                   <span > 版本：1.0</span>
+                   <span>|</span>
+                   <span data-id="{$detail.doc_c_id}">分类:{$detail.cate_title}</span>
+               </div>
+                <div class="doc-public">
+                    <span style="font-weight: bold;margin-right: 30px">范围</span>
+                    <i class="iconfont" style="margin-right: -7px;">&#xe63f;</i>
+                    {present name="publish['depart']"}
+                    {volist name="publish['depart']" id="vo"}
+                      <span data-id="{$vo.depart_id}" data-title="{$vo.depart_title}">{$vo.depart_title}</span>
+                    {/volist}
+                    {/present}
+                    {present name="publish['station']"}
+                    {volist name="publish['station']" id="vo"}
+                      <span data-id="{$vo.station_id}" data-title="{$vo.station_title}">{$vo.station_title}</span>
+                    {/volist}
+                    {/present}
+                    {present name="publish['user']"}
+                    {volist name="publish['user']" id="vo"}
+                      <span data-id="{$vo.user_id}" data-title="{$vo.user_real_name}">{$vo.user_real_name}</span>
+                    {/volist}
+                    {/present}
+                </div>
+                <div class="doc-cc">
+                    <span style="font-weight: bold;margin-right: 30px">抄送</span>
+                    {present name="cc_scope['depart']"}
+                    {volist name="cc_scope['depart']" id="vo"}
+                      <span data-id="{$vo.depart_id}" data-title="{$vo.depart_title}">{$vo.depart_title}</span>
+                    {/volist}
+                    {/present}
+                    {present name="cc_scope['station']"}
+                    {volist name="cc_scope['station']" id="vo"}
+                      <span data-id="{$vo.station_id}" data-title="{$vo.station_title}">{$vo.station_title}</span>
+                    {/volist}
+                    {/present}
+                    {present name="cc_scope['user']"}
+                    {volist name="cc_scope['user']" id="vo"}
+                      <span data-id="{$vo.user_id}" data-title="{$vo.user_real_name}">{$vo.user_real_name}</span>
+                    {/volist}
+                    {/present}
+                </div>
+            </div>
+            <div class="no-comment">
+            </div>
+            <div class="doc-text">
+                <textarea id="comment" rows="5" placeholder="想说点什么"></textarea>
+                <button id="instructions_submit" type="button" class="am-btn am-btn-primary">提交</button>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <table class="doc-detail-table">
+                    <thead>
+                    <tr style="background-color: #166dff;color: #ffffff;font-size: 16px;text-align: center;">
+                        <th >部门名称</th>
+                        <th >处理人员</th>
+                        <th >处理时间</th>
+                        <th >执行动作</th>
+                        <th >处理意见</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {volist name="read_list" id="vo"}
+                            <tr>
+                                <td>{$vo.depart_title|default="未分配"}</td>
+                                <td>{$vo.user_real_name}</td>
+                                <td>
+                                    {gt name="vo.r_update_time" value="0"}
+                                    {$vo.r_update_time|date="Y年m月d日 H:i",###}
+                                    {else/}--
+                                    {/gt}
+                                </td>
+                                <td>
+                                    {switch name="vo.r_action"}
+                                    {case value="1"}未操作{/case}
+                                    {case value="2"}已阅读{/case}
+                                    {case value="3"}已签收{/case}
+                                    {/switch}
+                                </td>
+                                <td>{$vo.r_comment}</td>
+                            </tr>
+                        {/volist}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div class="footer">
+        <a href="{:url('index/index')}"><i class="footer-logo"></i></a>
+        <a href="">信息中心</a>
+        <a href="{:url('doc/index')}">公文</a>
+        <a href="">查看公文</a>
+    </div>
+</div>
+<script>
+    $(".next-remind").click(function(){
+        $(this).css("display",'none');
+        $(".am-btn-danger").css({"background-color":'#f8f8f8',"border-color":'#dadce6',"color":'#82939e'})
+    });
+
+    $("#instructions_submit").on("click",function(){
+        var str = $("#comment").val();
+        $("#instructions_comment").val(str);
+        $("#instructions_doc").submit();
+    });
+
+    $("#sign_submit").on("click",function(){
+        var str = $("#comment").val();
+        $("#sign_comment").val(str);
+        $("#sign_doc").submit();
+    });
+</script>
+</body>
+</html>

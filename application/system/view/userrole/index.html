@@ -1,0 +1,70 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}角色管理{/block}
+{block name="main"}
+<div>
+    <div>
+        <section>
+            <h2><strong style="color:grey;">角色列表</strong></h2>
+            <div class="page_title">
+                <div class="fl">
+                    <a class="top_rt_btn" href="{:url('new_role')}">添加角色</a>
+                </div>
+                <div class="fr" >
+                </div>
+            </div>
+                <table class="table" style="margin-bottom: 120px;text-align: center;">
+                    <tr>
+                        <th>角色ID</th>
+                        <th>角色名称</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="role" id="vo"}
+                    <tr >
+                        <td>{$vo.role_id}</td>
+                        <td>{$vo.role_title}</td>
+                        <td style="text-align: center;">
+                            <div class="dmgc_action">
+                                <div>
+                                    选择操作
+                                </div>
+                                <div class="more" style="float: left">
+                                    <a href="{:url('edit_role',['role_id'=>$vo['role_id']])}" >编辑角色</a>
+                                    <a href="#" onclick="dmgc_show_pop('pop_del_station',$(this))" data-vo='{:json_encode($vo)}'>删除角色</a>
+                                    <a href="{:url('set_role_rule',['role_id'=>$vo['role_id']])}" >权限设置</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {/volist}
+                </table>
+        </section>
+    </div>
+    <!--删除-->
+    <section class="pop_bg pop_del_station">
+        <form  action="{:url('delete_role')}" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="hidden" name="role_id"/>
+            <div class="pop_cont">
+                <h3>删除岗位</h3>
+                <div class="pop_cont_input">
+                    <ul>
+                        <li class="form-group">
+                            <span class="item_name" style="width:120px;">角色名称：</span>
+                            <input style="display:none">
+                            <input type="text" class="textbox textbox_295" name="role_title" placeholder="角色名称" autocomplete="off" readonly/>
+                        </li>
+                    </ul>
+                </div>
+                <div style="text-align: center">
+                    <span style="color: red;">警告：您将要删除该岗位，请谨慎操作！！！</span>
+                </div>
+                <div class="btm_btn">
+                    <input type="submit" value="确定" class="input_btn trueBtn "/>
+                    <input type="button" value="放弃" class="input_btn falseBtn pop_close"/>
+                </div>
+            </div>
+        </form>
+    </section>
+
+
+</div>
+{/block}

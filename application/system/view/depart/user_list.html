@@ -1,0 +1,70 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}用户管理{/block}
+{block name="main"}
+<div>
+    <div>
+        <section>
+            <h2><strong style="color:grey;">用户列表</strong></h2>
+            <div class="page_title">
+                <div class="fl">
+                    <a class="top_rt_btn" href="{:url('new_user')}">新增用户</a>
+                </div>
+                <div class="fr" >
+                </div>
+            </div>
+                <table class="table" style="margin-bottom: 120px;text-align: center;">
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>用户名</th>
+                        <th>手机</th>
+                        <th>性别</th>
+                        <th>微信</th>
+                        <th>工号</th>
+                        <th>邮箱</th>
+                        <th>部门</th>
+                        <th>角色</th>
+                        <th>岗位</th>
+                        <th>录入时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {volist name="user_list" id="vo"}
+                    <tr >
+                        <td>{$vo.user_id}</td>
+                        <td>{$vo.user_real_name|default="未指定"}</td>
+                        <td>{$vo.user_username}</td>
+                        <td>{$vo.user_mobile}</td>
+                        <td>
+                            {switch name="vo.user_sex"}
+                            {case value="1"}男{/case}
+                            {case value="2"}女{/case}
+                            {/switch}
+                        </td>
+                        <td>{$vo.user_wx|default="未指定"}</td>
+                        <td>{$vo.user_no|default="未指定"}</td>
+                        <td>{$vo.user_email|default="未指定"}</td>
+                        <td>{$vo.depart_title|default="未指定"}</td>
+                        <td>{$vo.role_title|default="未指定"}</td>
+                        <td>{$vo.station_title|default="未指定"}</td>
+                        <td>{$vo.user_create_time}</td>
+                        <td style="text-align: center;">
+                            <div class="dmgc_action">
+                                <div>
+                                    选择操作
+                                </div>
+                                <div class="more" style="float: left">
+                                    <a href="{:url('edit_user',['user_id'=>$vo['user_id']])}" >编辑用户</a>
+                                </div>
+
+                            </div>
+                        </td>
+                    </tr>
+                    {/volist}
+                </table>
+        </section>
+        <section>
+            {$user_list->render()}
+        </section>
+    </div>
+</div>
+{/block}

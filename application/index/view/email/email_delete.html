@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>邮件</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_bqphh0tc2haaif6r.css"/>
+    <link rel="stylesheet" href="/resource/new_css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/resource/new_css/email_delete.css"/>
+    <script src="/resource/new_js/jquery.js"></script>
+    <script src="/resource/new_js/amazeui.js"></script>
+    <script type="text/javascript" src="/resource/new_js/add_email.js"></script>
+</head>
+<body>
+{include file="../../layout/view/base/index_header" /}
+<!--主体内容-->
+<div class="ibcontainer">
+    <div class="ibcontainer_date">
+        <div class="date">
+            <span style="display: inline-block;float: left;font-size: 20px;font-weight: 500;">邮件中心</span>
+            <span style="display: inline-block;float: right;">{$date_lunar}</span>
+        </div>
+    </div>
+    <div class="ibcontainer_body">
+        <div class="aside-left">
+            <div class="aside-left-top">
+                <a href="{:url('email/add_email')}">
+                    <button type="button" class="am-btn am-btn-warning" id="yellow-button">
+                        <div style="margin-top: -3px;">
+                            <span class="iconfont" style="font-size:20px;">&#xe605;</span>
+                            <span style="font-size: 14px;">写邮件</span>
+                        </div>
+                    </button>
+                </a>
+            </div>
+            <div class="aside-left-list">
+                <ul>
+                    <li>
+                        <a href="{:url('email/index')}" style="padding: 7px 0 0 25px;">
+                            <span class="iconfont" style="font-size: 18px;font-weight: 700;">&#xe628;</span>
+                            <span>内部收件箱</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/email_todo')}" style="padding:4px 0 0 24px">
+                            <span class="iconfont" style="font-size: 20px;font-weight: 700;">&#xe60d;</span>
+                            <span style="color:#82939E ;">代办邮件</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/darft_email')}" style="padding:7px 0 0 26px;">
+                            <span class="iconfont" style="font-size:18px;font-weight: 700;">&#xe695;</span>
+                            <span style="color:#82939E ;">草稿箱</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/email_send')}" style="padding:4px 0 0 24px">
+                            <span class="iconfont" style="font-size: 20px;">&#xe6e1;</span>
+                            <span style="color:#82939E ;">已发送</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('email/email_delete')}" class="aside-left-active"  style="padding:5px 0 0 22px">
+                            <span class="iconfont" style="font-size: 18px;">&#xe61b;</span>
+                            <span>已删除</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="aside-left-bottom">
+                <section data-am-widget="accordion" class="am-accordion am-accordion-basic" data-am-accordion='{  }'>
+                    <dl class="am-accordion-item am-active">
+                        <dt class="am-accordion-title" style="padding: 0 0 0 15px;font-size: 20px;;">
+                            <span style="font-size: 14px"> 我的文件夹</span>
+                            <a class="iconfont dialog-show">&#xe604;</a>
+                        </dt>
+                    </dl>
+                </section>
+            </div>
+
+        </div>
+        <div class="aside-right">
+            <div class="page-list-header">
+                <a class="span-checkbox">
+                    <input type="checkbox" id="checkall">
+                </a>
+                <div class="down-menu file-menu am-dropdown" data-am-dropdown style="float:left">
+                    <button class="am-btn am-btn-default am-dropdown-toggle button-left">
+                        <span class="iconfont" style="font-size:10px">&#xe659;</span>
+                    </button>
+                    <ul class="am-dropdown-content">
+                        <li>
+                            <a href="#">反选</a>
+                        </li>
+                        <li>
+                            <a href="#">附件</a>
+                        </li>
+                    </ul>
+                </div>
+                <div style="float:left;margin-right: 10px;">
+                    <button class="am-btn am-btn-default button-show" style="padding:8px 20px">
+                        恢复
+                    </button>
+                </div>
+                <div style="float:left;margin-right: 10px;">
+                    <button class="am-btn am-btn-default button-show" style="padding:8px 20px">
+                       彻底删除
+                    </button>
+                </div>
+                <div class="search-box">
+                    <form action="" method="get">
+                        <span class="iconfont">&#xe67a;</span>
+
+                        <div style="float: left;">
+                            <input type="text" class="am-form-field am-round" placeholder="search"
+                                   id="arcticle-search"/>
+                            <a class="iconfont shezhi" style="font-size: 28px">&#xe604;</a>
+                            <a class="iconfont search-cover" style="font-size: 32px">&#xe64b;</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="info-table">
+                <div class="table-top" style="width: 780px;height: 40px;color: #3497DB;background-color: #F9FBFF;padding: 8px 20px;"><span>没有未读邮件</span></div>
+                <!--表格区域-->
+                <table class="email-send-table">
+                    <tr style="height: 60px">
+                        <td style="width: 54px"><input type="checkbox"></td>
+                        <td style="width: 60px"></td>
+                        <td style="width: 90px"><a href="" class="am-a">admin</a></td>
+                        <td style="width: 386px"><a href="" class="am-a">123</a></td>
+                        <td style="width: 140px;font-size: 12px;">2016-11-18 16:09</td>
+                        <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                    </tr>
+                    <tr style="height: 60px" class="table-background">
+                        <td style="width: 54px"><input type="checkbox"></td>
+                        <td style="width: 60px"></td>
+                        <td style="width: 90px"><a href="" class="am-a">郑洁</a></td>
+                        <td style="width: 386px"><a href="" class="am-a">测试邮件</a></td>
+                        <td style="width: 140px;font-size: 12px;">2016-10-11 08:56</td>
+                        <td style="width: 50px"><span class="email-mark mark-first"></span></td>
+                    </tr>
+                </table>
+            </div>
+            <!--表格下分页按钮-->
+            <div class="email-send-table-bottom">
+                <div style="width: 131px;height: 41px; position: relative;padding: 15px 10px;">
+                    <span class="iconfont" style="display: inline-block;position: absolute;z-index: 4;left: 20px;top: 16px;font-size: 16px;">&#xe604;</span>
+                    <select data-am-selected="{dropUp: 1}" style="width: 110px;height: 30px;">
+                        <option value="1">每页5</option>
+                        <option value="2">每页10</option>
+                        <option value="3">每页20</option>
+                    </select>
+                </div>
+            </div>
+            <!--弹出框-->
+            <div id="dialog" class="dialog-none">
+                <div class="dialog-title">
+                    <span>我的文件夹设置</span>
+                    <a href="" class="dialog-close"><span class="iconfont" style="font-size: 16px;">&#xe617;</span></a>
+                </div>
+                <table class="am-table" id="dialog-table">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>占用空间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>内部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>外部收件箱</th>
+                        <th>0 Bytes</th>
+                        <th></th>
+                    </tr>
+                    <tr class="th-backgroud">
+                        <th></th>
+                        <th>已发送邮件箱</th>
+                        <th>133.13 KB</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>垃圾箱</th>
+                        <th>4.61 KB</th>
+                        <th></th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div id="" class="th-ga">
+                    <table class="am-table" id="dialog-table2">
+                        <tr>
+                            <th style="width: 60px; border-bottom: 1px solid #e0e0de;"><input type="text" class="th-input" /></th>
+                            <th style="width: 398px;border-bottom: 1px solid #e0e0de;"><input type="" name="" id="input-folder-name" value="" placeholder="请填写文件夹名称" /></th>
+                            <th style="width: 60px;border-bottom: 1px solid #e0e0de;"><button type="button" class="am-btn am-btn-primary button-add">添加</button></th>
+                        </tr>
+                        <tr style="border-top: solid 1px yellowgreen !important;">
+                            <th style="width: 60px;"></th>
+                            <th style="width: 398px; height:46px;padding-left: 30px; ">
+                                <span style="font-weight: 700;">您的邮箱容量为5000M,当前已用：</span>
+                                <strong style="color: #EE8C0C;">137.75 KB</strong>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="dialog-bottom">
+                    <button type="button" class="am-btn" id="dialog-bottom-button">关闭</button>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="ibcontainer_footer">
+        <div class="footer">
+            <a href="{:url('index/index')}"><i class="footer-logo"></i></a>
+            <a href="">个人办公</a>
+            <a href="">邮件中心</a>
+        </div>
+    </div>
+</div>
+
+<!--黄色弹出button-->
+<div class="dialog-button">
+    <button type="button" class="am-btn am-btn-warning button-content">
+         请选择至少一项再进行操作
+        <a class="button-close">&times;</a>
+    </button>
+</div>
+<script>
+    //搜索框
+    $("#arcticle-search").focus(function(){
+        $(".search-cover").css("display","block")
+        $(".shezhi").css("display","none")
+    });
+    $("#arcticle-search").blur(function(){
+        $(".search-cover").css("display","none")
+        $(".shezhi").css("display","block")
+
+    });
+
+    //全选和不全选
+    $("#checkall").click(function(){
+        if($(this).prop("checked")){
+            $(this).prop("checked",true)
+            $(":checkbox").prop("checked",true)
+        }
+        else{
+            $(this).prop("checked",false)
+            $(":checkbox").prop("checked",false)
+        }
+    });
+    $(".email-mark").click(function(){
+            $(this).toggleClass("mark-first");
+            $(this).toggleClass("mark-second");
+            console.log(1)
+    });
+    //黄色弹出框
+    $(".button-show").click(function(){
+        $(".dialog-button").css("display","block")
+    });
+    $(".button-close").click(function(){
+        $(".dialog-button").css("display","none")
+    })
+//删除tr
+    //删除表格的tr
+    $(".button-show").click(function(){
+        if ($("input:checked").length!=0){
+            $(".dialog-button").css("display","none")
+        }
+        $(".email-send-table").find("input:checked").parent().parent().remove();
+    });
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

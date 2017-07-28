@@ -1,0 +1,53 @@
+{extend name="../../layout/view/base:base" /}
+{block name="title"}添加岗位{/block}
+{block name="main"}
+<style>
+    table{
+        border:1px solid #efefef;
+    }
+    td{
+        width: 113px;
+        height:100px;
+        line-height: 100px;
+        text-align: center;
+        color: #999;
+    }
+    td .iconfont{
+        font-size: 50px !important;
+        margin-top:10px;
+        text-align: center;
+    }
+</style>
+<section>
+    <h2><strong style="color:grey;">添加岗位</strong></h2>
+    <div class="page_title" style="height: 15px;line-height: 15px;">
+        <div class="fr" >
+        </div>
+    </div>
+    <form action="{:url('')}" method="post" enctype="application/x-www-form-urlencoded" id="submit_form">
+        <!--tabCont-->
+        <div class="admin_tab_cont" style="display:block;" id="base_goods_info">
+            <ul class="ulColumn2">
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">岗位名称：</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="station_title" placeholder="岗位名称" autocomplete="off" />
+                </li>
+                <li class="form-group">
+                    <span class="item_name" style="width:120px;">排序：</span>
+                    <input style="display:none">
+                    <input type="text" class="textbox textbox_295 " name="station_sort" placeholder="排序" autocomplete="off" />
+                </li>
+            </ul>
+        </div>
+        <ul class="ulColumn2">
+            <li>
+                <span class="item_name" style="width:120px;"></span>
+                <input type="submit" value="提交" class="link_btn submit_form"/>
+            </li>
+        </ul>
+    </form>
+</section>
+{/block}
+{block name="footer_js"}
+{/block}

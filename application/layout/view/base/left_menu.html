@@ -1,0 +1,41 @@
+<style>
+    .lt_aside_nav ul li dl dd{display: none;}
+</style>
+
+<!--aside nav-->
+<aside class="lt_aside_nav content">
+    <div id="menu_lv1" class="mCustomScrollbar" style="position: absolute;top:0;left: 0;width: 80px;">
+        <ul>
+            <li data-menu_lv1="member">
+                <span class="iconfont">&#xe60b;</span>
+                用户管理
+            </li>
+            <li style="height: 300px;">
+
+            </li>
+        </ul>
+    </div>
+    <div id="menu_lv2" style="position: absolute;top:0;left: 80px;width: 150px;">
+        <ul data-menu_lv1="member">
+            <a href="{:url('station/index')}">
+                <li>岗位成员管理</li>
+            </a>
+            <a href="{:url('depart/index')}">
+                <li>部门管理</li>
+            </a>
+            <a href="{:url('userrole/index')}">
+                <li>角色管理</li>
+            </a>
+            <a href="{:url('depart/user_list')}">
+                <li>用户管理</li>
+            </a>
+        </ul>
+    </div>
+</aside>
+
+<script>
+    var think_url = "{:url('')}";
+    left_menu_control(think_url);
+</script>
+
+
